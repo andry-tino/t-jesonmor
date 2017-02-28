@@ -11,10 +11,8 @@ var jm = function() {
         var CONTAINER_CLASSNAME = "container";
         var HOUSE_CLASSNAME = "house";
 
-        var size = 9; // Default value => Regular JM board
-
         // Construct object
-        size = _validateSize(_size);
+        var size = _validateSize(_size);
 
         // Object public interface
         return {
@@ -30,7 +28,10 @@ var jm = function() {
             for (var i = 0; i < dimension; i++) {
                 var house = _createHouse();
                 house.className = HOUSE_CLASSNAME;
+                container.appendChild(house);
             }
+
+            document.body.appendChild(container);
         }
 
         function _createHouse() {
@@ -38,6 +39,10 @@ var jm = function() {
         }
 
         function _validateSize(size) {
+            if (!size) {
+                size = 9; // Default value
+            }
+
             if (size < 5) {
                 throw "Cannot create a board whose size is < 5!";
             }
@@ -48,4 +53,14 @@ var jm = function() {
             return size;
         }
     }; // Board
+
+    // Object public interface
+    return {
+        initialize: _initialize
+    }
+
+    function _initialize() {
+        var board = Board();
+        board.build();
+    }
 };
