@@ -6,3 +6,5 @@
 
 Jeson Mor, which for brevity we will refer to as: _JM_, is played on a 9x9 chessboard. Normally a chessboard is 8x8, but this game adds one more column and one more row. This is done to allow room for one special house on the board located at the very center of it: `r5:c5` \(row 5 and column 5\); this house is special and has a different color than the other ones \(usually red\).
 
+Both players arrange a personal army of chess pieces consisting of one single line of knights. Exactly, each player gets 9 knights, though in this game they will be referred to as: _horses_. Each Horse behaves like a normal [Chess Knight](https://en.wikipedia.org/wiki/Knight_\(chess\) "Chess Knight on Wikipedia"), this piece is able to jump and form a "L" shaped movement when moving to a different house.
+
