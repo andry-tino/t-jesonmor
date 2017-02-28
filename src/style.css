@@ -233,3 +233,7 @@ body {
     left: 400px;
 }
 
+.container > .house:nth-child(41) {
+    background-color: #9c6027;
+}
+
