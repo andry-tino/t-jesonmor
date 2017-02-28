@@ -1,5 +1,5 @@
 # Summary
 
 * [Introduction](README.md)
-* More info
+* [More info](more-info.md)
 
