@@ -10,6 +10,8 @@ Jeson Mor, which for brevity we will refer to as: _JM_, is played on a 9x9 chess
 
 Both players arrange a personal army of chess pieces consisting of one single line of knights. Exactly, each player gets 9 knights, though in this game they will be referred to as: _horses_. Each Horse behaves like a normal [Chess Knight](https://en.wikipedia.org/wiki/Knight_\(chess\) "Chess Knight on Wikipedia"), this piece is able to jump and form a "L" shaped movement when moving to a different house.
 
+![](/assets/jm-board.png)
+
 ### Winning
 
 The objective of each player is winning the match by placing one of his horses on the central house and then leave it. Differently from Chess, there is no King and no checkmate. Horses can capture other horses as per standard Chess rules, however the objective of the game is conquering the center \(and leaving it\).
