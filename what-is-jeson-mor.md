@@ -14,7 +14,11 @@ Both players arrange a personal army of chess pieces consisting of one single li
 
 ### Winning
 
-The objective of each player is winning the match by placing one of his horses on the central house and then leave it. Differently from Chess, there is no King and no checkmate. Horses can capture other horses as per standard Chess rules, however the objective of the game is conquering the center \(and leaving it\).
+Each player fights against the other one in order to win:
+
+> To win, one player needs to place one of his horses on the central house and then leave it.
+
+Differently from Chess, there is no King and no checkmate. Horses can capture other horses as per standard Chess rules, however the objective of the game is conquering the center \(and leaving it\).
 
 As said at the beginning, it is a very easy game, however it gives room to very intriguing strategies to be played, so do not underestimate this discipline.
 
