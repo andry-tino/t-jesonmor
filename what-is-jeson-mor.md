@@ -4,7 +4,7 @@
 
 ## The rules of the game
 
-Jeson Mor, which for brevity we will refer to as: _JM_, is played on a 9x9 chessboard. Normally a chessboard is 8x8, but this game adds one more column and one more row. This is done to allow room for one special house on the board located at the very center of it: `r5:c5` \(row 5 and column 5\); this house is special and has a different color than the other ones \(usually red\).
+Jeson Mor, which for brevity we will refer to as: _JM_, is played on a 9x9 chessboard. Normally a chessboard is 8x8, but this game adds one more column and one more row. This is done to allow room for one special house on the board located at the very center of it: `r5:c5` \(row 5 and column 5\); this house is special and has a different color than the other ones \(usually red\), alternatively, it can be shown with an additional border.
 
 ### The arrangement
 
