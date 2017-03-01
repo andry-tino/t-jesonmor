@@ -23,7 +23,9 @@ var jm = function() {
 
         };
 
-        function _move
+        function _move() {
+            
+        }
     }; // Horse
 
     /**
