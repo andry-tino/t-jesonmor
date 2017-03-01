@@ -10,19 +10,42 @@
  * - Indexes are 1-based.
  */
 var jm = function() {
+    var HORSE_W = 0;
+    var HORSE_B = 1;
+
     /**
      * The horse piece.
      */
-    var Horse = function() {
+    var Horse = function(_mode) {
+        var HORSE_CLASSNAME = "horse";
+        var WHITE_CLASSNAME = "white";
+        var BLACK_CLASSNAME = "black";
+
         // Construct the object
         var i = 1;
         var j = 1;
+        var mode = _validateMode(_mode);
+        var _element = _createElement(mode);
 
         // Object public interface
         return {
+            element: _element,
             move: _move,
             position: _position
         };
+
+        function _createElement(mode) {
+            var element = document.createElement("div");
+            element.className = HORSE_CLASSNAME;
+            
+            if (mode === HORSE_B) {
+                element.classList.add(BLACK_CLASSNAME);
+            } else {
+                element.classList.add(WHITE_CLASSNAME);
+            }
+
+            return element;
+        }
 
         function _move(_i, _j) {
             if (_i < 0 || _j < 0) {
@@ -54,6 +77,14 @@ var jm = function() {
 
             return false;
         }
+
+        function _validateMode(value) {
+            if (value !== HORSE_W && value !== HORSE_B) {
+                return HORSE_W; // Default to white
+            }
+
+            return value;
+        }
     }; // Horse
 
     /**
@@ -62,6 +93,9 @@ var jm = function() {
     var House = function(_i, _j) {
         var HOUSE_CLASSNAME = "house";
         var HOUSE_HIGHLIGHTED_CLASSNAME = "highlighted";
+
+        // Lazy initialized objects
+        var _horse = null;
 
         // Construct object
         var i = _validatePosition(_i);
@@ -72,8 +106,33 @@ var jm = function() {
         return {
             element: _element,
             highlight: _highlight,
-            clear: _unhighlight
+            clear: _unhighlight,
+            set: _set,
+            unset: _unset,
+            isSet: _isSet
         };
+
+        function _set(horse) {
+            if (_horse) {
+                throw "Cannot set as a horse is already present on this house!";
+            }
+
+            _horse = horse;
+            _element.appendChild(horse.element);
+        }
+
+        function _unset() {
+            _horse = null;
+
+            var child = _element.firstChild;
+            if (child) {
+                child.remove();
+            }
+        }
+
+        function _isSet() {
+            return !!_horse;
+        }
 
         function _validatePosition(value) {
             if (!value) {
@@ -110,8 +169,8 @@ var jm = function() {
 
         // Lazy initialized variables
         var container = null;
-        var houses = null;
-        var horses = null;
+        var houses = null; // A dictionary indexed by "i:j"
+        var horses = null; // An array
 
         // Construct object
         var size = _validateSize(_size);
@@ -129,14 +188,14 @@ var jm = function() {
             var house = _getHouse(i, j);
             if (!house) return;
 
-            house.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
+            house.highlight();
         }
 
         function _unhighlight(i, j) {
             var house = _getHouse(i, j);
             if (!house) return;
 
-            house.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
+            house.clear();
         }
 
         function _getHouse(i, j) {
@@ -146,7 +205,46 @@ var jm = function() {
         }
 
         function _populate() {
-            // TODO
+            if (!container) {
+                throw "Invalid operation. Board must be first initialized!";
+            }
+
+            horses = [];
+
+            for (var k = 0; k < size; k++) {
+                var horsew = Horse(HORSE_W);
+                var horseb = Horse(HORSE_B);
+
+                horsew.move(0, 0);
+                horseb.move(0, 0);
+
+                // Push horses in collection
+                horses.push(horsew);
+                horses.push(horseb);
+
+                var wi = 1;
+                var wj = k + 1;
+                var bi = 9;
+                var bj = k + 1;
+                _setHorse(wi, wj, horsew);
+                _setHorse(bi, bj, horseb);
+            }
+        }
+
+        function _setHorse(i, j, horse) {
+            var house = _getHouse(i, j);
+
+            if (house) {
+                house.set(horse);
+            }
+        }
+
+        function _unsetHorse(i, j) {
+            var house = _getHouse(i, j);
+
+            if (house) {
+                house.unset();
+            }
         }
 
         function _build() {
@@ -218,5 +316,6 @@ var jm = function() {
     function _initialize() {
         var board = Board();
         board.build();
+        board.populate();
     }
 };
