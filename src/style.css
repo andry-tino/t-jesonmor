@@ -22,6 +22,15 @@ body {
 .container > .house:nth-child(2n+1) {
     background-color: #d08c4c;
 }
+
+.container > .house.highlighted {
+    background-color: #f7ba83;
+}
+
+.container > .house:nth-child(2n+1).highlighted {
+    background-color: #c17a38;
+}
+
 .container > .house:nth-child(1),
 .container > .house:nth-child(2),
 .container > .house:nth-child(3),
