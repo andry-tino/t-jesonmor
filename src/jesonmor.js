@@ -57,14 +57,59 @@ var jm = function() {
     }; // Horse
 
     /**
+     * A house able to host a piece.
+     */
+    var House = function(_i, _j) {
+        var HOUSE_CLASSNAME = "house";
+        var HOUSE_HIGHLIGHTED_CLASSNAME = "highlighted";
+
+        // Construct object
+        var i = _validatePosition(_i);
+        var j = _validatePosition(_j);
+        var _element = _createElement();
+
+        // Object interface
+        return {
+            element: _element,
+            highlight: _highlight,
+            clear: _unhighlight
+        };
+
+        function _validatePosition(value) {
+            if (!value) {
+                throw value + " is invalid. Position must be a number!";
+            }
+            if (value <= 0) {
+                throw value + " is invalid. Position must be a positive number!";
+            }
+
+            return value;
+        }
+
+        function _createElement() {
+            var element = document.createElement("div");
+            element.className = HOUSE_CLASSNAME;
+
+            return element;
+        }
+
+        function _highlight() {
+            _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
+        }
+
+        function _unhighlight() {
+            _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
+        }
+    };
+
+    /**
      * The board object.
      */
     var Board = function(_size) {
         var CONTAINER_CLASSNAME = "container";
-        var HOUSE_CLASSNAME = "house";
-        var HOUSE_HIGHLIGHTED_CLASSNAME = "highlighted";
 
         // Lazy initialized variables
+        var container = null;
         var houses = null;
         var horses = null;
 
@@ -75,7 +120,9 @@ var jm = function() {
         return {
             build: _build,
             populate: _populate,
-            dispose: _clean
+            dispose: _clean,
+            highlightHouse: _highlight,
+            clearHouse: _unhighlight
         };
 
         function _highlight(i, j) {
@@ -99,32 +146,31 @@ var jm = function() {
         }
 
         function _populate() {
-
+            // TODO
         }
 
         function _build() {
             var dimension = size * size;
             houses = {}; // Initializing dictionary
 
-            var container = _createHouse();
-            container.className = CONTAINER_CLASSNAME;
+            container = _createContainer();
 
             for (var k = 0; k < dimension; k++) {
-                var house = _createHouse();
-                house.className = HOUSE_CLASSNAME;
-                container.appendChild(house);
+                // Calculate Indexes
+                var i = Math.ceil((k + 1) / size);
+                var j = (k + 1) % size;
+                if (j === 0) j = 9;
+
+                console.log("Indices", i, j);
+
+                var house = House(i, j);
+                container.appendChild(house.element);
 
                 // Index houses
-                var i = Math.ceil(k / size);
-                var j = k % size;
                 houses[i + ":" + j] = house;
             }
 
             document.body.appendChild(container);
-        }
-
-        function _createHouse() {
-            return document.createElement("div");
         }
 
         function _isBuilt() {
@@ -139,6 +185,13 @@ var jm = function() {
 
             container.remove();
             houses = null;
+        }
+
+        function _createContainer() {
+            var element = document.createElement("div");
+            element.className = CONTAINER_CLASSNAME;
+
+            return element;
         }
 
         function _validateSize(size) {
