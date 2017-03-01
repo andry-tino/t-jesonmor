@@ -66,6 +66,7 @@ var jm = function() {
 
         // Lazy initialized variables
         var houses = null;
+        var horses = null;
 
         // Construct object
         var size = _validateSize(_size);
@@ -73,6 +74,7 @@ var jm = function() {
         // Object public interface
         return {
             build: _build,
+            populate: _populate,
             dispose: _clean
         };
 
@@ -94,6 +96,10 @@ var jm = function() {
             if (!houses) return null;
 
             return houses[i + ":" + j];
+        }
+
+        function _populate() {
+
         }
 
         function _build() {

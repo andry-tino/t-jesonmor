@@ -12,6 +12,14 @@ body {
 
 }
 
+.container > .horse.white {
+    content: url(images/kwhite.svg);
+}
+
+.container > .horse.black {
+    content: url(images/kblack.svg);
+}
+
 .container > .house {
     background-color: #fecea2;
     position: absolute;
