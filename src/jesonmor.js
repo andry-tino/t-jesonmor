@@ -20,11 +20,39 @@ var jm = function() {
 
         // Object public interface
         return {
-
+            move: _move,
+            position: _position
         };
 
-        function _move() {
-            
+        function _move(_i, _j) {
+            if (_i < 0 || _j < 0) {
+                throw "Position must be a couple of positive integers!";
+            }
+
+            // Check that the move is valid, a horse moves like a chess knight
+            if (!_checkMove(_i, _j, i, j)) {
+                throw "Invalid move. A Horse moves like a Chess Knight!";
+            }
+
+            i = _i;
+            j = _j;
+        }
+
+        function _position() {
+            return { "i": i, "j": j }
+        }
+
+        function _checkMove(ni, nj, oi, oj) {
+            if (ni === oi - 2 && nj === oj + 1) return true;
+            if (ni === oi - 1 && nj === oj + 2) return true;
+            if (ni === oi + 1 && nj === oj + 2) return true;
+            if (ni === oi + 2 && nj === oj + 1) return true;
+            if (ni === oi + 2 && nj === oj - 1) return true;
+            if (ni === oi + 1 && nj === oj - 2) return true;
+            if (ni === oi - 1 && nj === oj - 2) return true;
+            if (ni === oi - 2 && nj === oj - 1) return true;
+
+            return false;
         }
     }; // Horse
 
