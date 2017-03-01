@@ -22,5 +22,5 @@ Each player fights against the other one in order to win:
 
 Differently from Chess, there is no King and no checkmate. Horses can capture other horses as per standard Chess rules, however the objective of the game is conquering the center \(and leaving it\).
 
-As said at the beginning, it is a very easy game, however it gives room to very intriguing strategies to be played, so do not underestimate this discipline.
+As said at the beginning, it is a very easy game, however it gives room to very intriguing strategies to be played, so do not underestimate this uncommon yet intriguing discipline.
 
