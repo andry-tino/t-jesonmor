@@ -30,8 +30,8 @@ var jm = function() {
         // Object public interface
         return {
             element: _element,
-            move: _move,
-            position: _position
+            position: _position,
+            setPosition: _setPosition
         };
 
         function _createElement(mode) {
@@ -47,14 +47,12 @@ var jm = function() {
             return element;
         }
 
-        function _move(_i, _j) {
-            if (_i < 0 || _j < 0) {
-                throw "Position must be a couple of positive integers!";
+        function _setPosition(_i, _j) {
+            if (!_i || !_j) {
+                throw "Invalid position!";
             }
-
-            // Check that the move is valid, a horse moves like a chess knight
-            if (!_checkMove(_i, _j, i, j)) {
-                throw "Invalid move. A Horse moves like a Chess Knight!";
+            if (_i <= 0 || _j <= 0) {
+                throw "Invalid position!";
             }
 
             i = _i;
@@ -63,19 +61,6 @@ var jm = function() {
 
         function _position() {
             return { "i": i, "j": j }
-        }
-
-        function _checkMove(ni, nj, oi, oj) {
-            if (ni === oi - 2 && nj === oj + 1) return true;
-            if (ni === oi - 1 && nj === oj + 2) return true;
-            if (ni === oi + 1 && nj === oj + 2) return true;
-            if (ni === oi + 2 && nj === oj + 1) return true;
-            if (ni === oi + 2 && nj === oj - 1) return true;
-            if (ni === oi + 1 && nj === oj - 2) return true;
-            if (ni === oi - 1 && nj === oj - 2) return true;
-            if (ni === oi - 2 && nj === oj - 1) return true;
-
-            return false;
         }
 
         function _validateMode(value) {
@@ -122,12 +107,19 @@ var jm = function() {
         }
 
         function _unset() {
+            if (!_horse) {
+                return;
+            }
+
+            var horse = _horse; // Temporary location
             _horse = null;
 
             var child = _element.firstChild;
             if (child) {
                 child.remove();
             }
+
+            return horse;
         }
 
         function _isSet() {
@@ -215,20 +207,72 @@ var jm = function() {
                 var horsew = Horse(HORSE_W);
                 var horseb = Horse(HORSE_B);
 
-                horsew.move(0, 0);
-                horseb.move(0, 0);
+                var wi = 1;
+                var wj = k + 1;
+                var bi = 9;
+                var bj = k + 1;
+
+                horsew.setPosition(wi, wj);
+                horseb.setPosition(bi, bj);
 
                 // Push horses in collection
                 horses.push(horsew);
                 horses.push(horseb);
 
-                var wi = 1;
-                var wj = k + 1;
-                var bi = 9;
-                var bj = k + 1;
                 _setHorse(wi, wj, horsew);
                 _setHorse(bi, bj, horseb);
             }
+        }
+
+        function _move(dsti, dstj, srci, srcj) {
+            if (!houses) {
+                throw "Cannot move. Board has not been populated!";
+            }
+
+            if (!dsti || !dstj || !srci || !srcj) {
+                throw "Invalid positions!";
+            }
+            if (dsti <= 0 || dstj <= 0 || srci <= 0 || srcj <= 0) {
+                throw "Position must be a couple of positive integers!";
+            }
+
+            // Check that the move is valid, a horse moves like a chess knight
+            if (!_checkMove(dsti, dstj, srci, srcj)) {
+                throw "Invalid move. A Horse moves like a Chess Knight!";
+            }
+
+            // Check that the source house is occupied by a horse and destination is free
+            var srcHouse = _getHouse(srci, srcj);
+            var dstHouse = _getHouse(dsti, dstj);
+            if (!srcHouse || dstHouse) {
+                throw "Cannot move. Could not find houses!";
+            }
+            if (!srcHouse.isSet()) {
+                throw "Cannot move. Source house is not occupied by a horse!";
+            }
+            if (dstHouse.isSet()) {
+                throw "Cannot move. Destination house is occupied by a horse!";
+            }
+
+            // Unplace horse from source house
+            var movingHorse = srcHouse.unset();
+            if (!movingHorse) {
+                throw "Cannot move. Attempt to get source horse failed!";
+            }
+            dstHouse.set(movingHorse);
+        }
+
+        function _checkMove(ni, nj, oi, oj) {
+            if (ni === oi - 2 && nj === oj + 1) return true;
+            if (ni === oi - 1 && nj === oj + 2) return true;
+            if (ni === oi + 1 && nj === oj + 2) return true;
+            if (ni === oi + 2 && nj === oj + 1) return true;
+            if (ni === oi + 2 && nj === oj - 1) return true;
+            if (ni === oi + 1 && nj === oj - 2) return true;
+            if (ni === oi - 1 && nj === oj - 2) return true;
+            if (ni === oi - 2 && nj === oj - 1) return true;
+
+            return false;
         }
 
         function _setHorse(i, j, horse) {
