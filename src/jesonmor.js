@@ -162,7 +162,7 @@ var jm = function() {
         // Lazy initialized variables
         var container = null;
         var houses = null; // A dictionary indexed by "i:j"
-        var horses = null; // An array
+        var horses = null; // An array, maybe not needed
 
         // Construct object
         var size = _validateSize(_size);
@@ -259,6 +259,7 @@ var jm = function() {
             if (!movingHorse) {
                 throw "Cannot move. Attempt to get source horse failed!";
             }
+            movingHorse.setPosition(dsti, dstj);
             dstHouse.set(movingHorse);
         }
 
