@@ -12,11 +12,11 @@ body {
 
 }
 
-.container > .horse.white {
+.container > .house > .horse.white {
     content: url(images/kwhite.svg);
 }
 
-.container > .horse.black {
+.container > .house > .horse.black {
     content: url(images/kblack.svg);
 }
 

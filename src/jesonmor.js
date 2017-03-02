@@ -282,6 +282,8 @@ var jm = function() {
             if (house) {
                 house.set(horse);
             }
+
+            console.log("Set horse in", i, j);
         }
 
         function _unsetHorse(i, j) {
