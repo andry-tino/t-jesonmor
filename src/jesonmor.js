@@ -173,7 +173,8 @@ var jm = function() {
             populate: _populate,
             dispose: _clean,
             highlightHouse: _highlight,
-            clearHouse: _unhighlight
+            clearHouse: _unhighlight,
+            move: _move
         };
 
         function _highlight(i, j) {
@@ -224,7 +225,7 @@ var jm = function() {
             }
         }
 
-        function _move(dsti, dstj, srci, srcj) {
+        function _move(srci, srcj, dsti, dstj) {
             if (!houses) {
                 throw "Cannot move. Board has not been populated!";
             }
@@ -244,7 +245,7 @@ var jm = function() {
             // Check that the source house is occupied by a horse and destination is free
             var srcHouse = _getHouse(srci, srcj);
             var dstHouse = _getHouse(dsti, dstj);
-            if (!srcHouse || dstHouse) {
+            if (!srcHouse || !dstHouse) {
                 throw "Cannot move. Could not find houses!";
             }
             if (!srcHouse.isSet()) {
@@ -261,6 +262,8 @@ var jm = function() {
             }
             movingHorse.setPosition(dsti, dstj);
             dstHouse.set(movingHorse);
+
+            console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj);
         }
 
         function _checkMove(ni, nj, oi, oj) {
@@ -278,12 +281,13 @@ var jm = function() {
 
         function _setHorse(i, j, horse) {
             var house = _getHouse(i, j);
-
-            if (house) {
-                house.set(horse);
+            if (!house) {
+                throw "Cannot set horse in house. Cannot find house!";
             }
 
-            console.log("Set horse in", i, j);
+            house.set(horse);
+
+            console.log("Horse set in", i, j);
         }
 
         function _unsetHorse(i, j) {
@@ -364,5 +368,6 @@ var jm = function() {
         var board = Board();
         board.build();
         board.populate();
+        window.setTimeout(function(){board.move(1,1,3,2);}, 3000);
     }
 };
