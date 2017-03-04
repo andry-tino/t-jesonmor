@@ -318,8 +318,8 @@ var jm = function() {
             
             // Can move
             _move(
-                attemptedHousePosition.i, attemptedHousePosition.j, 
-                selectedHousePosition.i, selectedHousePosition.j);
+                selectedHousePosition.i, selectedHousePosition.j, 
+                attemptedHousePosition.i, attemptedHousePosition.j);
 
             selectedHouse.clear();
             house.clear();
