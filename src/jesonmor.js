@@ -86,6 +86,7 @@ var jm = function() {
         var i = _validatePosition(_i);
         var j = _validatePosition(_j);
         var _element = _createElement();
+        _attachEventListeners();
 
         // Object interface
         return {
@@ -94,7 +95,8 @@ var jm = function() {
             clear: _unhighlight,
             set: _set,
             unset: _unset,
-            isSet: _isSet
+            isSet: _isSet,
+            dispose: _dispose
         };
 
         function _set(horse) {
@@ -144,12 +146,34 @@ var jm = function() {
             return element;
         }
 
+        function _attachEventListeners() {
+            _element.addEventListener("click", _onClickHandler);
+        }
+
+        function _detachEventListeners() {
+            _element.removeEventListener("click", _onClickHandler);
+        }
+
+        function _onClickHandler(e) {
+            if (_element.classList.contains(HOUSE_HIGHLIGHTED_CLASSNAME)) {
+                _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
+            } else {
+                _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
+            }
+        }
+
         function _highlight() {
             _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
         }
 
         function _unhighlight() {
             _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
+        }
+
+        function _dispose() {
+            _detachEventListeners();
+            _element = null;
+            _horse = null;
         }
     };
 
