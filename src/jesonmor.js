@@ -16,7 +16,7 @@ var jm = function() {
     /**
      * The horse piece.
      */
-    var Horse = function(_mode) {
+    var Horse = function(__mode) {
         var HORSE_CLASSNAME = "horse";
         var WHITE_CLASSNAME = "white";
         var BLACK_CLASSNAME = "black";
@@ -24,14 +24,15 @@ var jm = function() {
         // Construct the object
         var i = 1;
         var j = 1;
-        var mode = _validateMode(_mode);
-        var _element = _createElement(mode);
+        var _mode = _validateMode(__mode); // HORSE_W | HORSE_B
+        var _element = _createElement(_mode);
 
         // Object public interface
         return {
             element: _element,
             position: _position,
-            setPosition: _setPosition
+            setPosition: _setPosition,
+            mode: _mode
         };
 
         function _createElement(mode) {
@@ -96,7 +97,9 @@ var jm = function() {
             set: _set,
             unset: _unset,
             isSet: _isSet,
-            dispose: _dispose
+            getPosition: _getPosition,
+            dispose: _dispose,
+            getHorseColor: _getHorseColor // HORSE_W | HORSE_B
         };
 
         function _set(horse) {
@@ -124,8 +127,20 @@ var jm = function() {
             return horse;
         }
 
+        function _getPosition() {
+            return { "i": i, "j": j };
+        }
+
         function _isSet() {
             return !!_horse;
+        }
+
+        function _getHorseColor() {
+            if (!_horse) {
+                return null;
+            }
+
+            return _horse.mode;
         }
 
         function _validatePosition(value) {
@@ -182,23 +197,29 @@ var jm = function() {
      */
     var Board = function(_size) {
         var CONTAINER_CLASSNAME = "container";
+        var CUR_PLAYER_W = 0;
+        var CUR_PLAYER_B = 1;
 
         // Lazy initialized variables
         var container = null;
         var houses = null; // A dictionary indexed by "i:j"
         var horses = null; // An array, maybe not needed
 
+        // Status variables
+        var currentPlayer = CUR_PLAYER_W; // White starts
+        var selectedHouse = null;
+
         // Construct object
         var size = _validateSize(_size);
 
         // Object public interface
         return {
-            build: _build,
-            populate: _populate,
+            initialize: _initialize,
             dispose: _clean,
             highlightHouse: _highlight,
             clearHouse: _unhighlight,
-            move: _move
+            move: _move,
+            dispose: _dispose
         };
 
         function _highlight(i, j) {
@@ -219,6 +240,98 @@ var jm = function() {
             if (!houses) return null;
 
             return houses[i + ":" + j];
+        }
+
+        function _initialize() {
+            _build();
+            _populate();
+            _attachNativeEvents();
+        }
+
+        function _attachNativeEvents() {
+            if (!container) {
+                throw "Cannot attach events. Board must first be initialized!";
+            }
+
+            container.addEventListener("click", _onClickHandler, true);
+        }
+
+        function _detachNativeEvents() {
+            container.removeEventListener("click", _onClickHandler, true);
+        }
+
+        function _onClickHandler(e) {
+            function cancel(phase) {
+                e.stopPropagation();
+                console.log("Interaction canceled at", phase);
+            }
+
+            var target = e.target;
+            if (!target) { cancel("House Acquire"); return; }
+
+            var id = target.id;
+            if (!id) {
+                // Player might have selected a horse
+                var parent = target.parentElement;
+                if (!parent) { cancel("House Acquire"); return; }
+
+                id = parent.id;
+            }
+
+            // Could not find the house
+            if (!id) { cancel("House Acquire"); return; }
+
+            // When constructing the board we assign positions as ids
+            var house = houses[id];
+            if (!house) {
+                throw "Click handler failed. Cannot find house at " + id;
+            }
+
+            // Nothing was started, one player is selecting an house, 
+            // let's check it is a house with a player's horse on
+            if (!selectedHouse) {
+                // Empty house, invalid selection
+                if (!house.isSet()) { e.stopPropagation(); return; }
+
+                var houseColor = house.getHorseColor();
+                var wbcond = houseColor === HORSE_W && currentPlayer === CUR_PLAYER_B;
+                var bwcond = houseColor === HORSE_B && currentPlayer === CUR_PLAYER_W;
+                // Player has selected an adversary's horse => invalid
+                if (wbcond || bwcond) { e.stopPropagation(); return; }
+
+                // Player has selected one of his horses
+                selectedHouse = house;
+                return;
+            }
+
+            // An house is already selected, a move is being attempted
+
+            // Cannot move to an house which is occupied
+            if (house.isSet()) { e.stopPropagation(); return; }
+
+            var selectedHousePosition = selectedHouse.getPosition();
+            var attemptedHousePosition = house.getPosition();
+            if (!_checkMove(
+                attemptedHousePosition.i, attemptedHousePosition.j, 
+                selectedHousePosition.i, selectedHousePosition.j)) 
+                    { e.stopPropagation(); return; }
+            
+            // Can move
+            _move(
+                attemptedHousePosition.i, attemptedHousePosition.j, 
+                selectedHousePosition.i, selectedHousePosition.j);
+
+            selectedHouse.clear();
+            house.clear();
+            selectedHouse = null;
+        }
+
+        function _nextPlayer() {
+            if (currentPlayer === CUR_PLAYER_W) {
+                currentPlayer = CUR_PLAYER_B;
+            } else {
+                currentPlayer = CUR_PLAYER_W;
+            }
         }
 
         function _populate() {
@@ -337,6 +450,8 @@ var jm = function() {
                 console.log("Indices", i, j);
 
                 var house = House(i, j);
+                // In order to facilitate detection while playing
+                house.element.id = i + ":" + j;
                 container.appendChild(house.element);
 
                 // Index houses
@@ -381,6 +496,18 @@ var jm = function() {
 
             return size;
         }
+
+        function _dispose() {
+            _detachNativeEvents();
+            container = null;
+
+            for (var i = 0, keys = Object.keys(houses); i < keys.length; i++) {
+                houses[keys[i]].dispose();
+            }
+            houses = null;
+
+            horses = null;
+        }
     }; // Board
 
     // Object public interface
@@ -390,8 +517,7 @@ var jm = function() {
 
     function _initialize() {
         var board = Board();
-        board.build();
-        board.populate();
-        window.setTimeout(function(){board.move(1,1,3,2);}, 3000);
+        board.initialize();
+        //window.setTimeout(function(){board.move(1,1,3,2);}, 3000);
     }
 };
