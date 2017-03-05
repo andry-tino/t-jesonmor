@@ -331,6 +331,15 @@ var jm = function() {
 
             _clearSelectedHouse();
             house.clear();
+
+            _nextPlayer();
+
+            e.stopPropagation();
+        }
+
+        // Parameter: { hid: <number> }
+        function _fsm(args) {
+            // TODO
         }
 
         function _nextPlayer() {
