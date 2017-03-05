@@ -275,6 +275,11 @@ var jm = function() {
                 console.log("Interaction canceled at", phase);
             }
 
+            function _evaluateEndGame(srci, srcj) {
+                var c = Math.ceil(size / 2);
+                return srci === c && srcj === c;
+            }
+
             var target = e.target;
             if (!target) { cancel("House Acquire"); return; }
 
@@ -324,6 +329,9 @@ var jm = function() {
                 selectedHousePosition.i, selectedHousePosition.j)) 
                     { cancel("Move"); return; }
             
+            // Evaluate endgame
+            var endgame = _evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
+
             // Can move
             _move(
                 selectedHousePosition.i, selectedHousePosition.j, 
@@ -335,6 +343,8 @@ var jm = function() {
             _nextPlayer();
 
             e.stopPropagation();
+
+            if (endgame) alert("ENDGAME");
         }
 
         function _evaluateAntagony(house) {
