@@ -32,11 +32,11 @@ body {
 }
 
 .container > .house.highlighted {
-    background-color: #f7ba83;
+    background-color: #ec592d;
 }
 
 .container > .house:nth-child(2n+1).highlighted {
-    background-color: #c17a38;
+    background-color: #c3380e;
 }
 
 .container > .house:nth-child(1),

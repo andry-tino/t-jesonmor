@@ -260,9 +260,18 @@ var jm = function() {
             container.removeEventListener("click", _onClickHandler, true);
         }
 
+        function _clearSelectedHouse() {
+            selectedHouse.clear();
+            selectedHouse = null;
+        }
+
         function _onClickHandler(e) {
             function cancel(phase) {
                 e.stopPropagation();
+                if (selectedHouse) {
+                    _clearSelectedHouse();
+                }
+
                 console.log("Interaction canceled at", phase);
             }
 
@@ -291,13 +300,13 @@ var jm = function() {
             // let's check it is a house with a player's horse on
             if (!selectedHouse) {
                 // Empty house, invalid selection
-                if (!house.isSet()) { e.stopPropagation(); return; }
+                if (!house.isSet()) { cancel("Initial selection"); return; }
 
                 var houseColor = house.getHorseColor();
                 var wbcond = houseColor === HORSE_W && currentPlayer === CUR_PLAYER_B;
                 var bwcond = houseColor === HORSE_B && currentPlayer === CUR_PLAYER_W;
                 // Player has selected an adversary's horse => invalid
-                if (wbcond || bwcond) { e.stopPropagation(); return; }
+                if (wbcond || bwcond) { cancel("Initial selection"); return; }
 
                 // Player has selected one of his horses
                 selectedHouse = house;
@@ -305,25 +314,23 @@ var jm = function() {
             }
 
             // An house is already selected, a move is being attempted
-
             // Cannot move to an house which is occupied
-            if (house.isSet()) { e.stopPropagation(); return; }
+            if (house.isSet()) { cancel("Move"); return; }
 
             var selectedHousePosition = selectedHouse.getPosition();
             var attemptedHousePosition = house.getPosition();
             if (!_checkMove(
                 attemptedHousePosition.i, attemptedHousePosition.j, 
                 selectedHousePosition.i, selectedHousePosition.j)) 
-                    { e.stopPropagation(); return; }
+                    { cancel("Move"); return; }
             
             // Can move
             _move(
                 selectedHousePosition.i, selectedHousePosition.j, 
                 attemptedHousePosition.i, attemptedHousePosition.j);
 
-            selectedHouse.clear();
+            _clearSelectedHouse();
             house.clear();
-            selectedHouse = null;
         }
 
         function _nextPlayer() {
