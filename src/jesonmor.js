@@ -306,7 +306,7 @@ var jm = function() {
                 var wbcond = houseColor === HORSE_W && currentPlayer === CUR_PLAYER_B;
                 var bwcond = houseColor === HORSE_B && currentPlayer === CUR_PLAYER_W;
                 // Player has selected an adversary's horse => invalid
-                if (wbcond || bwcond) { cancel("Initial selection"); return; }
+                if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
 
                 // Player has selected one of his horses
                 selectedHouse = house;
@@ -315,7 +315,7 @@ var jm = function() {
 
             // An house is already selected, a move is being attempted
             // Cannot move to an house which is occupied
-            if (house.isSet()) { cancel("Move"); return; }
+            if (house.isSet() && !_evaluateAntagony(house)) { cancel("Move"); return; }
 
             var selectedHousePosition = selectedHouse.getPosition();
             var attemptedHousePosition = house.getPosition();
@@ -335,6 +335,14 @@ var jm = function() {
             _nextPlayer();
 
             e.stopPropagation();
+        }
+
+        function _evaluateAntagony(house) {
+            var houseColor = house.getHorseColor();
+            var wbcond = houseColor === HORSE_W && currentPlayer === CUR_PLAYER_B;
+            var bwcond = houseColor === HORSE_B && currentPlayer === CUR_PLAYER_W;
+
+            return wbcond || bwcond;
         }
 
         // Parameter: { hid: <number> }
@@ -378,6 +386,7 @@ var jm = function() {
             }
         }
 
+        // This deals also with eating horses
         function _move(srci, srcj, dsti, dstj) {
             if (!houses) {
                 throw "Cannot move. Board has not been populated!";
@@ -404,8 +413,15 @@ var jm = function() {
             if (!srcHouse.isSet()) {
                 throw "Cannot move. Source house is not occupied by a horse!";
             }
+
+            // If destination is occupied by other player's horse, eat it!
+            var eat = false;
             if (dstHouse.isSet()) {
-                throw "Cannot move. Destination house is occupied by a horse!";
+                if (_evaluateAntagony(dstHouse)) {
+                    eat = true;
+                } else {
+                    throw "Cannot move. Destination house is occupied by a horse!";
+                }
             }
 
             // Unplace horse from source house
@@ -414,9 +430,13 @@ var jm = function() {
                 throw "Cannot move. Attempt to get source horse failed!";
             }
             movingHorse.setPosition(dsti, dstj);
+
+            // Handling destination house
+            if (eat) dstHouse.unset();
             dstHouse.set(movingHorse);
 
-            console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj);
+            console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, 
+                eat ? "and ate!" : "");
         }
 
         function _checkMove(ni, nj, oi, oj) {
