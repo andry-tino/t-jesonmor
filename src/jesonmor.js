@@ -32,7 +32,8 @@ var jm = function() {
             element: _element,
             position: _position,
             setPosition: _setPosition,
-            mode: _mode
+            mode: _mode,
+            dispose: _dispose
         };
 
         function _createElement(mode) {
@@ -70,6 +71,10 @@ var jm = function() {
             }
 
             return value;
+        }
+
+        function _dispose() {
+            _element = null;
         }
     }; // Horse
 
@@ -188,7 +193,7 @@ var jm = function() {
         function _dispose() {
             _detachEventListeners();
             _element = null;
-            _horse = null;
+            _horse = null; // Disposal of horse needs to happen somewhere else
         }
     };
 
@@ -344,7 +349,11 @@ var jm = function() {
 
             e.stopPropagation();
 
-            if (endgame) alert("ENDGAME");
+            if (endgame) _endgame();
+        }
+
+        function _endgame() {
+            _reset();
         }
 
         function _evaluateAntagony(house) {
@@ -394,6 +403,27 @@ var jm = function() {
                 _setHorse(wi, wj, horsew);
                 _setHorse(bi, bj, horseb);
             }
+        }
+
+        function _depopulate() {
+            if (!container) {
+                throw "Invalid operation. Board must be first initialized!";
+            }
+
+            for (var k = 0, keys = Object.keys(houses); k < keys.length; k++) {
+                var house = houses[keys[k]];
+                if (!house) continue;
+
+                if (!house.isSet()) continue;
+
+                house.unset();
+            }
+
+            for (var k = 0; k < horses.length; k++) {
+                horses[k].dispose();
+            }
+
+            horses = [];
         }
 
         // This deals also with eating horses
@@ -447,6 +477,15 @@ var jm = function() {
 
             console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, 
                 eat ? "and ate!" : "");
+        }
+
+        function _reset() {
+            // Do not regenerate the board, just reset horses in their positions
+            _depopulate();
+            _populate();
+
+            currentPlayer = CUR_PLAYER_W;
+            selectedHouse = null;
         }
 
         function _checkMove(ni, nj, oi, oj) {
@@ -547,11 +586,14 @@ var jm = function() {
             _detachNativeEvents();
             container = null;
 
-            for (var i = 0, keys = Object.keys(houses); i < keys.length; i++) {
-                houses[keys[i]].dispose();
+            for (var k = 0, keys = Object.keys(houses); k < keys.length; k++) {
+                houses[keys[k]].dispose();
             }
             houses = null;
 
+            for (var k = 0; k < horses.length; k++) {
+                horses[k].dispose();
+            }
             horses = null;
         }
     }; // Board
