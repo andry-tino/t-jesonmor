@@ -8,15 +8,32 @@ body {
     margin: 0;
 }
 
-.container {
-
+.score-panel {
+    position: absolute;
+    right: 10px;
+    min-height: 50px;
+    min-width: 160px;
+    border-top: 3px solid #d08c4c;
+    background-color: #fecea2;
+}
+.score-panel.white {
+    top: 10px;
+}
+.score-panel.black {
+    top: 160px;
 }
 
-.container > .house > .horse.white {
+.container {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.horse.white {
     content: url(images/kwhite.svg);
 }
 
-.container > .house > .horse.black {
+.horse.black {
     content: url(images/kblack.svg);
 }
 

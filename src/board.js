@@ -7,11 +7,16 @@ var jm = jm || {};
 
 jm.Board = function(_size) {
     var CONTAINER_CLASSNAME = "container";
+    var SCOREPANEL_CLASSNAME = "score-panel";
+    var WHITE_CLASSNAME = "white";
+    var BLACK_CLASSNAME = "black";
     var CUR_PLAYER_W = 0;
     var CUR_PLAYER_B = 1;
 
     // Lazy initialized variables
     var container = null;
+    var panelw = null;
+    var panelb = null;
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array, maybe not needed
 
@@ -277,7 +282,12 @@ jm.Board = function(_size) {
         movingHorse.setPosition(dsti, dstj);
 
         // Handling destination house
-        if (eat) dstHouse.unset();
+        if (eat) {
+            var eaten = dstHouse.unset();
+            
+            if (eaten.mode === jm.HORSE_W) panelw.appendChild(eaten.element);
+            else panelb.appendChild(eaten.element);
+        }
         dstHouse.set(movingHorse);
 
         console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, 
@@ -330,7 +340,6 @@ jm.Board = function(_size) {
         houses = {}; // Initializing dictionary
 
         container = _createContainer();
-
         for (var k = 0; k < dimension; k++) {
             // Calculate Indexes
             var i = Math.ceil((k + 1) / size);
@@ -348,7 +357,12 @@ jm.Board = function(_size) {
             houses[i + ":" + j] = house;
         }
 
+        panelw = _createScorePanel(WHITE_CLASSNAME);
+        panelb = _createScorePanel(BLACK_CLASSNAME);
+
         document.body.appendChild(container);
+        document.body.appendChild(panelw);
+        document.body.appendChild(panelb);
     }
 
     function _isBuilt() {
@@ -358,7 +372,6 @@ jm.Board = function(_size) {
     function _clean() {
         if (!_isBuilt()) return;
 
-        var container = houses["1:1"].parentElement;
         if (!container) return;
 
         container.remove();
@@ -368,6 +381,14 @@ jm.Board = function(_size) {
     function _createContainer() {
         var element = document.createElement("div");
         element.className = CONTAINER_CLASSNAME;
+
+        return element;
+    }
+
+    function _createScorePanel(className) {
+        var element = document.createElement("div");
+        element.classList.add(SCOREPANEL_CLASSNAME);
+        element.classList.add(className);
 
         return element;
     }
@@ -389,7 +410,10 @@ jm.Board = function(_size) {
 
     function _dispose() {
         _detachNativeEvents();
+
         container = null;
+        panelw = null;
+        panelb = null;
 
         for (var k = 0, keys = Object.keys(houses); k < keys.length; k++) {
             houses[keys[k]].dispose();
