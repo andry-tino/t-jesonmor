@@ -2,7 +2,5 @@
 
 * [Introduction](README.md)
   * [What is Jeson Mor?](what-is-jeson-mor.md)
-* [Getting ready](getting-ready.md)
-
-
-
+  * [Developing the game](developing-the-game.md)
+* [Development](development.md)
