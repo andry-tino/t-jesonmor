@@ -32,4 +32,8 @@ So, for our exercise, we are going to define a simple architecture. The componen
 - **Horses:** We need to define a component for horses. A horse can be black or white and can be moved across houses.
 
 ### Interactions and relations
-How should these 3 components interact with each other? This is about defining relations between them. If we define components in an architecture that do not interact with each other, then our application would do nothing, we need to have these objects communicate to each other. So now we need to define these communication channels.
+How should these 3 components interact with each other? This is about defining relations among them. If we define components in an architecture that do not interact with each other, then our application would do nothing, we need to have these objects communicate to each other. So now we need to define these communication channels.
+
+- Object _Board_ will contain many objects _House_.
+- One _House_ can contain up to 1 _Horse_.
+- One _Horse_ can be either black or white.
