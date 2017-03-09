@@ -98,3 +98,37 @@ jm.Board = function(_size) {
 We want to keep track about which one of the player gets to move. For this we are going to need a variable `currentPlayer` whose value will be `0` or `1` depending whether White or Black has to move. However we programmers do not like using plain values as they might change, so we use contants. That is why we created two other variables called `CUR_PLAYER_W` and `CUR_PLAYER_B`.
 
 As you can see, we set `currentPlayer` to `CUR_PLAYER_W` because White starts first in the game.
+
+### Validating constructor parameters
+The constructor function we have created accepts one _argument_ (also called _parameter_). We have already defined the behavior and our intention to make the board size parametric, we now need to validate the input because we want the following to happen:
+
+1. If `_size` is not specified, then it should default to `9`.
+2. If `_size` is specified, we need to check that it is an odd number higher or equal than 5 (a 3x3 or 1x1 board would be pointless). 
+
+So, right after the variables we have defined, we add the following function:
+
+```javascript
+function _validateSize(size) {
+    if (!size) {
+        size = 9; // Default value
+    }
+
+    if (size < 5) {
+        throw "Cannot create a board whose size is < 5!";
+    }
+    if (size % 2 !== 1) {
+        throw "Board must be odd sized!";
+    }
+
+    return size;
+}
+```
+
+If you are wondering whether it is legal to define a function inside a function, then rest assured, in Javascript it is just fine!
+
+The function we have just created function `_validateSize` which will return the final size of the board depending on the input parameter. We use the underscore to prefix internal functions, this is a common convention but later we will understand why that underscore is required.
+
+As you can see from the code, the function will first check the a size has been specified
+
+### Rendering the board
+The first code we 
