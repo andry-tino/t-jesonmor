@@ -6,3 +6,4 @@
 * [Development](development.md)
   * [Setting up the project](project-definition.md)
   * [Defining the initial page](initial-page.md)
+  * [Creating the board](board-initial.md)
