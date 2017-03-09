@@ -11,7 +11,7 @@ The program we need to tell how and what to display is a [web browser](https://e
 
 HTML is not difficult, this is the most basic content of a valid HTML that can be displayed by a browser, type it inside `index.html` and then open the page in your favorite browser:
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +38,7 @@ The most important thing we need to do loading all those Javascript and `.css` f
 
 What we need to do is telling the browser that it needs to load those files into the page because we need them. How? There are special HTML tags to use for including external content and they must all be written in the `<head>` element.
 
-```
+```html
 <head>
     <meta charset="UTF-8">
     <title>Play Jeson Mor</title>
@@ -60,7 +60,7 @@ The first inclusion tag we find is `<link>`. This is another single tag (it has 
 
 Then we have 4 `script` tags. This tag is used to define Javascript code. We can actually write the Javascript code directly inside the tag like in the following example:
 
-```
+```html
 <script type="text/javascript">
   alert("This will display a message box");
 </script>

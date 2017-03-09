@@ -12,7 +12,7 @@ Modularity is the ability of encapsulating the code for one component into a sin
 ### Modules and namespaces
 The first line of code we write is the following:
 
-```
+```javascript
 var jm = jm || {};
 ```
 
@@ -35,7 +35,7 @@ So far we have just guaranteed the creation of the `jm` namespace. Now let's fil
 
 So let's continue from where we left and add the following lines:
 
-```
+```javascript
 var jm = jm || {};
 
 jm.Board = function(_size) {
@@ -55,7 +55,7 @@ As you could see we need a parameter. We construct a board by providing a number
 
 What should the constructor do? It is responsible for creating our board object. So lets start adding some logic to this function.
 
-```
+```javascript
 jm.Board = function(_size) {
     // Lazy initialized variables
     var container = null;
@@ -77,7 +77,7 @@ All of them are initially set to `null`, which is the Javascript way to say that
 
 We actually need more a few more variables:
 
-```
+```javascript
 jm.Board = function(_size) {
     var CUR_PLAYER_W = 0;
     var CUR_PLAYER_B = 1;
