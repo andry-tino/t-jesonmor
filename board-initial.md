@@ -128,7 +128,12 @@ If you are wondering whether it is legal to define a function inside a function,
 
 The function we have just created function `_validateSize` which will return the final size of the board depending on the input parameter. We use the underscore to prefix internal functions, this is a common convention but later we will understand why that underscore is required.
 
-As you can see from the code, the function will first check the a size has been specified
+As you can see from the code, the function will first check that a size has been specified, if not the default value `9` is used. Later on we check that the size is not less than `5` and that it is an odd number. We can use this function by adding the variable for the board size and initializing it by calling `_validateSize` (right below `var selectedHouse = null;`):
+
+```javascript
+// Construct object
+var size = _validateSize(_size);
+```
 
 ### Rendering the board
-The first code we 
+The first code we write is the function responsible for actually painting the board on the page. This function is very important because will effectively render, on screen, the board and initialize the game. We will proceed incrementally.
