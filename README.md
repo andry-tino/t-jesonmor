@@ -1,6 +1,6 @@
 # Building a Jeson Mor board game in Javascript
 
-![](https://github.com/andry-tino/t-jesonmor/src/images/logo.png)
+![](https://github.com/andry-tino/t-jesonmor/raw/development/src/images/logo.png)
 
 A step by step tutorial for creating a Jeson Mor game in Javascript, CSS and HTML in your browser.
 
