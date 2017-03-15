@@ -283,3 +283,5 @@ There is an operator which is the modulo operator `%`. This operator acts on two
 ```
 
 The column, on the other hand, always increases as we move from left to right, but it is a repeating pattern. The trick in programming for repeating patterns is to use the modulo operator. The operator when calculated on an expression like `k % B` (with `k > 0`) will always return a value from `1` to `B - 1`, `0` is returned when `k = B`, for this reason we need to check if it is `0`, in that case it means we reached `B` (in our case `size`).
+
+Now that we have the indices, we need to create houses. There is a problem with this step, the component for houses is not ready yet, so we need to suspend our work here and move to creating the module for an house.
