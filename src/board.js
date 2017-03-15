@@ -344,7 +344,7 @@ jm.Board = function(_size) {
             // Calculate Indexes
             var i = Math.ceil((k + 1) / size);
             var j = (k + 1) % size;
-            if (j === 0) j = 9;
+            if (j === 0) j = size;
 
             console.log("Indices", i, j);
 
