@@ -219,3 +219,28 @@ jm.Board = function(_size) {
 ```
 
 The last line inside `_createContainer` will just return the element to the caller, it means that, when doing `container = _createContainer();` in function `_build`, the value will be assigned to `container`.
+
+#### Creating the houses
+Let's go back to `_build` and let's continue from where we interrupted. We now have the board element, we need to create more elements inside it, one for each house. And we need to create as many houses as we specified in variable `dimension`:
+
+```javascript
+for (var k = 0; k < dimension; k++) {
+    // Our code for creating houses here
+}
+```
+
+The piece of code we just wrote is called a _loop_. Everything inside the `for` block will be executed many times. How many? After the `for` keyword, we have some code inside parentheses: 
+
+    for (<initializer>; <condition>; <action>) {
+        <code>
+    }
+
+When the Javascript runtime executes a `for` loop, this is what it does:
+
+1. It executed `<initializer>`.
+2. Evaluates `<condition>`, if that is `true` then it continues, otherwise it will stop and execute the next instruction after outside the loop.
+3. Executes `<action>`.
+4. Executes `<code>`.
+5. Restarts from point 2.
+
+We are creating a variable called `k` which will be our _indexer_ or _counter_. We make sure that `k` will range from `0` to `dimension - 1` and we execute the block in the loop each time! We could have used a different range like `k=1..dimension`, but in programming we always start counters from 0. There is a reason for that which we will explain later.
