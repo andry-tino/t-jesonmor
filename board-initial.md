@@ -243,4 +243,10 @@ When the Javascript runtime executes a `for` loop, this is what it does:
 4. Executes `<code>`.
 5. Restarts from point 2.
 
-We are creating a variable called `k` which will be our _indexer_ or _counter_. We make sure that `k` will range from `0` to `dimension - 1` and we execute the block in the loop each time! We could have used a different range like `k=1..dimension`, but in programming we always start counters from 0. There is a reason for that which we will explain later.
+We are creating a variable called `k` which will be our _indexer_ or _counter_. We make sure that `k` will range from `0` to `dimension - 1` and we execute the block in the loop each time! We could have used a different range like `k=1..dimension`, but in programming we always start counters from 0. There is a reason for that which we will explain later. Let's write the code in the loop for creating the houses.
+
+We will create an house and we will store the house inside the `houses` dictionary we just initialized a few minutes ago. How do we store houses in the dictionary? A key is required. The way we are going to do this is the following, we are going to store houses by referencing them by position. In a Chess board, every house is indexed by coordinates: number for rows and letters for columns are used, but we will use only numbers. Starting from the top left corener of the board, we will use this key:
+
+    <i>:<j>
+
+Where `i` is the row and `j` is the column. They will both range from `1` to `size`. So for example house `1:1` is the topmost and leftmost house on the board. In a 9x9 board, `5:5` is the central house.
