@@ -253,4 +253,33 @@ Where `i` is the row and `j` is the column. They will both range from `1` to `si
 
 ![](https://github.com/andry-tino/t-jesonmor/raw/development/src/images/board_numered.png)
 
-df
+So, since we need to create the key, we need to calculate `i` and `j`. How can we do that? In the loop do not forget that we have our counter `k`. This variable will range from `0` to `size * size - 1` basically, we can retrieve `i` and `j` from it like this:
+
+```javascript
+for (var k = 0; k < dimension; k++) {
+    // Calculate Indexes
+    var i = Math.ceil((k + 1) / size);
+    var j = (k + 1) % size;
+    if (j === 0) j = size;
+}
+```
+
+`Math` is a global object in Javascript which collects many mathematical functions. `ceil` is a function which will round up the number provided as input to the closest integer. For example:
+
+```javascript
+Math.ceil(1.2); // Evaluates to 2
+Math.ceil(0.3); // Evaluates to 1
+Math.ceil(100.1); // Evaluates to 101
+```
+
+The row must remain the same while we move from left to right, it must change when `k` jumps to `k + size`, thus we divide by `size` and we take the ceiling of it.
+
+There is an operator which is the modulo operator `%`. This operator acts on two numbers. It divides the first number by the second and returns the remainder of the integer division between the two. So for example:
+
+```javascript
+2 % 1; // Evaluates to 0
+1 % 2; // Evaluates to 1
+3 % 7; // Evaluates to 3
+```
+
+The column, on the other hand, always increases as we move from left to right, but it is a repeating pattern. The trick in programming for repeating patterns is to use the modulo operator. The operator when calculated on an expression like `k % B` (with `k > 0`) will always return a value from `1` to `B - 1`, `0` is returned when `k = B`, for this reason we need to check if it is `0`, in that case it means we reached `B` (in our case `size`).
