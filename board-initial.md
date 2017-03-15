@@ -43,7 +43,7 @@ jm.Board = function(_size) {
 }
 ```
 
-Objects are created as functions. `jm.Board` instructs Javascript to create a variable called `Board` inside the `jm` namespace. The variable is initialized to a function which accepts one parameter. 
+Objects are created as functions. `jm.Board` instructs Javascript to create a variable called `Board` inside the `jm` namespace. The variable is initialized to a function which accepts one parameter. Everything inside this function will be part of the `Board` _module_, and we will use this word to refer to this part of the code from now on.
 
 It is important to understand this logical step. To create an object we must:
 
@@ -137,3 +137,33 @@ var size = _validateSize(_size);
 
 ### Rendering the board
 The first code we write is the function responsible for actually painting the board on the page. This function is very important because will effectively render, on screen, the board and initialize the game. We will proceed incrementally.
+
+So, let us position on the last line of the module content and let's write down a new function:
+
+```javascript
+function _build() {
+    // Code in here
+}
+```
+
+Inside the function we want to do some first important operations:
+
+1. Calculating the number of houses we need to create in the board.
+2. Initializing the dictionary of houses.
+3. Creating the container element for the board.
+
+The first point is easy. A normal JM board is 9 rows and 9 columns, it would make it 81 houses in total. However we have parametrized the size of the board, so the final number is:
+
+```javascript
+var dimension = size * size;
+```
+
+Now we need to initialize the dictionary of houses to an empty array, this is also simple:
+
+```javascript
+houses = {};
+```
+
+<p style="background-color:#efefef;color:#000000;padding:1em">
+A dictionary is a special type of collection. It can contain many objects, what makes it special is that, when placing an object in a dictionary, a key must be provided, and that same key can be used to retrieve that object later.
+</p>
