@@ -164,8 +164,58 @@ Now we need to initialize the dictionary of houses to an empty array, this is al
 houses = {};
 ```
 
-<p style="padding-left:3em">
-A dictionary is a special type of collection. It can contain many objects, what makes it special is that, when placing an object in a dictionary, a key must be provided, and that same key can be used to retrieve that object later.
-</p>
+A dictionary is a special type of collection. It can contain many objects, what makes it special is that, when placing an object in a dictionary, a key must be provided, and that same key can be used to retrieve that object later. We'll see this in action later, for now just know that `{}` indicates an empty dictionary.
 
-df
+To create the container, we want to use a function that we create. The reason why we will create a function is because this piece of code might be reused. In general it is a good practice to avoid functionas doing too many things, creating the board element is an action on its own and function `_build` should not take care of it. So we just write down an invocation to this function which we will define later:
+
+```javascript
+container = _createContainer();
+```
+
+This line will create the container and assign it to the module variable `container` we created before. Let's now create function `_createContainer`, we define this funcrtion outside `_build`, we can position right below it:
+
+```javascript
+jm.Board = function(_size) {
+    // Module code we wrote before...
+
+    function _build() {
+        // Code for creating the board we wrote a moment ago...
+    }
+
+    function _createContainer() {
+        // We will write inside here now
+    }
+}
+```
+
+#### Creating the board element
+In this new function we will do the following:
+
+1. Create a `div` element.
+2. Give it some styling.
+3. Return it.
+
+```javascript
+function _createContainer() {
+    var element = document.createElement("div");
+    element.className = CONTAINER_CLASSNAME;
+
+    return element;
+}
+```
+
+In a web page, `document` is a global object which references the web page itself. `createElement` is a function that developers can use to create content in a web page.
+
+In order to give a style to an element, we need to assign it a _CSS class name_. This is just a way to assign a style name to an element, we will soon see how this comes into action. The style name is `CONTAINER_CLASSNAME` which is not a string, it is a variable that we need to set. Never use literal values when programming, always use constants, so that when they change, you will not have to replace the new value in all the places you have written it.
+
+So we define `CONTAINER_CLASSNAME` inside the module, just at the very beginning of it:
+
+```javascript
+jm.Board = function(_size) {
+    var CONTAINER_CLASSNAME = "container";
+
+    // Module code we wrote before...
+}
+```
+
+The last line inside `_createContainer` will just return the element to the caller, it means that, when doing `container = _createContainer();` in function `_build`, the value will be assigned to `container`.
