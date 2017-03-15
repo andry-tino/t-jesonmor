@@ -250,3 +250,7 @@ We will create an house and we will store the house inside the `houses` dictiona
     <i>:<j>
 
 Where `i` is the row and `j` is the column. They will both range from `1` to `size`. So for example house `1:1` is the topmost and leftmost house on the board. In a 9x9 board, `5:5` is the central house.
+
+![](https://github.com/andry-tino/t-jesonmor/raw/development/src/images/board_numered.png)
+
+df
