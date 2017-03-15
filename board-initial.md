@@ -164,6 +164,8 @@ Now we need to initialize the dictionary of houses to an empty array, this is al
 houses = {};
 ```
 
-<p style="background-color:#efefef;color:#000000;padding:1em">
+<p style="padding-left:3em">
 A dictionary is a special type of collection. It can contain many objects, what makes it special is that, when placing an object in a dictionary, a key must be provided, and that same key can be used to retrieve that object later.
 </p>
+
+df
