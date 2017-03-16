@@ -139,3 +139,5 @@ var obj = {
 ```
 
 Both syntaxes are valid. So, in our module, the `return` statement is actually returning the final `House` object which has been constructed so far. The object will, in this case, only expose the `_element` variable.
+
+We are done with the basics of the `House` module. We will need to define more functionality for this module, but for now we do not need anything else. We can go back to the board and continue from where we left.
