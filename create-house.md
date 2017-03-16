@@ -95,3 +95,47 @@ jm.House = function(_i, _j) {
     // Code we wrote before...
 }
 ```
+
+## Defining the API of the object
+Now we have the basic code for the house. When constructed, the house will store the position and will also create the element. However like this, module `House` is completely unaccessible from the outside world. We want to use this module to create an object, but we want to interact with this object. For example, we will need to be able to reference `_element`, but that variable is held by the module and it is not accessible from outside it! How do we expose internal variables or functions?
+
+> In order to expose objects from inside the module, we need to return them.
+
+Remember that a module is a function, when the module is invoked an object is constructed via the module function. This function can return an object containing the references to everything we want to expose from inside the module to the external world.
+
+As we mentioned before, we want to expose `_element`, so this is what we write just after the constructor:
+
+```javascript
+jm.House = function(_i, _j) {
+    var HOUSE_CLASSNAME = "house";
+
+    // Construct object
+    var i = _validatePosition(_i);
+    var j = _validatePosition(_j);
+    var _element = _createElement();
+
+    // Object interface
+    return {
+        element: _element
+    };
+
+    // Code we wrote before...
+}
+```
+
+In Javascript, creating an object is like creating a dictionary. The empty dictionary `{}` is actually an empty object. To add things to an object we can either use the dot notation:
+
+```javascript
+var obj = {};
+obj.property = "My first property";
+```
+
+Or define it inline:
+
+```javascript
+var obj = {
+    property: "My first property"
+};
+```
+
+Both syntaxes are valid. So, in our module, the `return` statement is actually returning the final `House` object which has been constructed so far. The object will, in this case, only expose the `_element` variable.
