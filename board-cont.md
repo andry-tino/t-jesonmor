@@ -82,3 +82,6 @@ function _build() {
     document.body.appendChild(container);
 }
 ```
+
+## Rendering the board
+We are ready
