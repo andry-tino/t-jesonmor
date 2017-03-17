@@ -294,10 +294,21 @@ jm.Board = function(_size) {
             eat ? "and ate!" : "");
     }
 
+    function _clearPanels() {
+        while (panelw.firstChild) {
+            panelw.removeChild(panelw.firstChild);
+        }
+
+        while (panelb.firstChild) {
+            panelb.removeChild(panelb.firstChild);
+        }
+    }
+
     function _reset() {
         // Do not regenerate the board, just reset horses in their positions
         _depopulate();
         _populate();
+        _clearPanels();
 
         currentPlayer = CUR_PLAYER_W;
         selectedHouse = null;
