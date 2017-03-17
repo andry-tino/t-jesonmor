@@ -47,3 +47,11 @@ houses[i + ":" + j] = house;
 ```
 
 Other than adding the house to the container, we are also adding the house to the dictionary.
+
+Out of the loop, we now need one more operation: adding the container to the `body` element of the page. We can do this easily:
+
+```javascript
+document.body.appendChild(container);
+```
+
+Remember that this script is going to be executed from inside `index.html`. A global object is exposed: `document` and `document.body` is exactly the `body` element we are looking for. Function `appendChild` is supported by every element and we use this again to add the container to the page basically.
