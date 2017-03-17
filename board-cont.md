@@ -54,4 +54,31 @@ Out of the loop, we now need one more operation: adding the container to the `bo
 document.body.appendChild(container);
 ```
 
-Remember that this script is going to be executed from inside `index.html`. A global object is exposed: `document` and `document.body` is exactly the `body` element we are looking for. Function `appendChild` is supported by every element and we use this again to add the container to the page basically.
+Remember that this script is going to be executed from inside `index.html`. A global object is exposed: `document` and `document.body` is exactly the `body` element we are looking for. Function `appendChild` is supported by every element and we use this again to add the container to the page basically. The function should look like this:
+
+```javascript
+function _build() {
+    var dimension = size * size;
+    houses = {}; // Initializing dictionary
+
+    container = _createContainer();
+    for (var k = 0; k < dimension; k++) {
+        // Calculate Indexes
+        var i = Math.ceil((k + 1) / size);
+        var j = (k + 1) % size;
+        if (j === 0) j = size;
+
+        console.log("Indices", i, j);
+
+        var house = jm.House(i, j);
+        // In order to facilitate detection while playing
+        house.element.id = i + ":" + j;
+        container.appendChild(house.element);
+
+        // Index houses
+        houses[i + ":" + j] = house;
+    }
+
+    document.body.appendChild(container);
+}
+```
