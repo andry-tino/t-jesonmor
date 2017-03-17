@@ -59,8 +59,6 @@ What should the constructor do? It is responsible for creating our board object.
 jm.Board = function(_size) {
     // Lazy initialized variables
     var container = null;
-    var panelw = null;
-    var panelb = null;
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array
 }
@@ -69,7 +67,6 @@ jm.Board = function(_size) {
 We are creating some variables that we will use later when building the board on the screen. 
 
 - Variable `container` will host a reference to the HTML element containing the board.
-- Variables `panelw` and `panelb` will host a reference to the elements where lost horses for white and black will be moved to when eaten on the board.
 - Variable `houses` will host all the houses. This variable will actually be a _dictionary_,  we will later explain what it is.
 - Variable `horses` will contain an _array_ hosting all horses. An array is basically a list of objects.
 
@@ -84,8 +81,6 @@ jm.Board = function(_size) {
 
     // Lazy initialized variables
     var container = null;
-    var panelw = null;
-    var panelb = null;
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array
 
