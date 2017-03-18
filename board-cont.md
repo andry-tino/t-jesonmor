@@ -216,4 +216,4 @@ Try to open the page in your browser and see what happens. We get a blank screen
 
 The first thing we need to understand is that nothing went wrong. We just did things right. The fact that we do not see the board does not mean that it is not in the page. In the browser, press `F12` to bring up the _browser development tool_. Every browser has this thing and it can be activate from the same key, that is why sometimes this tool is called _F12 tool_. A new window opens, that window is used by developers to understand what happens in the page, it is an advanced tool.
 
-![](https://github.com/andry-tino/t-jesonmor/raw/development/src/images/f12-tools.png)
+![](/assets/f12-tools.png)
