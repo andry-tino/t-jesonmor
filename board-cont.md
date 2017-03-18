@@ -132,4 +132,84 @@ jm.Board = function(_size) {
 Like this, external code, can create an object `Board` and call `initialize()` in order to render the board on the page. So far we have called this process: _function exposition_, however in IT the correct terminology would be: _API definition_. With this `return` statement we are creating the API for an object of type `Board`. API means Application Program Interface and it is the set of funcitonalities that a developer decides to expose from an object. An API defined the way an object communicates and interacts with the external world, it also determines how that object should/can be used.
 
 ## Rendering the board
-The next step is making the board appear on screen in `index.html`.
+The next step is making the board appear on screen in `index.html`. Let's switch to `jesonmor.js`. This file will contain the code for launching the board and start the game. Here we are going to follow a different approach. Instead of creating a module inside the `jm` namespace, we are going to define a function inside the `jm` namespace. What's the first thing we need to do?
+
+```javascript
+var jm = jm || {};
+```
+
+Making sure that `jm` is properly initialized if it does not exist.
+
+What's next? Not much we need to:
+
+1. Create a `Board` object.
+2. Call `initialize` from that object.
+
+Which means:
+
+```javascript
+jm.initialize = function() {
+    var board = jm.Board();
+    board.initialize();
+};
+```
+
+As you can see, `jm` will now expose a function called `initialize` which calls `initialize` on a `Board` object. Differently from before we don't need to use a `return` statement for exposing a function in `jm` because we have not defined `jm` as a function but as an object. So here there is no construction needed for `jm`. This is very common because `jm` will the object our page will call when starting. We say that `jm` is the _entry point_ of our application; and, usually, entry points have no constructors.
+
+## Starting the game
+Now that we have our entry point, we need to use it. Let's finally switch to `index.html` and add an empty `<script>` tag in the `<body>`.
+
+```html
+<body>
+    <script type="text/javascript">
+        // Here we will type some Javascript code
+    </script>
+</body>
+```
+
+In an HTML page there are 2 ways to execute some Javascript code:
+
+- One way is importing a Javascript file like we did by using a `<script src="...">` tag in the `<head>` section of the page.
+- Another way is to define some Javascript code right inside the page by using the same `<script>` tag, but without the `src` attribute. When we define Javascript code like this, directly in the poage, we say that we are writing _inline code_.
+
+We are using both approaches. Inside the `<script>` tag we have just written, we are going to call `initialize` from the `jm` object we have defined in file `jesonmor.js` which we have imported in the page. There is one problem. What we need to write is basically this:
+
+```html
+<body>
+    <script type="text/javascript">
+        jm.initialize();
+    </script>
+</body>
+```
+
+However this code will not always work. Why? The question is the following:
+
+> Are we sure that `jm` is going to be available the moment the browser execute our inline Javascript?
+
+You probably think that the browser first processes all the `<script src="...">` tags in the `<head>` section of the page and then moves to the `<body>`. You are right, but there is one catch:
+
+> The browser will process every directive from top to bottom. However when loading external resources, the browser will do that asyncronously.
+
+What does it mean _asyncronously_? It means that when the browser processes each `<script src="...">`, it will not wait for that file to be loaded before moving to the next line. It will start loading that file but it will move on in the meantime. So how are we guaranteed that the moment we execute our inline code in the `<body>`, all of the files we need are going to be there?
+
+The browser provides us with some functionality for waiting for all resources to be loaded. The code we need to write is this:
+
+```html
+<body>
+    <script type="text/javascript">
+        window.addEventListener("load", function() {
+            jm.initialize();
+        });
+    </script>
+</body>
+```
+
+In Javascript there is a global object called `window`. Among the different functions that this object exposes, we have a function called `addEventListener`. We will see this function again later and we will discuss more about it in detail. But now what you need to know is that this function accepts 2 parameters:
+
+- One string which should contain the name of the event to wait for
+- A function to call when that event is called
+
+The code we wrote is basically telling the browser to execute the function we pass as second argument only when the `load` _event_ has been fired. That event is triggered by the browser only when all files and resources have been loaded.
+
+### Trying to see it in the browser
+Try to open the page in your browser and see what happens. We get a blank screen. We made a mistake? No not really. Let's try to understand what's going on
