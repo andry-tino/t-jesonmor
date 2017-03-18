@@ -217,3 +217,13 @@ Try to open the page in your browser and see what happens. We get a blank screen
 The first thing we need to understand is that nothing went wrong. We just did things right. The fact that we do not see the board does not mean that it is not in the page. In the browser, press `F12` to bring up the _browser development tool_. Every browser has this thing and it can be activate from the same key, that is why sometimes this tool is called _F12 tool_. A new window opens, that window is used by developers to understand what happens in the page, it is an advanced tool.
 
 ![](/assets/f12-tools.png)
+
+This tool lets us understand what there is in the page. In our code we have programmatically added elements to the page, our task now is making sure that this `<div>` elements are there. We are expecting one `<div>` element for the container and many other `<div>` elements inside it: as many as the number of houses which, in our case, is 81 because we did not specify a size for the board, so a 9x9 is created by default. 
+    
+In this tutorial I am using Chrome, so the F12 tools you are going to see in the picture are specific to Chrome. If you are using a different browser you might need just a little more time to figure out where things are, but be aware that all browser's developer tool implement more or less the same features.
+
+On the top menu, let's make sure we are in the `Elements` tab.
+
+![](/assets/f12-tools-expanded.png)
+
+Todo
