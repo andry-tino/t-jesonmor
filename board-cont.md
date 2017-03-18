@@ -83,5 +83,53 @@ function _build() {
 }
 ```
 
+## Exposing the API for rendering the board
+Our objective now is having the board rendered on screen. [Rendering](https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) is a technical term in IT which refers to the process of displaying something on a visual device. In our case, we want to construct the HTML of the board, and we have prepared all the components for that, and we want them to be viewed in the browser.
+
+We need to start using the `Board` module, create a corresponding object and call `_build`. Well, we actually don't wanna expose function `_build` because the module should just expose a function for rendering the board and also initializing all the horses so that the game can start. For this reason, let's create one more function:
+
+```javascript
+function _initialize() {
+    _build();
+}
+```
+
+Add this function in the `Board` module together with the other functions we have created so far. As you can see, at this moment, the function will onlt create an empty board. Later, inside `_initialize`, we will invoke also more functions to render the horses in their initial positions and to initialize the game.
+
+Let's expose the `_initialize` function. In the `Board` module, after the construction code, add the following statement:
+
+```javascript
+return {
+    initialize: _initialize
+};
+```
+
+The module should look like the following:
+
+```javascript
+jm.Board = function(_size) {
+    var CUR_PLAYER_W = 0;
+    var CUR_PLAYER_B = 1;
+
+    // Lazy initialized variables
+    var container = null;
+    var houses = null; // A dictionary indexed by "i:j"
+    var horses = null; // An array
+
+    // Status variables
+    var currentPlayer = CUR_PLAYER_W; // White starts
+    var selectedHouse = null;
+
+    // Object public interface
+    return {
+        // Code we just wrote...
+    }
+
+    // Functions we wrote before...
+}
+```
+
+Like this, external code, can create an object `Board` and call `initialize()` in order to render the board on the page. So far we have called this process: _function exposition_, however in IT the correct terminology would be: _API definition_. With this `return` statement we are creating the API for an object of type `Board`. API means Application Program Interface and it is the set of funcitonalities that a developer decides to expose from an object. An API defined the way an object communicates and interacts with the external world, it also determines how that object should/can be used.
+
 ## Rendering the board
-We are ready
+The next step is making the board appear on screen in `index.html`.
