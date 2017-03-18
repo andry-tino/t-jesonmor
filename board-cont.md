@@ -212,4 +212,8 @@ In Javascript there is a global object called `window`. Among the different func
 The code we wrote is basically telling the browser to execute the function we pass as second argument only when the `load` _event_ has been fired. That event is triggered by the browser only when all files and resources have been loaded.
 
 ### Trying to see it in the browser
-Try to open the page in your browser and see what happens. We get a blank screen. We made a mistake? No not really. Let's try to understand what's going on
+Try to open the page in your browser and see what happens. We get a blank screen. We made a mistake? No not really. Let's try to understand what's going on.
+
+The first thing we need to understand is that nothing went wrong. We just did things right. The fact that we do not see the board does not mean that it is not in the page. In the browser, press `F12` to bring up the _browser development tool_. Every browser has this thing and it can be activate from the same key, that is why sometimes this tool is called _F12 tool_. A new window opens, that window is used by developers to understand what happens in the page, it is an advanced tool.
+
+![](https://github.com/andry-tino/t-jesonmor/raw/development/src/images/f12-tools.png)
