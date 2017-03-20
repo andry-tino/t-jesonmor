@@ -84,4 +84,4 @@ The leftmost icon refers to the element visual selector.
 2. In the F12 tools window, click the icon we just located before.
 3. Now, in the same window, click on one of the `<div class="house"></div>` elements in the tree
 
-As you
+As you remember
