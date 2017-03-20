@@ -9,3 +9,4 @@
   * [Creating the board](board-initial.md)
   * [Creating the house module](create-house.md)
   * [Continuing on the board creation](board-cont.md)
+  * [Styling the board](board-style.md)
