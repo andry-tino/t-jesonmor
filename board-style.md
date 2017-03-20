@@ -78,4 +78,10 @@ Oh well, we see something at least, though what we see is not exactly what we ex
 
 ![](/assets/f12-topbar.png)
 
-The leftmost icon refers to the
+The leftmost icon refers to the element visual selector.
+
+1. Arrange the browser window and the F12 tools window one next to the other.
+2. In the F12 tools window, click the icon we just located before.
+3. Now, in the same window, click on one of the `<div class="house"></div>` elements in the tree
+
+As you
