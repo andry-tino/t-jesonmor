@@ -222,8 +222,84 @@ This tool lets us understand what there is in the page. In our code we have prog
     
 In this tutorial I am using Chrome, so the F12 tools you are going to see in the picture are specific to Chrome. If you are using a different browser you might need just a little more time to figure out where things are, but be aware that all browser's developer tool implement more or less the same features.
 
-On the top menu, let's make sure we are in the `Elements` tab.
+On the top menu, let's make sure we are in the _Elements_ tab. We can see that the HTML tree is displayed. We initially get this view:
+
+```javascript
+<html>
+    <head>...</head>
+    <body>
+        <script type="text/javascript"></script>
+        <div class="container">...</div>
+    </body>
+</html>
+```
+
+Some lines can be expanded. Go ahead and expand `<div class="container">...</div>`. What we see is the following:
 
 ![](/assets/f12-tools-expanded.png)
 
-Todo
+So this proves that actually we have done things right. The elements are all there and if you count all the `<div class="house"></div>` tags in `<div class="container">...</div>`, they will be 81. So what is wrong? Why can't we see our board? We are missing the styling!
+
+## Defining the styling
+So, let's dive into another language called [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets). Cascading Style Sheets is a web technology used in HTML pages in order to define the style of elements. The reason because we still see nothing on the page is because we have defined all the pieces, but the are unstyled. We need to set dimensions, colors and positions of the elements we have defined.
+
+Let's go back to `index.html`. In the `<head>` section can you remember? We have added at the beginning this line:
+
+```html
+<link rel="stylesheet" type="text/css" href="style.css">
+```
+
+This HTML directive includes file `style.css` which we have created but left empty. Let's open this file as we will soon type some CSS code into that. Let's type these lines as first:
+
+```css
+body {
+    padding: 0;
+    margin: 0;
+}
+```
+
+What we have just written is a CSS rule. Every CSS rule is made by 2 parts:
+
+```
+<rule selector> {
+    <rule body>
+}
+```
+
+- The first part is the _selector_ and precedes the curly brackets. The selector is used to point which element or elements in the page should be impacted by the style defined in the body of the rule.
+- The second part is whatever comes into the brackets, that is the _body_ of the rule and consists of a list of CSS properties and values.
+
+The rule we have written is telling the browser to locate the `<body>` element in the page and apply to that tag some style. The body of the rule we have written has 2 properties: `padding` and `margin`. A CSS rule has this pattern:
+
+```
+<property>: <value>;
+```
+
+We are basically asking for our page to have no margin and no spacing. We want this because by default every browser defines a default spacing which we don't want. If we refresh the page we will still see nothing. The style we have defined is not really specifying any color, so let's add some color. So let's now add a few more lines after those we just type in before:
+
+```css
+.container {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+```
+
+A selector of type `.<name>` picks up all the HTML elements which have their `class` attribute set to `container`. The properties we define are used to make the board positioned relatively to the page coordibate system whose center `(0,0)` is set to the top left corner of the browser content window. Then `left` and `right` are used to tell the browser to position the board 10 pixel from the page's left border and 10 pixels from the top border.
+
+We're almost there, we just need to define the style of the houses. So let's add this selector:
+
+```css
+.container > .house {
+    background-color: #fecea2;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+}
+```
+
+This selector is a bit more advanced. Let's start from right to left as it reads:
+
+> Select all HTML elements having their `class` attribute set to `house` and among them, select only those contained inside an HTML element whose `class` attribute is set to `container`
+
+With this selector we are going to target only the houses inside the container. If, for some reason, we end up inserting houses outside of the container, they will not be styled.
