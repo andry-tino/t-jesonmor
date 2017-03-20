@@ -74,4 +74,8 @@ With this selector we are going to target only the houses inside the container. 
 You will see that `#fecea2` corresponds to a light brown color. It makes sense as this is a Chess board and must resemble a wooden board. The next property, as before, is just instructing every house to be positioned with respect to the top left cornet of their parent element (thus, the `container` element). In the end, we set the dimension of each house to be 50 pixels both for width and height. Let's refresh the page and see what happens.
 
 ### What's wrong?
-Oh well, we see something at least, though what we see is not exactly what we expected. Let's open the F12 tools again and let's try to investigate the problem we are facing.
+Oh well, we see something at least, though what we see is not exactly what we expected. Let's open the F12 tools again and let's try to investigate the problem we are facing. Locate in the window the menu top bar:
+
+![](/assets/f12-topbar.png)
+
+The leftmost icon refers to the
