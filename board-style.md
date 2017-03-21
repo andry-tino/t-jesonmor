@@ -141,4 +141,40 @@ We are still using the `:nth-child` selector, but a more advanced version of it.
 
 If we had wanted to select all children in even positions, we would have written `:nth-child(2n)`. Go ahead and refresh the page, you see? Now the first row has alternating coloured houses.
 
-Remove not the last code, but the one we typed before it. We do not need that code anymore because we are going to align houses in a much smarter way.
+#### CSS property override
+Let's move on and remove not the last code, but the one we typed before it. We do not need that code anymore because we are going to align houses in a much smarter way. Your `style.css` should now look like this:
+
+```css
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.container > .house {
+    background-color: #fecea2;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+}
+
+.container > .house:nth-child(2n+1) {
+    background-color: #d08c4c;
+}
+```
+
+Before moving on I want you to reflect a little more about the last 2 rules we have written. They both act on some elements that are the same right? The one before last is selecting all houses, the last one is selecting all in odd positions. And both rules are setting different values of `background-color`. So which one wins over an odd house? Since we have run the page, we could see that the last rule wins. Why? Because it is defined after the rule selecting all houses? No! Try swapping the positions of those rules and you will see the same final effect on the browser.
+
+The key is something a bit complicated called [Specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity), but here is one simple way of seeing it:
+
+> The rule with more selectors wins
+
+The rule selecting all houses `.container > .house` has a selector consisting in 2 selectors: one for selecting the container and one for selecting houses in the container. The other one `.container > .house:nth-child(2n+1)` has 3 selectors: the additionnal one for selecting odd positioned houses and therefore it wins the contest for the `background-color` property.
+
+### Aligning houses in a smart way
+Now that we know more about selectors, we can resume our task: we need to align houses in a better way than just defining 81 different `:nth-child` selectors. We are going to use the advanced version of this selector in order to reduce the number of different rules to define.
