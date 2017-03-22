@@ -448,3 +448,20 @@ Columns have a similar pattern. Instead of using `top`, we need to use property 
     left: 400px;
 }
 ```
+
+That's it. Run it in the browser and finally see our board there on the screen!
+
+### One final touch
+Are we missing anything? Oh well actually we do! Remember that in Jeson Mor we have one special house: `r5,c5`, the centrer house which plays the most important role in the game. We need to style it differently! We actually need to give it a different color. How do we do that? Well pretty easy, as a final rule, we define the color of that house to be different:
+
+```css
+.container > .house:nth-child(41) {
+    background-color: #9c6027;
+}
+```
+
+So, remember that we have other rules defining the same property, why should this rule win? Remember the discussion we had about specificity. Well, in this case you will see we have two rules with the same number of selectors and both defining `background-color`, how do we define the winner? Well here is another fun fact about specificity:
+
+> If two rules have the same specificity, the one defined last wins
+
+So, since we have defined the rule for the central house as last, it will win over the one we defined before for setting the darker color on odd houses.
