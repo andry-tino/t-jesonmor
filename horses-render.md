@@ -67,12 +67,44 @@ We are calling the constuctor of the `Horse` module, and we are providing consta
 ```javascript
 var wi = 1;
 var wj = k + 1;
-var bi = 9;
+var bi = size;
 var bj = k + 1;
 ```
 
-White horses must be placed on the first row and for `k = 0..(size - 1)` we need to place them into columns ranging from `1` to `size`. For black horses, we need to use 
+White horses must be placed on the first row and for `k = 0..(size - 1)` we need to place them into columns ranging from `1` to `size`. For black horses, we need to use the last row, thus we use `size`. We have defined the positions, let's use them to define the positions:
 
+
+```javascript
+horsew.setPosition(wi, wj);
+horseb.setPosition(bi, bj);
+```
+
+Please note that `setPosition` in the `Horse` module is not really setting the position of the horse, it is just setting some module internal variable. The reason why we use this function, is for checking that the position is valid. Remember that `setPosition` will throw an error in case the position is not correct.
+
+Next step is adding the horses in the array:
+
+```javascript
+// Push horses in collection
+horses.push(horsew);
+horses.push(horseb);
+```
+
+Function `push` called on an array, will add the object to the array.
+
+However our loop is not complete yet. We are missing the very last step: we need to physically place the horse element inside the board. Actually we want to add horses inside house elements. In order to do this, we will create function `_setHorse` which will take care of this operation. So let's complete our loop by adding these 2 lines:
+
+```javascript
+_setHorse(wi, wj, horsew);
+_setHorse(bi, bj, horseb);
+```
+
+We will design `_setHorse` to accept 3 parameters:
+
+1. The row of the house where to place the horse.
+2. The column of the house where to place the horse.
+3. The horse itself.
+
+Our function should look like this now:
 
 ```javascript
 function _populate() {
@@ -88,7 +120,7 @@ function _populate() {
 
         var wi = 1;
         var wj = k + 1;
-        var bi = 9;
+        var bi = size;
         var bj = k + 1;
 
         horsew.setPosition(wi, wj);
@@ -101,5 +133,29 @@ function _populate() {
         _setHorse(wi, wj, horsew);
         _setHorse(bi, bj, horseb);
     }
+}
+```
+
+### Placing horses into houses
+We have used function `_setHorse`, but that does not yet exist. So let's create it before function `_build` in the module: 
+
+```javascript
+function _setHorse(i, j, horse) {
+    // Code for placing the horse into an house will go here
+}
+```
+
+Todo
+
+```javascript
+function _setHorse(i, j, horse) {
+    var house = _getHouse(i, j);
+    if (!house) {
+        throw "Cannot set horse in house. Cannot find house!";
+    }
+
+    house.set(horse);
+
+    console.log("Horse set in", i, j);
 }
 ```
