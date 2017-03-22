@@ -11,4 +11,5 @@
     * [Continuing on the board creation](board-cont.md)
     * [Styling the board](board-style.md)
     * [Adding the horses](board-horses.md)
+    * [Rendering the horses on board](horses-render.md)
   * [Developing the logic](logic-development.md)
