@@ -10,4 +10,5 @@
     * [Creating the house module](create-house.md)
     * [Continuing on the board creation](board-cont.md)
     * [Styling the board](board-style.md)
+    * [Adding the horses](board-horses.md)
   * [Developing the logic](logic-development.md)
