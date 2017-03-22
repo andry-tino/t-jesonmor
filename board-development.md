@@ -1,4 +1,4 @@
-# Setting up the project
+# Developing the board
 
 We can now start writing code. The first thing we need to do is defining the main structure of our project. 
 
