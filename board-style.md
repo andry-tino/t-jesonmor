@@ -192,6 +192,155 @@ ow will we do this? There is one more thing you need to know about selectors in 
 }
 ```
 
-By using comma, it is possible to separate more selectors for one same rule. Of course, the opposite is not possible (one selector for multiple rules).
+By using comma, it is possible to separate more selectors for one same rule. Of course, the opposite is not possible (one selector for multiple rules). So, here we go. You might probably get what we are going to do. We need to create one rule which targets all the houses in one row and we need to do this for every row. Same goes for columns. 
 
-So, here we go. You might probably get what we are going to do. We need to create one rule which targets all the cells in one row
+**Simplicity:** Now, we have created the board to be whatever size, so we should create an infinite amount of rules to target all possible sizes. Well, truth is we are making things simple here, so for the styling we are using a very simle approach which cannot target parametric sizes: we are going to create a style only for 9x9 boards. So our application will have a limitation. Later we will see how to remove it by using a better CSS styling.
+
+So, for the first row, we notice that all houses will have the same y-coordinate set to `top: 0;`:
+
+```css
+.container > .house:nth-child(1),
+.container > .house:nth-child(2),
+.container > .house:nth-child(3),
+.container > .house:nth-child(4),
+.container > .house:nth-child(5),
+.container > .house:nth-child(6),
+.container > .house:nth-child(7),
+.container > .house:nth-child(8),
+.container > .house:nth-child(9) {
+    top: 0;
+}
+```
+
+Of course, in the first row we will have element from position 1 to position 9. The same goes for the second row. We have made houses such that their size is set to `50px`, so the second row will have all houses `50px` from the top border of the page:
+
+```css
+.container > .house:nth-child(10),
+.container > .house:nth-child(11),
+.container > .house:nth-child(12),
+.container > .house:nth-child(13),
+.container > .house:nth-child(14),
+.container > .house:nth-child(15),
+.container > .house:nth-child(16),
+.container > .house:nth-child(17),
+.container > .house:nth-child(18) {
+    top: 50px;
+}
+```
+
+In this case the elements range from position 10 to 18. So we need to do this for all 9 rows. The 3rd row will have houses shifted down by `100px`, then `150px` and so on. The final CSS for aligning rows is displayed below:
+
+```css
+.container > .house:nth-child(1),
+.container > .house:nth-child(2),
+.container > .house:nth-child(3),
+.container > .house:nth-child(4),
+.container > .house:nth-child(5),
+.container > .house:nth-child(6),
+.container > .house:nth-child(7),
+.container > .house:nth-child(8),
+.container > .house:nth-child(9) {
+    top: 0;
+}
+.container > .house:nth-child(10),
+.container > .house:nth-child(11),
+.container > .house:nth-child(12),
+.container > .house:nth-child(13),
+.container > .house:nth-child(14),
+.container > .house:nth-child(15),
+.container > .house:nth-child(16),
+.container > .house:nth-child(17),
+.container > .house:nth-child(18) {
+    top: 50px;
+}
+.container > .house:nth-child(19),
+.container > .house:nth-child(20),
+.container > .house:nth-child(21),
+.container > .house:nth-child(22),
+.container > .house:nth-child(23),
+.container > .house:nth-child(24),
+.container > .house:nth-child(25),
+.container > .house:nth-child(26),
+.container > .house:nth-child(27) {
+    top: 100px;
+}
+.container > .house:nth-child(28),
+.container > .house:nth-child(29),
+.container > .house:nth-child(30),
+.container > .house:nth-child(31),
+.container > .house:nth-child(32),
+.container > .house:nth-child(33),
+.container > .house:nth-child(34),
+.container > .house:nth-child(35),
+.container > .house:nth-child(36) {
+    top: 150px;
+}
+.container > .house:nth-child(37),
+.container > .house:nth-child(38),
+.container > .house:nth-child(39),
+.container > .house:nth-child(40),
+.container > .house:nth-child(41),
+.container > .house:nth-child(42),
+.container > .house:nth-child(43),
+.container > .house:nth-child(44),
+.container > .house:nth-child(45) {
+    top: 200px;
+}
+.container > .house:nth-child(46),
+.container > .house:nth-child(47),
+.container > .house:nth-child(48),
+.container > .house:nth-child(49),
+.container > .house:nth-child(50),
+.container > .house:nth-child(51),
+.container > .house:nth-child(52),
+.container > .house:nth-child(53),
+.container > .house:nth-child(54) {
+    top: 250px;
+}
+.container > .house:nth-child(55),
+.container > .house:nth-child(56),
+.container > .house:nth-child(57),
+.container > .house:nth-child(58),
+.container > .house:nth-child(59),
+.container > .house:nth-child(60),
+.container > .house:nth-child(61),
+.container > .house:nth-child(62),
+.container > .house:nth-child(63) {
+    top: 300px;
+}
+.container > .house:nth-child(64),
+.container > .house:nth-child(65),
+.container > .house:nth-child(66),
+.container > .house:nth-child(67),
+.container > .house:nth-child(68),
+.container > .house:nth-child(69),
+.container > .house:nth-child(70),
+.container > .house:nth-child(71),
+.container > .house:nth-child(72) {
+    top: 350px;
+}
+.container > .house:nth-child(73),
+.container > .house:nth-child(74),
+.container > .house:nth-child(75),
+.container > .house:nth-child(76),
+.container > .house:nth-child(77),
+.container > .house:nth-child(78),
+.container > .house:nth-child(79),
+.container > .house:nth-child(80),
+.container > .house:nth-child(81) {
+    top: 400px;
+}
+.container > .house:nth-child(82),
+.container > .house:nth-child(83),
+.container > .house:nth-child(84),
+.container > .house:nth-child(85),
+.container > .house:nth-child(86),
+.container > .house:nth-child(87),
+.container > .house:nth-child(88),
+.container > .house:nth-child(89),
+.container > .house:nth-child(90) {
+    top: 450px;
+}
+```
+
+Those are 9 rules in total!
