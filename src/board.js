@@ -200,7 +200,7 @@ jm.Board = function(_size) {
 
             var wi = 1;
             var wj = k + 1;
-            var bi = 9;
+            var bi = size;
             var bj = k + 1;
 
             horsew.setPosition(wi, wj);
