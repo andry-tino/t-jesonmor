@@ -54,7 +54,25 @@ for (var k = 0; k < size; k++) {
 }
 ```
 
-We define a counter variable `k` which will range from `0` to `size - 1`. Arrays usually, by convention, start from position 0.
+We define a counter variable `k` which will range from `0` to `size - 1`. Arrays, usually, by convention, start from position 0. For each one of the iterations (as many as the value of `size`) we will create one white horse and one black horse. So inside the loop, add these first 2 lines:
+
+```javascript
+var horsew = jm.Horse(jm.HORSE_W);
+var horseb = jm.Horse(jm.HORSE_B);
+```
+
+We are calling the constuctor of the `Horse` module, and we are providing constants `jm.HORSE_W` and `jm.HORSE_B` for specifying that we want a white and a black horse. Now let's calculate the positions were we should place the 2 horses:
+
+
+```javascript
+var wi = 1;
+var wj = k + 1;
+var bi = 9;
+var bj = k + 1;
+```
+
+White horses must be placed on the first row and for `k = 0..(size - 1)` we need to place them into columns ranging from `1` to `size`. For black horses, we need to use 
+
 
 ```javascript
 function _populate() {
