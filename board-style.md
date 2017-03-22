@@ -174,7 +174,24 @@ The key is something a bit complicated called [Specificity](https://developer.mo
 
 > The rule with more selectors wins
 
-The rule selecting all houses `.container > .house` has a selector consisting in 2 selectors: one for selecting the container and one for selecting houses in the container. The other one `.container > .house:nth-child(2n+1)` has 3 selectors: the additionnal one for selecting odd positioned houses and therefore it wins the contest for the `background-color` property.
+The rule selecting all houses `.container > .house` has a selector consisting in 2 selectors: one for selecting the container and one for selecting houses in the container. The other one `.container > .house:nth-child(2n+1)` has 3 selectors: the additional one for selecting odd positioned houses and therefore it wins the contest for the `background-color` property.
 
 ### Aligning houses in a smart way
-Now that we know more about selectors, we can resume our task: we need to align houses in a better way than just defining 81 different `:nth-child` selectors. We are going to use the advanced version of this selector in order to reduce the number of different rules to define.
+Now that we know more about selectors, we can resume our task: we need to align houses in a better way than just defining 81 different `:nth-child` selectors. We are going to use this selector in order to reduce the number of different rules to define.
+
+So, what approach are we going to follow? Let's have a look at the board again. Houses are going to be arranged in specific positions. If we consider one row, all the houses in that row will have the same y-coordinate (CSS property `top`). The same goes if we consider one column, all the houses will have the same x-coordinate (CSS property `left`). So here is the trick: we are going to define 9 rules (one for each row) and 9 rules (one for each column) instead of 81 different ones.
+
+ow will we do this? There is one more thing you need to know about selectors in CSS rules: it is possible to specify more selectors for one single rule like this:
+
+```
+<rule-selector>,
+<rule-selector>,
+...
+<rule-selector> {
+    <rule-body>
+}
+```
+
+By using comma, it is possible to separate more selectors for one same rule. Of course, the opposite is not possible (one selector for multiple rules).
+
+So, here we go. You might probably get what we are going to do. We need to create one rule which targets all the cells in one row
