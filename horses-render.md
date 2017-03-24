@@ -206,10 +206,45 @@ if (child) {
 }
 ```
 
-df
+The previous lines do the following:
+
+1. We take the house element and get the first element inside. The assumption is that an house either is empty, either contains only one element and that element has to be an horse.
+2. If we found a child element, we remove it
+
+What next? Just returning `horse`:
+
+```javascript
+function _unset() {
+    if (!_horse) {
+        return;
+    }
+
+    var horse = _horse; // Temporary location
+    _horse = null;
+
+    var child = _element.firstChild;
+    if (child) {
+        child.remove();
+    }
+
+    return horse;
+}
+```
+
+Of course, we will expose this function as well in the module:
+
+```javascript
+return {
+    element: _element,
+    set: _set,
+    unset: _unset
+};
+```
 
 ## Placing horses into houses
-So let's create it before function `_build` in the module: 
+Now that we have changed the `House` module to support horses, we can go back to `board.js`. We just wrote the last line in function `_populate`, the last two lines use function `_setHorse` which we have not defined yet. Now it is time to do so. 
+
+So let's create it before function `_build` in the `Board` module: 
 
 ```javascript
 function _setHorse(i, j, horse) {
@@ -217,7 +252,7 @@ function _setHorse(i, j, horse) {
 }
 ```
 
-The first thing we wanna do is getting the house at the specifid posiiton in `i` and `j`. For this purpose, let's write a function called `_getHouse`. We will use it before writing it in `_setHorse`:
+The first thing we wanna do is getting the house at the specifid position in `i` and `j`. For this purpose, let's write a function called `_getHouse`. We will use it before writing it in `_setHorse`:
 
 ```javascript
 function _setHorse(i, j, horse) {
