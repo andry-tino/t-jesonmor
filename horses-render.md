@@ -136,8 +136,80 @@ function _populate() {
 }
 ```
 
-### Placing horses into houses
-We have used function `_setHorse`, but that does not yet exist. So let's create it before function `_build` in the module: 
+## Extending module `House`
+We have used function `_setHorse`, but that does not yet exist. Before creating it, we need to move temporarily to module `House` because we need to add some more functionalities we will need inside `_setHorse`. So let's move to `house.js`.
+
+The funcitonality we are missing is the ability to set an horse into an house. We are going to add this functionality. So just locate, in the module, the line where we have defined `HOUSE_CLASSNAME`, right after that, add the following lines:
+
+```javascript
+// Lazy initialized objects
+var _horse = null;
+```
+
+We have just added a module variable to keep track of the horse which populates the house, if any. If this variable is `null`, then the house is free. Otherwise, the house is occupied by a horse which will be hosted inside this variable.
+
+### Setting an horse
+We are ready to write the function for setting an horse in the house. Locate the `return` statement in the construction code of the module, and this function after it:
+
+```javascript
+function _set(horse) {
+    if (_horse) {
+        throw "Cannot set as a horse is already present on this house!";
+    }
+
+    _horse = horse;
+    _element.appendChild(horse.element);
+}
+```
+
+The code we just wrote is used for setting an horse in the house. We do the following:
+
+1. We first check whether an horse is already present in the house, in case we fail. In fact we cannot occupy an house when it is already occupied.
+2. In case no horse is present, we save the horse object inside variable `_horse`.
+3. We render the horse on screen by adding it to the house element.
+
+Let's expose this function in the `return` statement of the module:
+
+```javascript
+return {
+    element: _element,
+    set: _set
+};
+```
+
+### Removing the horse
+We have added the capability to place an horse into the house, now we need to do the the opposite and allow the horse to be removed. So, let's add another function right after `_set`:
+
+```javascript
+function _unset() {
+    if (!_horse) {
+        return;
+    }
+
+    // More code to write here...
+}
+```
+
+The first thing we do is checking whether we actually have an horse in the house, otherwise we have nothing to remove, so we just return without proceeding any further. The next code we need to write in the function, is the one for removing the horse:
+
+```javascript
+var horse = _horse; // Temporary location
+_horse = null;
+```
+
+As you can see, before semoving the horse from the module, we are saving it inside a temporary variable `horse` inside this function. Why? Because we want to return the horse we are removing. It will become handy later. The next step is to remove the horse from the page, we do this by removing the horse element from the house element:
+
+```javascript
+var child = _element.firstChild;
+if (child) {
+    child.remove();
+}
+```
+
+df
+
+## Placing horses into houses
+So let's create it before function `_build` in the module: 
 
 ```javascript
 function _setHorse(i, j, horse) {
@@ -145,7 +217,7 @@ function _setHorse(i, j, horse) {
 }
 ```
 
-Todo
+The first thing we wanna do is getting the house at the specifid posiiton in `i` and `j`. For this purpose, let's write a function called `_getHouse`. We will use it before writing it in `_setHorse`:
 
 ```javascript
 function _setHorse(i, j, horse) {
@@ -154,8 +226,8 @@ function _setHorse(i, j, horse) {
         throw "Cannot set horse in house. Cannot find house!";
     }
 
-    house.set(horse);
-
-    console.log("Horse set in", i, j);
+    // More code to be written later here...
 }
 ```
+
+This function `_getHouse` we are going to define, will return the house if found, or `null` otherwise. In fact we check that an house was returned before moving on, in case we fail finding the house, we throw an error. So let's suspend work on `_setHorse` and 
