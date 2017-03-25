@@ -265,4 +265,38 @@ function _setHorse(i, j, horse) {
 }
 ```
 
-Note that `_getHouse` does not exist yet, we are going to defin it soon. It will return the house if found, or `null` otherwise. In fact we check that an house was returned before moving on, in case we fail finding the house, we throw an error. So let's suspend work on `_setHorse` and define `_getHorse` just 
+Note that `_getHouse` does not exist yet, we are going to defin it soon. It will return the house if found, or `null` otherwise. In fact we check that an house was returned before moving on, in case we fail finding the house, we throw an error. So let's suspend work on `_setHorse` and define `_getHouse` just before function `_initialize`:
+
+```javascript
+function _getHouse(i, j) {
+if (!houses) return null;
+
+return houses[i + ":" + j];
+}
+```
+
+Nothing complicated, as you can see we first check that `houses` is defined, otherwise we return nothing, and then we search the house in the dictionary by building the key which we have set in function `_build`. So let's go back to `_setHorse`, after invoking `_getHouse`, as you can see, we check that the function actually returned something before moving on, otherwise we need to fail.
+What do we do next? We set the horse in the house:
+
+```javascript
+house.set(horse);
+```
+
+So here we finally use function `set` in module `House` to place the horse in the house. The final code for function `_setHorse` is:
+
+```javascript
+function _setHorse(i, j, horse) {
+    var house = _getHouse(i, j);
+    if (!house) {
+        throw "Cannot set horse in house. Cannot find house!";
+    }
+
+    house.set(horse);
+
+    console.log("Horse set in", i, j);
+}
+```
+
+The last line is a browser log call: `console.log(...)`. When called, this function will just print on the F12 tool's console window whatever object you pass to it. It is a good way for debugging and for testing our application. Everything printed by `console.log` will not be seen by users unless they open the F12 window.
+
+Now that `_setHorse` is done, also `_populate` is ok.
