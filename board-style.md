@@ -465,3 +465,5 @@ So, remember that we have other rules defining the same property, why should thi
 > If two rules have the same specificity, the one defined last wins
 
 So, since we have defined the rule for the central house as last, it will win over the one we defined before for setting the darker color on odd houses.
+
+**First step completed:** We have completed the first step, congratulations! The code is available [here](https://github.com/andry-tino/t-jesonmor/tree/development/tutorial-src/step-1).
