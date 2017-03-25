@@ -303,4 +303,34 @@ The last line is a browser log call: `console.log(...)`. When called, this funct
 Now that `_setHorse` is done, also `_populate` is ok. It also means that function `_initialize` is fine. We did something that we can call _upfront programming_. In this part of the tutorial we have extended function `_initialize` and used function `_populate` which did not exist. Then we defined function `_populate` and used there function `_setHorse` which also did not exist at that time. We suspended our work and defined these function until all of them were in place so that, in the end, `_initialize` was fully working.
 
  ## Styling horses
-So, let's give it a try and test it. Run the page and see how it looks. As soon as you refresh your browser, you will see nothing changing.
+So, let's give it a try and test it. Run the page and see how it looks. As soon as you refresh your browser, you will see nothing changing. Again, let's try to see what the F12 tool can show us.
+
+Let's open the F12 window in the browser and let's navigate to the _Elements_ window as we did before. If we expand the `<div class="container">` element in `<body>`, we can see many `<div class="house" id="...">` nodes. You can see that the first 9 house elements can be expanded and, if you scroll down the tree, the last 9 houses as well. Try to expand one of these houses, you will see that it contains a `<div class="horse white"></div>` if you expanded one of the first houses, otherwise a `<div class="horse black"></div>` element if you expanded one of the last. So we did things right, we have the horses in place, of course we see nothing because these elements lack styling. Once again, we need to have the style in place.
+
+### Getting the image resources for horses
+The first thing we need to do is having an image for a white horse and for a black horse. We are going to style elements so that we will include those images. You can basically choose images of Chess Knights from the Intner by simply searcihng for them. In this tutorial I have prepared for you two very classic images for [White Knight](https://raw.githubusercontent.com/andry-tino/t-jesonmor/development/src/images/kwhite.svg) and [Black Knight](https://raw.githubusercontent.com/andry-tino/t-jesonmor/development/src/images/kblack.svg). Do as follows:
+
+1. Save the 2 files on you computer (choose a place in your system).
+2. Save these files as `kwhite.svg` and `kblack.svg`.
+3. In the project directory, the folder containing `index.html` and the other Javascript files, create a folder and call it `images`.
+4. Move `kwhite.svg` and `kblack.svg` into this folder.
+
+Now we have included the images in our project, but we must use them in our CSS.
+
+### Setting images to horse elements
+So let's go back to `style.css`. Locate one of the first rules we wrote at the beginning of the file showing selector `.container`. Just after that rule add these rules:
+
+```css
+.horse.white {
+    content: url(images/kwhite.svg);
+}
+
+.horse.black {
+    content: url(images/kblack.svg);
+}
+```
+
+These two rules have selectors that match elements whose `class` attribute is set to `horse` and `white` or `black` at the same time. CSS property `content` will add an image to the elements, we need to tell the property where to find that image, so we provide the path to the files we have just moved into the `images` folder.
+
+### I can see horses
+And finally, refresh the page and see our board finally ready to play JM! The horses are there and the board too! Beautiful!
