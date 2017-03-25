@@ -299,4 +299,8 @@ function _setHorse(i, j, horse) {
 
 The last line is a browser log call: `console.log(...)`. When called, this function will just print on the F12 tool's console window whatever object you pass to it. It is a good way for debugging and for testing our application. Everything printed by `console.log` will not be seen by users unless they open the F12 window.
 
-Now that `_setHorse` is done, also `_populate` is ok.
+### Upfront programming
+Now that `_setHorse` is done, also `_populate` is ok. It also means that function `_initialize` is fine. We did something that we can call _upfront programming_. In this part of the tutorial we have extended function `_initialize` and used function `_populate` which did not exist. Then we defined function `_populate` and used there function `_setHorse` which also did not exist at that time. We suspended our work and defined these function until all of them were in place so that, in the end, `_initialize` was fully working.
+
+ ## Styling horses
+So, let's give it a try and test it. Run the page and see how it looks. As soon as you refresh your browser, you will see nothing changing.
