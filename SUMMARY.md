@@ -13,4 +13,4 @@
     * [Adding the horses](board-horses.md)
     * [Rendering the horses on board](horses-render.md)
   * [Developing the logic](logic-development.md)
-    * [Developing the logic](logic-events.md)
+    * [Making the board interactive](logic-events.md)
