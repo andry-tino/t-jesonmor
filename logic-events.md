@@ -41,10 +41,10 @@ function _attachNativeEvents() {
 
 We know what the first lines do: we check that we have a container. Basically we check that we have called `_build`, because we are going to need the container element for the last line in the function. Every HTML element exposes a function called `addEventListener` which accepts 3 parameters:
 
-| Position | Name          | Description                                                                                       |
-|----------|---------------|---------------------------------------------------------------------------------------------------|
-| 1        | Event name    | What event we want to listen to when it will be triggered by the element.                         |
-| 2        | Event handler | The function to call when the event is triggered.                                                 |
-| 3        | Capture       | We need to explain this later as it is a bit complicated, for now let's just forget about this :) |
+| # | Name          | Description                                                                                       |
+|---|---------------|---------------------------------------------------------------------------------------------------|
+| 1 | Event name    | What event we want to listen to when it will be triggered by the element.                         |
+| 2 | Event handler | The function to call when the event is triggered.                                                 |
+| 3 | Capture       | We need to explain this later as it is a bit complicated, for now let's just forget about this :) |
 
 s
