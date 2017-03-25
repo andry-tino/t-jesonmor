@@ -332,7 +332,7 @@ So let's go back to `style.css`. Locate one of the first rules we wrote at the b
 
 These two rules have selectors that match elements whose `class` attribute is set to `horse` and `white` or `black` at the same time. CSS property `content` will add an image to the elements, we need to tell the property where to find that image, so we provide the path to the files we have just moved into the `images` folder.
 
-## First step completed
+## Second step completed
 And finally, refresh the page and see our board finally ready to play JM! The horses are there and the board too! Beautiful!
 
 We have completed the second step, good job! The code is available [here](https://github.com/andry-tino/t-jesonmor/tree/development/tutorial-src/step-2).
