@@ -1,8 +1,3 @@
-/**
- * board.js
- * Andrea Tino - 2017
- */
-
 var jm = jm || {};
 
 jm.Board = function(_size) {
@@ -53,12 +48,7 @@ jm.Board = function(_size) {
             houses[i + ":" + j] = house;
         }
 
-        panelw = _createScorePanel(WHITE_CLASSNAME);
-        panelb = _createScorePanel(BLACK_CLASSNAME);
-
         document.body.appendChild(container);
-        document.body.appendChild(panelw);
-        document.body.appendChild(panelb);
     }
 
     function _createContainer() {

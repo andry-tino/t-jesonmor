@@ -1,8 +1,3 @@
-/**
- * house.js
- * Andrea Tino - 2017
- */
-
 var jm = jm || {};
 
 /**
