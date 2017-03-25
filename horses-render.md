@@ -265,4 +265,4 @@ function _setHorse(i, j, horse) {
 }
 ```
 
-This function `_getHouse` we are going to define, will return the house if found, or `null` otherwise. In fact we check that an house was returned before moving on, in case we fail finding the house, we throw an error. So let's suspend work on `_setHorse` and 
+Note that `_getHouse` does not exist yet, we are going to defin it soon. It will return the house if found, or `null` otherwise. In fact we check that an house was returned before moving on, in case we fail finding the house, we throw an error. So let's suspend work on `_setHorse` and define `_getHorse` just 
