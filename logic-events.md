@@ -65,4 +65,18 @@ function _onClickHandler(e) {
 }
 ```
 
-Please note that event handler always accept a parameter. You can call this parameter the way you want, 
+Please note that event handler always accept a parameter. You can call this parameter the way you want, and it represents the _event arguments_. When the browser calls the handler because the event it is listening to has been triggered, then the event arguments variable will be filled with more information about the event. We will use `e` later.
+
+The logic for `_onClickHandler` will be crucial, as it will drive the whole game. But for now let's just make a tryout of events and check that this handler is actually called when we click on the board. So, in the function, let's add this line:
+
+```javascript
+function _onClickHandler(e) {
+    console.log("Somebody clicked the container element!");
+}
+```
+
+Let's run the page and let's bring up the F12 tools. As soon as you click on the board, you will see a message being printed in the _Console_ tab of the F12 tools window. So this proves that events are real and they work! Let's remove that line of code we just wrote, it was just for testing!
+
+## Defining the state machine
+
+We are ready
