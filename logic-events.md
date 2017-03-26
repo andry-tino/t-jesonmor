@@ -47,4 +47,22 @@ We know what the first lines do: we check that we have a container. Basically we
 | 2 | Event handler | The function to call when the event is triggered.                                                 |
 | 3 | Capture       | We need to explain this later as it is a bit complicated, for now let's just forget about this :) |
 
-s
+So, when we make this call:
+
+```javascript
+container.addEventListener("click", _onClickHandler, true);
+```
+
+We are doing the following:
+
+> We are asking the browser to register a new _event handler_ called `_onClickHandler` and that this function must be called everytime the `click` event reaches element `container`.
+
+Of course, we still need to define `_onClickHandler`, so let's write it down after `_attachNativeEvents`:
+
+```javascript
+function _onClickHandler(e) {
+    // Code for the event handler will go here...
+}
+```
+
+Please note that event handler always accept a parameter. You can call this parameter the way you want, 
