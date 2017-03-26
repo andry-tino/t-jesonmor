@@ -78,5 +78,8 @@ function _onClickHandler(e) {
 Let's run the page and let's bring up the F12 tools. As soon as you click on the board, you will see a message being printed in the _Console_ tab of the F12 tools window. So this proves that events are real and they work! Let's remove that line of code we just wrote, it was just for testing!
 
 ## Defining the state machine
+The logic we are going to write for `_onClickHandler` is very important because it will affect the whole game interaction and flow. So it is better to first design the behavior of the board before writing code. What does it mean? It means to make a plan and lay out some diagrams! The first important diagram we want to consider is a _state diagram_ which helps us understand the state of the board when the game is on:
 
-We are ready
+![](/assets/diagrams-state.png)
+
+dsaf
