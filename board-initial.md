@@ -92,6 +92,8 @@ jm.Board = function(_size) {
 
 We want to keep track about which one of the player gets to move. For this we are going to need a variable `currentPlayer` whose value will be `0` or `1` depending whether White or Black has to move. However we programmers do not like using plain values as they might change, so we use contants. That is why we created two other variables called `CUR_PLAYER_W` and `CUR_PLAYER_B`.
 
+Variable `selectedHouse` will be used later when we want one player to make a move. This variable will store the house from where the player wants to move one of his horses.
+
 As you can see, we set `currentPlayer` to `CUR_PLAYER_W` because White starts first in the game.
 
 ### Validating constructor parameters

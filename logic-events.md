@@ -82,4 +82,17 @@ The logic we are going to write for `_onClickHandler` is very important because 
 
 ![](/assets/diagrams-state.png)
 
-dsaf
+The diagram basically shows that our board has 3 states:
+
+1. When we start the game we enter state _Wait move_. Here we basically wait for one player to start a move.
+2. When the player selects an house, we check that house has an horse and that horse is one of the player's horse (White cannot move one of Black's pieces for example); if we pass the the test then we enter a new state: _Wait move complete_.
+3. At this stage we are basically waiting the player to complete one move. He needs to select another house where to move the horse he has selected. So when he clicks again another house and that house either is empty or contains one of the opponent's horses (White cannot eat one of its horses), we enter state _Move complete_ where we complete the move and we change the current player.
+
+The game will go on like this forever, until, after state _Move complete_, we detect that the move resulted in the game to be over. Also, note that the first 2 states are persistent; we remain in those states until the player does something. The last state is transient, it will be immediately abandoned after `currentPlayer` is changed and `selectedHouse` is cleared.
+
+## An overview of the moving logic
+The state machine gives us a good perspective of what the game flow will be. Now we want to have a look at how the algorithm for function `_onClickHandler` will work. Instead of writing down the code immediately, we can lay out a diagram of the operations we need to do, so that coding will be easier and faster.
+
+![](/assets/diagrams-activity.png)
+
+sd
