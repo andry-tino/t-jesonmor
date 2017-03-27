@@ -95,4 +95,21 @@ The state machine gives us a good perspective of what the game flow will be. Now
 
 ![](/assets/diagrams-activity.png)
 
-sd
+The diagram basically tells us what we need to write, let's analyze it.
+
+1. We start, as you can see, when the user clicks something on the board, this goes without saying because we have registered `_onClickHandler` as a click event handler, so it will be called everytime the player clicks something on the board.
+2. We need to check that the user has actually clicked an house and not something else. If not we cancel the operation. _Cancel_ does not mean failing, it means that we simply do nothing. We must have the user repeat the operation.
+3. If an house has been clicked, we need to fetch it from the dictionary of houses.
+4. Moving on, we need to choose. Which state are we in? If we are in _Wait move_, then we follow the path for _Selection_, if we are in state _Wait move complete_ then we go for the _Make move_ path.
+
+As you can see the state plays an important role because the second part of the diagram shows a branch with 2 possible choices. Let's consider the first branch: _Selection_:
+
+5. The user is basically selecting the house where he has an horse he wants to move. We need to check that the house actually has an horse, if the house contians no horse, we cancel the operation.
+6. If an horse is present, we need to check that horse is one of the player's horses. White cannot move one of Black's horses and vice versa.
+7. If everything is fine, we change the color of the house to make it clear that the board is ready to change the position of the horse from that house to somewhere else.
+
+This is the first stage when moving an horse. When the user clicks again on one house, he will end up in point 4 of our sequence, but this time he will follow the other path: _Make move_:
+
+8. The user now clicks on the house where he wants his horse to be moved to from the house he selected before. We need to check that this 
+
+Todo
