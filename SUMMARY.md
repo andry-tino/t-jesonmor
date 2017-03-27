@@ -14,3 +14,4 @@
     * [Rendering the horses on board](horses-render.md)
   * [Developing the logic](logic-development.md)
     * [Making the board interactive](logic-events.md)
+    * [Moving an horse](logic-horsemove.md)
