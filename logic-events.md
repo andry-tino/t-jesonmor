@@ -110,6 +110,11 @@ As you can see the state plays an important role because the second part of the 
 
 This is the first stage when moving an horse. When the user clicks again on one house, he will end up in point 4 of our sequence, but this time he will follow the other path: _Make move_:
 
-8. The user now clicks on the house where he wants his horse to be moved to from the house he selected before. We need to check that this 
+8. The user now clicks on the house where he wants his horse to be moved to from the house he selected before. We need to check that this house either is empty or has an horse in it.
+9. If the house is empty, just fine. If the house has an horse, it must be one of the opponent's. White cannot eat one of its horses, and so does Black. If we detect that everything is ok, we can move on.
+10. We need to check that the move from the original house to the new house is a regular move. Remember that an horse moves like a Chess Knight. If the user selects an house which is causing the horse to make an invalid move, we must cancel the operation.
+11. If the move is ok, we make the move. So we remove the horse from the initial house and we put it in the new house.
+12. Then we restore the color of the original house. Remember that in point 7 we have changed the color of that house.
+13. Once the move is done, we need to check if this move resulted in game over. If it does, we restart the game, otherwise we just complete the move and we change the current player.
 
-Todo
+So we have some work to do here!
