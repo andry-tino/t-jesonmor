@@ -46,12 +46,60 @@ The real code basically starts now. We need to check that the move from `srci:sr
 
 ```javascript
 // Check that the move is valid, a horse moves like a chess knight
-if (!_checkMove(dsti, dstj, srci, srcj)) {
+if (!_checkMove(srci, srcj, dsti, dstj)) {
     throw "Invalid move. A Horse moves like a Chess Knight!";
 }
 ```
 
-We are going to create function `_checkMove` for this purpose.
+We are going to create function `_checkMove` for this purpose which takes the coordinates of the old position and the new position and returns `true` if the move is legal, `false` otherwise. We will develop this function later, for now let's just assume that it works as expected and let's move on with the code for `_move`.
+
+The next step is doing the following:
+
+1. We need to get a reference to the source house object in `houses`.
+2. We need to get a reference to the destination house object in `houses`.
+3. We must check that we can actually find these 2 houses.
+4. We need to make sure that the source house has an horse inside it.
+
+In code, it means this:
+
+```javascript
+// Check that the source house is occupied by a horse and destination is free
+var srcHouse = _getHouse(srci, srcj);
+var dstHouse = _getHouse(dsti, dstj);
+if (!srcHouse || !dstHouse) {
+    throw "Cannot move. Could not find houses!";
+}
+if (!srcHouse.isSet()) {
+    throw "Cannot move. Source house is not occupied by a horse!";
+}
+```
+
+Remember that at this stage we don't wanna check the color of the source house. This is something that another function must do because `_move` only takes care of moving one horse, no matter its color.
+
+Moving on, we still need to know if this move results into a simple move or an eat. Think about it, what if the destination house contains another horse? Then we need to check whether that horse has the opposite color of the current player's. White can only eat Black horses, Black can only eat White horses, but White cannot eat White and so does Black. Write down these lines below from the code we wrote a few seconds ago:
+
+```javascript
+// If destination is occupied by other player's horse, eat it!
+var eat = false;
+if (dstHouse.isSet()) {
+    if (_evaluateAntagony(dstHouse)) {
+        eat = true;
+    } else {
+        throw "Cannot move. Destination house is occupied by a horse!";
+    }
+}
+```
+
+We define variable `eat` to tell us whether this move results into an eat or not. Later on we immediately check whether we are actually eating or not. How do we check? We use a function which we will write later: `_evaluateAntagony`. This function will have the following behavior:
+
+| Current Player  | Destination house's horse | Outcome |
+|:---------------:|:-------------------------:|:-------:|
+| White           | Black                     | `true`  |
+| Black           | White                     | `true`  |
+| White           | White                     | `false` |
+| Black           | Black                     | `false` |
+
+Function `_evaluateAntagony` is the key to understand whether the eating is legal or not.
 
 ## Checking validity of a move
 We still need to write the code for `_checkMove`. This function will return:

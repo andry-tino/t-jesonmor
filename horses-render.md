@@ -269,9 +269,9 @@ Note that `_getHouse` does not exist yet, we are going to defin it soon. It will
 
 ```javascript
 function _getHouse(i, j) {
-if (!houses) return null;
+    if (!houses) return null;
 
-return houses[i + ":" + j];
+    return houses[i + ":" + j];
 }
 ```
 
