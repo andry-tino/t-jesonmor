@@ -201,18 +201,16 @@ ni:nj = <coordinates in one of the 8 positions showed in the image>
 After this basic assessment, it is easy to understand the following code that we can write in the function:
 
 ```javascript
-function _checkMove(oi, oj, ni, nj) {
-    if (ni === oi - 2 && nj === oj + 1) return true;
-    if (ni === oi - 1 && nj === oj + 2) return true;
-    if (ni === oi + 1 && nj === oj + 2) return true;
-    if (ni === oi + 2 && nj === oj + 1) return true;
-    if (ni === oi + 2 && nj === oj - 1) return true;
-    if (ni === oi + 1 && nj === oj - 2) return true;
-    if (ni === oi - 1 && nj === oj - 2) return true;
-    if (ni === oi - 2 && nj === oj - 1) return true;
+if (ni === oi - 2 && nj === oj + 1) return true;
+if (ni === oi - 1 && nj === oj + 2) return true;
+if (ni === oi + 1 && nj === oj + 2) return true;
+if (ni === oi + 2 && nj === oj + 1) return true;
+if (ni === oi + 2 && nj === oj - 1) return true;
+if (ni === oi + 1 && nj === oj - 2) return true;
+if (ni === oi - 1 && nj === oj - 2) return true;
+if (ni === oi - 2 && nj === oj - 1) return true;
 
-    return false;
-}
+return false;
 ```
 
 The first condition: `ni === oi - 2 && nj === oj + 1)` is checking for position `A`. The second one: `ni === oi - 1 && nj === oj + 2`, for position `B`, on and on until the last condition: `ni === oi - 2 && nj === oj - 1` which is checking for position `H`.
