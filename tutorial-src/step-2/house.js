@@ -46,10 +46,6 @@ jm.House = function(_i, _j) {
         return horse;
     }
 
-    function _getPosition() {
-        return { "i": i, "j": j };
-    }
-
     function _createElement() {
         var element = document.createElement("div");
         element.className = HOUSE_CLASSNAME;

@@ -19,14 +19,7 @@ jm.House = function(_i, _j) {
     // Object interface
     return {
         element: _element,
-        highlight: _highlight,
-        clear: _unhighlight,
-        set: _set,
-        unset: _unset,
-        isSet: _isSet,
-        getPosition: _getPosition,
-        dispose: _dispose,
-        getHorseColor: _getHorseColor // HORSE_W | HORSE_B
+        set: _set
     };
 
     function _set(horse) {
@@ -38,83 +31,10 @@ jm.House = function(_i, _j) {
         _element.appendChild(horse.element);
     }
 
-    function _unset() {
-        if (!_horse) {
-            return;
-        }
-
-        var horse = _horse; // Temporary location
-        _horse = null;
-
-        var child = _element.firstChild;
-        if (child) {
-            child.remove();
-        }
-
-        return horse;
-    }
-
-    function _getPosition() {
-        return { "i": i, "j": j };
-    }
-
-    function _isSet() {
-        return !!_horse;
-    }
-
-    function _getHorseColor() {
-        if (!_horse) {
-            return null;
-        }
-
-        return _horse.mode;
-    }
-
-    function _validatePosition(value) {
-        if (!value) {
-            throw value + " is invalid. Position must be a number!";
-        }
-        if (value <= 0) {
-            throw value + " is invalid. Position must be a positive number!";
-        }
-
-        return value;
-    }
-
     function _createElement() {
         var element = document.createElement("div");
         element.className = HOUSE_CLASSNAME;
 
         return element;
-    }
-
-    function _attachEventListeners() {
-        _element.addEventListener("click", _onClickHandler);
-    }
-
-    function _detachEventListeners() {
-        _element.removeEventListener("click", _onClickHandler);
-    }
-
-    function _onClickHandler(e) {
-        if (_element.classList.contains(HOUSE_HIGHLIGHTED_CLASSNAME)) {
-            _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
-        } else {
-            _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
-        }
-    }
-
-    function _highlight() {
-        _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
-    }
-
-    function _unhighlight() {
-        _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
-    }
-
-    function _dispose() {
-        _detachEventListeners();
-        _element = null;
-        _horse = null; // Disposal of horse needs to happen somewhere else
     }
 };
