@@ -187,11 +187,18 @@ function _checkMove(oi, oj, ni, nj) {
 
 This function will accept 4 parameters: `oi` and `oj` represent the old position of the horse, while `ni` and `nj` represent the new position.
 
-So let's consider one horse in a generic position `i:j` on a generic board. What are the all possible moves that one horse can do from that house relatively to its current house? The picture below shows all these possibilities are 8. 
+So let's consider one horse in a generic position `i:j` on a generic board. What are the all possible moves that one horse can do from that house relatively to its current house? The picture below shows all these possibilities are 8 and are visible in the image below:
 
-TODO
+![](/assets/board_moves.png)
 
-So we need to check that `oi:oj` and `ni:nj` are inside one of those possibilities. 
+So we need to check that `oi:oj` and `ni:nj` are inside one of those possibilities. So, referring to the image, we basically have that:
+
+```
+oi:oj = i:j
+ni:nj = <coordinates in one of the 8 positions showed in the image>
+```
+
+After this basic assessment, it is easy to understand the following code that we can write in the function:
 
 ```javascript
 function _checkMove(oi, oj, ni, nj) {
@@ -207,3 +214,5 @@ function _checkMove(oi, oj, ni, nj) {
     return false;
 }
 ```
+
+The first condition: `ni === oi - 2 && nj === oj + 1)` is checking 
