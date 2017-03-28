@@ -20,8 +20,16 @@ function _move(srci, srcj, dsti, dstj) {
 
 Our function will accept the coordinates of the source and destination houses.
 
+## Extending again the `House` module
+Before we dig into the development of function `_move`, we need to extend module `House` because we are going to need some more functionalities there that we are soon going to use in `_move`. So let's jump to `house.js` and see what it is that we need there:
+
+- We need a function for removing the horse from the house, in case one is placed in it.
+- We need one function to tell us whether there is an horse in the house.
+
+TODO
+
 ## Implementing `_move`
-The first thing we wanna do is checking that we have houses:
+We can now go back to `board.js` and to function `_move`. The function is still empty, so let's start writing the logic. The first thing we wanna do is checking that we have houses:
 
 ```javascript
 if (!houses) {
@@ -139,7 +147,19 @@ console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, eat ? "and ate!"
 And we are done! However we still have 2 functions to write: `_evaluateAntagony` and `_checkMove`. So let's pay this debt.
 
 ## Evaluating the antagony
+Let's focus on `_evaluateAntagony` first. Let's write this function right before `_populate`:
 
+```javascript
+function _evaluateAntagony(house) {
+    var houseColor = house.getHorseColor();
+    var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
+    var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
+
+    return wbcond || bwcond;
+}
+```
+
+TODO
 
 ## Checking validity of a move
 We still need to write the code for `_checkMove`. This function will return:
