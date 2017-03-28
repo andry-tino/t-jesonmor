@@ -140,9 +140,9 @@ jm.Board = function(_size) {
         var selectedHousePosition = selectedHouse.getPosition();
         var attemptedHousePosition = house.getPosition();
         if (!_checkMove(
-            attemptedHousePosition.i, attemptedHousePosition.j, 
-            selectedHousePosition.i, selectedHousePosition.j)) 
-                { cancel("Move"); return; }
+            selectedHousePosition.i, selectedHousePosition.j,
+            attemptedHousePosition.i, attemptedHousePosition.j
+            )) { cancel("Move"); return; }
         
         // Evaluate endgame
         var endgame = _evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
@@ -250,7 +250,7 @@ jm.Board = function(_size) {
         }
 
         // Check that the move is valid, a horse moves like a chess knight
-        if (!_checkMove(dsti, dstj, srci, srcj)) {
+        if (!_checkMove(srci, srcj, dsti, dstj)) {
             throw "Invalid move. A Horse moves like a Chess Knight!";
         }
 
@@ -314,7 +314,7 @@ jm.Board = function(_size) {
         selectedHouse = null;
     }
 
-    function _checkMove(ni, nj, oi, oj) {
+    function _checkMove(oi, oj, ni, nj) {
         if (ni === oi - 2 && nj === oj + 1) return true;
         if (ni === oi - 1 && nj === oj + 2) return true;
         if (ni === oi + 1 && nj === oj + 2) return true;
