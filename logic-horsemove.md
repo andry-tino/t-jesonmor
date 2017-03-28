@@ -42,6 +42,7 @@ if (dsti <= 0 || dstj <= 0 || srci <= 0 || srcj <= 0) {
 
 The first conditional block just checks that we have values for the 4 parameters. The second block checks that correct values have been provided. We do not support negative coordinates!
 
+### Checking conditions for moving
 The real code basically starts now. We need to check that the move from `srci:srcj` to `dsti:dstj` is legal:
 
 ```javascript
@@ -99,7 +100,46 @@ We define variable `eat` to tell us whether this move results into an eat or not
 | White           | White                     | `false` |
 | Black           | Black                     | `false` |
 
-Function `_evaluateAntagony` is the key to understand whether the eating is legal or not.
+Function `_evaluateAntagony` is the key to understand whether the eating is legal or not. If we attempt to eat our own horse, we throw an error.
+
+### Doing the move
+At this point we have checked everything! We are good to go and we can perform the move. What does it mean? It means doing the following:
+
+1. Remove the horse from the source house and save it.
+2. If there is an horse in the destination house, remove it (eat scenario).
+3. Place the saved horse from point 1 into the destination house.
+
+The first part is the following:
+
+```javascript
+// Unplace horse from source house
+var movingHorse = srcHouse.unset();
+if (!movingHorse) {
+    throw "Cannot move. Attempt to get source horse failed!";
+}
+movingHorse.setPosition(dsti, dstj);
+```
+
+We store a reference to the horse in the source house when calling `unset` which removes the horse from the house and returns it. Then we just set the new position for this horse. Then we can write the following code:
+
+```javascript
+// Handling destination house
+if (eat) {
+    dstHouse.unset();
+}
+dstHouse.set(movingHorse);
+```
+
+Which takes care of removing the horse in the destination house if we are actually eating an horse while moving. After that we can set the horse which was in the source house in the destination house. The last line of code is just for emitting some logging information (always useful when debugging in case we need it):
+
+```javascript
+console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, eat ? "and ate!" : "");
+```
+
+And we are done! However we still have 2 functions to write: `_evaluateAntagony` and `_checkMove`. So let's pay this debt.
+
+## Evaluating the antagony
+
 
 ## Checking validity of a move
 We still need to write the code for `_checkMove`. This function will return:
