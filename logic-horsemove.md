@@ -1,6 +1,6 @@
 # Moving an horse
 
-We need to write down the code for `_onClickHandler` as it was showed in the previous diagrams. However we will need a few things first. One of the functionalities we need to have in place is the code for moving an horse from one house to the other.
+We can resume our work in `board.js` as we need to write down the code for `_onClickHandler` as it was showed in the previous diagrams. However we will need a few things first. One of the functionalities we need to have in place is the code for moving an horse from one house to the other.
 
 ## Common grounding
 Let's enstablish some naming and a terminology we are going to use. Everytime we have a move, we recognize the following things:
@@ -20,16 +20,8 @@ function _move(srci, srcj, dsti, dstj) {
 
 Our function will accept the coordinates of the source and destination houses.
 
-## Extending again the `House` module
-Before we dig into the development of function `_move`, we need to extend module `House` because we are going to need some more functionalities there that we are soon going to use in `_move`. So let's jump to `house.js` and see what it is that we need there:
-
-- We need a function for removing the horse from the house, in case one is placed in it.
-- We need one function to tell us whether there is an horse in the house.
-
-TODO
-
 ## Implementing `_move`
-We can now go back to `board.js` and to function `_move`. The function is still empty, so let's start writing the logic. The first thing we wanna do is checking that we have houses:
+The function is still empty, so let's start writing the logic. The first thing we wanna do is checking that we have houses:
 
 ```javascript
 if (!houses) {
@@ -151,18 +143,36 @@ Let's focus on `_evaluateAntagony` first. Let's write this function right before
 
 ```javascript
 function _evaluateAntagony(house) {
-    var houseColor = house.getHorseColor();
-    var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
-    var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
-
-    return wbcond || bwcond;
+    // Code will go here...
 }
 ```
 
-TODO
+The behavior of this function is simple: we need to return `true` when the color of the player and the color of the horse in the house in argument `house` are different. Otherwise we return `false`. 
+
+- How do we get the color of the current player? We get it from module variable `currentPlayer`.
+- How do we get the color of the horse in the house passed in argument `house`? We can use `getHorseColor` exposed by the `House` module.
+
+So we can write down the following in the body of the function:
+
+```javascript
+var houseColor = house.getHorseColor();
+var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
+var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
+```
+
+As you can see we first get the color of the house passed as argument to `_evaluateAntagony`. Then we check the 2 possible cases:
+
+- Case 1: White player is trying to eat a Black horse.
+- Case 2: Black player is trying to eat a White horse.
+
+If either one of them is `true`, then we can return `true`, which means:
+
+```javascript
+return wbcond || bwcond;
+```
 
 ## Checking validity of a move
-We still need to write the code for `_checkMove`. This function will return:
+We must not forget to write the code for `_checkMove` either. This function will return:
 
 - `true` if the move is valid.
 - `false` if the move is not valid.

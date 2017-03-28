@@ -14,4 +14,5 @@
     * [Rendering the horses on board](horses-render.md)
   * [Developing the logic](logic-development.md)
     * [Making the board interactive](logic-events.md)
+    * [Extending the House module](house-extend.md)
     * [Moving an horse](logic-horsemove.md)
