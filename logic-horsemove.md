@@ -177,4 +177,33 @@ We must not forget to write the code for `_checkMove` either. This function will
 - `true` if the move is valid.
 - `false` if the move is not valid.
 
-So, what is it that we need to check? We need to make sure that the horse is moving like a Chess Knight. The typical move of a Chess Knight is L-shaped.
+So, what is it that we need to check? We need to make sure that the horse is moving like a Chess Knight. The typical move of a Chess Knight is L-shaped. First of all, let's write down this function right before `_setHorse`:
+
+```javascript
+function _checkMove(oi, oj, ni, nj) {
+    // Code will end up here...
+}
+```
+
+This function will accept 4 parameters: `oi` and `oj` represent the old position of the horse, while `ni` and `nj` represent the new position.
+
+So let's consider one horse in a generic position `i:j` on a generic board. What are the all possible moves that one horse can do from that house relatively to its current house? The picture below shows all these possibilities are 8. 
+
+TODO
+
+So we need to check that `oi:oj` and `ni:nj` are inside one of those possibilities. 
+
+```javascript
+function _checkMove(oi, oj, ni, nj) {
+    if (ni === oi - 2 && nj === oj + 1) return true;
+    if (ni === oi - 1 && nj === oj + 2) return true;
+    if (ni === oi + 1 && nj === oj + 2) return true;
+    if (ni === oi + 2 && nj === oj + 1) return true;
+    if (ni === oi + 2 && nj === oj - 1) return true;
+    if (ni === oi + 1 && nj === oj - 2) return true;
+    if (ni === oi - 1 && nj === oj - 2) return true;
+    if (ni === oi - 2 && nj === oj - 1) return true;
+
+    return false;
+}
+```
