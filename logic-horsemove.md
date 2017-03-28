@@ -42,6 +42,17 @@ if (dsti <= 0 || dstj <= 0 || srci <= 0 || srcj <= 0) {
 
 The first conditional block just checks that we have values for the 4 parameters. The second block checks that correct values have been provided. We do not support negative coordinates!
 
+The real code basically starts now. We need to check that the move from `srci:srcj` to `dsti:dstj` is legal:
+
+```javascript
+// Check that the move is valid, a horse moves like a chess knight
+if (!_checkMove(dsti, dstj, srci, srcj)) {
+    throw "Invalid move. A Horse moves like a Chess Knight!";
+}
+```
+
+We are going to create function `_checkMove` for this purpose.
+
 ## Checking validity of a move
 We still need to write the code for `_checkMove`. This function will return:
 
