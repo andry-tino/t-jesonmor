@@ -215,4 +215,4 @@ function _checkMove(oi, oj, ni, nj) {
 }
 ```
 
-The first condition: `ni === oi - 2 && nj === oj + 1)` is checking 
+The first condition: `ni === oi - 2 && nj === oj + 1)` is checking for position `A`. The second one: `ni === oi - 1 && nj === oj + 2`, for position `B`, on and on until the last condition: `ni === oi - 2 && nj === oj - 1` which is checking for position `H`.
