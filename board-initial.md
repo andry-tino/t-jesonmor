@@ -281,4 +281,25 @@ There is an operator which is the modulo operator `%`. This operator acts on two
 
 The column, on the other hand, always increases as we move from left to right, but it is a repeating pattern. The trick in programming for repeating patterns is to use the modulo operator. The operator when calculated on an expression like `k % B` (with `k > 0`) will always return a value from `1` to `B - 1`, `0` is returned when `k = B`, for this reason we need to check if it is `0`, in that case it means we reached `B` (in our case `size`).
 
+#### Testing the math
+You can see that the 3 expressions in the `for` loop can be tested by giving values to `k`. So, let's consider a 9x9 board, it means `size = 9`. It means that we will have `k = 0..80`. Let's see how these expressions become:
+
+| Value of `k` | Value of `i = Math.ceil((k + 1) / size)` | Value of `j = (k + 1) % size` | Value of `if (j === 0) j = size` |
+|:------------:|:----------------------------------------:|:-----------------------------:|:--------------------------------:|
+| `k = 0`      | `i = Math.ceil(1 / 9) = 1`               | `j = 1 % 9 = 1`               | `j = 1`                          |
+| `k = 1`      | `i = Math.ceil(2 / 9) = 1`               | `j = 2 % 9 = 2`               | `j = 2`                          |
+| `k = 2`      | `i = Math.ceil(3 / 9) = 1`               | `j = 3 % 9 = 3`               | `j = 3`                          |
+| `k = 3`      | `i = Math.ceil(4 / 9) = 1`               | `j = 4 % 9 = 4`               | `j = 4`                          |
+| `k = 7`      | `i = Math.ceil(8 / 9) = 1`               | `j = 8 % 9 = 8`               | `j = 8`                          |
+| `k = 8`      | `i = Math.ceil(1) = 1`                   | `j = 9 % 9 = 0`               | `j = 9`                          |
+| `k = 9`      | `i = Math.ceil(10 / 9) = 2`              | `j = 10 % 9 = 1`              | `j = 1`                          |
+| `k = 10`     | `i = Math.ceil(11 / 9) = 2`              | `j = 11 % 9 = 2`              | `j = 2`                          |
+| `k = 16`     | `i = Math.ceil(17 / 9) = 2`              | `j = 17 % 9 = 8`              | `j = 8`                          |
+| `k = 17`     | `i = Math.ceil(18 / 9) = 2`              | `j = 18 % 9 = 0`              | `j = 9`                          |
+| `k = 78`     | `i = Math.ceil(79 / 9) = 9`              | `j = 79 % 9 = 7`              | `j = 7`                          |
+| `k = 79`     | `i = Math.ceil(80 / 9) = 9`              | `j = 80 % 9 = 8`              | `j = 8`                          |
+| `k = 80`     | `i = Math.ceil(81 / 9) = 9`              | `j = 81 % 9 = 0`              | `j = 9`                          |
+
+So it is working!
+
 Now that we have the indices, we need to create houses. There is a problem with this step, the component for houses is not ready yet, so we need to suspend our work here and move to creating the module for an house.
