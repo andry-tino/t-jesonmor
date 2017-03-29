@@ -90,7 +90,7 @@ jm.Board = function(_size) {
             console.log("Interaction canceled at", phase);
         }
 
-        function _evaluateEndGame(srci, srcj) {
+        function evaluateEndGame(srci, srcj) {
             var c = Math.ceil(size / 2);
             return srci === c && srcj === c;
         }
@@ -145,7 +145,7 @@ jm.Board = function(_size) {
             )) { cancel("Move"); return; }
         
         // Evaluate endgame
-        var endgame = _evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
+        var endgame = evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
 
         // Can move
         _move(
