@@ -1,4 +1,4 @@
-#Extending the `House` module
+# Extending the `House` module
 
 Before we dig into further development of the board, we need to extend module `House` because we are going to need some more functionalities there that we are soon going to use. So let's jump to `house.js` and see what it is that we need there:
 

@@ -16,4 +16,5 @@
     * [Making the board interactive](logic-events.md)
     * [Extending the House module](house-extend.md)
     * [Moving an horse](logic-horsemove.md)
+    * [Making houses highlightable](house-highlight.md)
     * [Developing the state machine](logic-fsm.md)
