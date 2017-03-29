@@ -79,7 +79,7 @@ Object `e` is very important because it gives us a chance to understand where th
 When no handler stops the propagation of the event, we have the following scenario:
 
 | # | Element                   | Handler defined? | Stops propagation? | `e.target`            | `e.currentTarget`         |
-|:-:|:-------------------------:|:----------------:|:------------------:|:---------------------:|:-------------------------:|
+|:-:|:--------------------------|:----------------:|:------------------:|:---------------------:|:-------------------------:|
 | 1 | `<body>`                  | No               | N/A                | `<div class="house">` | `<body>`                  |
 | 2 | `<div class="contianer">` | Yes              | No                 | `<div class="house">` | `<div class="contianer">` |
 | 3 | `<div class="house">`     | Yes              | No                 | `<div class="house">` | `<div class="house">`     |
@@ -90,7 +90,7 @@ Note that `body` cannot stop the propagation because there is no handler defined
 When `<div class="contianer">` stops the propagation of the event, we have the following scenario:
 
 | # | Element                   | Handler defined? | Stops propagation? | `e.target`            | `e.currentTarget`         |
-|:-:|:-------------------------:|:----------------:|:------------------:|:---------------------:|:-------------------------:|
+|:-:|:--------------------------|:----------------:|:------------------:|:---------------------:|:-------------------------:|
 | 1 | `<body>`                  | No               | N/A                | `<div class="house">` | `<body>`                  |
 | 2 | `<div class="contianer">` | Yes              | Yes                | `<div class="house">` | `<div class="contianer">` |
 
