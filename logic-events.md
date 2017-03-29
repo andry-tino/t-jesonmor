@@ -78,11 +78,11 @@ function _onClickHandler(e) {
 Let's run the page and let's bring up the F12 tools. As soon as you click on the board, you will see a message being printed in the _Console_ tab of the F12 tools window. So this proves that events are real and they work! Let's remove that line of code we just wrote, it was just for testing!
 
 ## Defining the state machine
-The logic we are going to write for `_onClickHandler` is very important because it will affect the whole game interaction and flow. So it is better to first design the behavior of the board before writing code. What does it mean? It means to make a plan and lay out some diagrams! The first important diagram we want to consider is a _state diagram_ which helps us understand the state of the board when the game is on:
+The logic we are going to write for `_onClickHandler` is very important because it will affect the whole game interaction and flow. So it is better to first design the behavior of the board before writing code. What does it mean? It means to make a plan and lay out some diagrams! The first important diagram we want to consider is a _state diagram_ which helps us understand the states of the board when the game is on:
 
 ![](/assets/diagrams-state.png)
 
-The diagram basically shows that our board has 3 states:
+States are displayed in green and blue. A state is basically a condition into which the board remains until an event causes the board to change and move into another state. The diagram basically shows that our board has 3 states:
 
 1. When we start the game we enter state _Wait move_. Here we basically wait for one player to start a move.
 2. When the player selects an house, we check that house has an horse and that horse is one of the player's horse (White cannot move one of Black's pieces for example); if we pass the the test then we enter a new state: _Wait move complete_.
