@@ -136,7 +136,67 @@ Which takes care of removing the horse in the destination house if we are actual
 console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, eat ? "and ate!" : "");
 ```
 
-And we are done! However we still have 2 functions to write: `_evaluateAntagony` and `_checkMove`. So let's pay this debt.
+And we are done! The complete code for `_move` is:
+
+```javascript
+function _move(srci, srcj, dsti, dstj) {
+    if (!houses) {
+        throw "Cannot move. Board has not been populated!";
+    }
+
+    if (!dsti || !dstj || !srci || !srcj) {
+        throw "Invalid positions!";
+    }
+    if (dsti <= 0 || dstj <= 0 || srci <= 0 || srcj <= 0) {
+        throw "Position must be a couple of positive integers!";
+    }
+
+    // Check that the move is valid, a horse moves like a chess knight
+    if (!_checkMove(srci, srcj, dsti, dstj)) {
+        throw "Invalid move. A Horse moves like a Chess Knight!";
+    }
+
+    // Check that the source house is occupied by a horse and destination is free
+    var srcHouse = _getHouse(srci, srcj);
+    var dstHouse = _getHouse(dsti, dstj);
+    if (!srcHouse || !dstHouse) {
+        throw "Cannot move. Could not find houses!";
+    }
+    if (!srcHouse.isSet()) {
+        throw "Cannot move. Source house is not occupied by a horse!";
+    }
+
+    // If destination is occupied by other player's horse, eat it!
+    var eat = false;
+    if (dstHouse.isSet()) {
+        if (_evaluateAntagony(dstHouse)) {
+            eat = true;
+        } else {
+            throw "Cannot move. Destination house is occupied by a horse!";
+        }
+    }
+
+    // Unplace horse from source house
+    var movingHorse = srcHouse.unset();
+    if (!movingHorse) {
+        throw "Cannot move. Attempt to get source horse failed!";
+    }
+    movingHorse.setPosition(dsti, dstj);
+
+    // Handling destination house
+    if (eat) {
+        var eaten = dstHouse.unset();
+        
+        if (eaten.mode === jm.HORSE_W) panelw.appendChild(eaten.element);
+        else panelb.appendChild(eaten.element);
+    }
+    dstHouse.set(movingHorse);
+
+    console.log("Moved horse from:", srci, srcj, "to:", dsti, dstj, eat ? "and ate!" : "");
+}
+```
+
+However we still have 2 functions to write: `_evaluateAntagony` and `_checkMove`. So let's pay this debt.
 
 ## Evaluating the antagony
 Let's focus on `_evaluateAntagony` first. Let's write this function right before `_populate`:
