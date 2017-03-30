@@ -364,10 +364,129 @@ What's left is now cleaning up. At this stage we still have `selectedHouse` high
 _clearSelectedHouse();
 ```
 
-Now, we need to make sure
-
 Then remember that after this event handler, the event will propagate to the destination house, causing it to receive highlight. We don't want the destination house to be highlighted at the end of the operation, so we need to stop the propagation:
 
 ```javascript
 e.stopPropagation();
 ```
+
+We are basically almost over. Let's make sure that we move control to the opponent:
+
+```javascript
+_nextPlayer();
+```
+
+This function will make sure to pass the turn. We still need to define it and we can do that right below `_evaluateAntagony`:
+
+```javascript
+function _nextPlayer() {
+    if (currentPlayer === CUR_PLAYER_W) {
+        currentPlayer = CUR_PLAYER_B;
+    } else {
+        currentPlayer = CUR_PLAYER_W;
+    }
+}
+```
+
+As you can see, it is no rocket science. We just make sure to flip the value of `currentPlayer` so that if White was playing, now control passes to Black, otherwise we do the opposite.
+
+Back to the last line of `_onClickHandler`, we can just check whether we have endgame, and, in case, we do something special instead of just letting the opponent play:
+
+```javascript
+if (endgame) _endgame();
+```
+
+Function `_endgame` can be defined right after `_onClickHandler`:
+
+```javascript
+function _endgame() {
+    _reset();
+}
+```
+
+And it will be responsible for resetting the game.
+
+### Done!
+
+The complete code for `_onClickHandler` should look like this:
+
+```javascript
+function _onClickHandler(e) {
+    function cancel(phase) {
+        e.stopPropagation();
+        if (selectedHouse) {
+            _clearSelectedHouse();
+        }
+
+        console.log("Interaction canceled at", phase);
+    }
+
+    function evaluateEndGame(srci, srcj) {
+        var c = Math.ceil(size / 2);
+        return srci === c && srcj === c;
+    }
+
+    var target = e.target;
+    if (!target) { cancel("House Acquire"); return; }
+
+    var id = target.id;
+    if (!id) {
+        // Player might have selected a horse
+        var parent = target.parentElement;
+        if (!parent) { cancel("House Acquire"); return; }
+
+        id = parent.id;
+    }
+
+    // Could not find the house
+    if (!id) { cancel("House Acquire"); return; }
+
+    // When constructing the board we assign positions as ids
+    var house = houses[id];
+    if (!house) {
+        throw "Click handler failed. Cannot find house at " + id;
+    }
+
+    // Nothing was started, one player is selecting an house, 
+    // let's check it is a house with a player's horse on
+    if (!selectedHouse) {
+        // Empty house, invalid selection
+        if (!house.isSet()) { cancel("Initial selection"); return; }
+
+        // Player has selected an adversary's horse => invalid
+        if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
+
+        // Player has selected one of his horses
+        selectedHouse = house;
+        return;
+    }
+
+    // An house is already selected, a move is being attempted
+    // Cannot move to an house which is occupied
+    if (house.isSet() && !_evaluateAntagony(house)) { cancel("Move"); return; }
+
+    var selectedHousePosition = selectedHouse.getPosition();
+    var attemptedHousePosition = house.getPosition();
+    if (!_checkMove(
+        selectedHousePosition.i, selectedHousePosition.j,
+        attemptedHousePosition.i, attemptedHousePosition.j
+        )) { cancel("Move"); return; }
+    
+    // Evaluate endgame
+    var endgame = evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
+
+    // Can move
+    _move(
+        selectedHousePosition.i, selectedHousePosition.j, 
+        attemptedHousePosition.i, attemptedHousePosition.j);
+
+    _clearSelectedHouse(); // Remove highlight from source house
+    e.stopPropagation(); // Make sure destination house does not receive highlight later
+
+    _nextPlayer();
+
+    if (endgame) _endgame();
+}
+```
+
+This was the most complex function in the game. Congratulations.
