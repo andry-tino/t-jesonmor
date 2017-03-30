@@ -181,7 +181,7 @@ Now that we know more about selectors, we can resume our task: we need to align 
 
 So, what approach are we going to follow? Let's have a look at the board again. Houses are going to be arranged in specific positions. If we consider one row, all the houses in that row will have the same y-coordinate (CSS property `top`). The same goes if we consider one column, all the houses will have the same x-coordinate (CSS property `left`). So here is the trick: we are going to define 9 rules (one for each row) and 9 rules (one for each column) instead of 81 different ones.
 
-ow will we do this? There is one more thing you need to know about selectors in CSS rules: it is possible to specify more selectors for one single rule like this:
+How will we do this? There is one more thing you need to know about selectors in CSS rules: it is possible to specify more selectors for one single rule like this:
 
 ```
 <rule-selector>,
