@@ -122,7 +122,6 @@ jm.Board = function(_size) {
             // Empty house, invalid selection
             if (!house.isSet()) { cancel("Initial selection"); return; }
 
-            var houseColor = house.getHorseColor();
             // Player has selected an adversary's horse => invalid
             if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
 
