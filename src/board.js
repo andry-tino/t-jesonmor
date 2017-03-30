@@ -149,11 +149,10 @@ jm.Board = function(_size) {
             selectedHousePosition.i, selectedHousePosition.j, 
             attemptedHousePosition.i, attemptedHousePosition.j);
 
-        _clearSelectedHouse();
+        _clearSelectedHouse(); // Remove highlight from source house
+        e.stopPropagation(); // Make sure destination house does not receive highlight later
 
         _nextPlayer();
-
-        e.stopPropagation();
 
         if (endgame) _endgame();
     }
