@@ -7,6 +7,8 @@ Before we dig into further development of the board, we need to extend module `H
 - We need a function to get the position of the house.
 - And we also need a function that gives us the color of the horse in the house, if any.
 
+`unset`, `isSet`, `getPosition`, `getHorseColor`
+
 You will see in the next chapter, that all these functions we have just enumerated are going to be necessary. So let's do the work upfront.
 
 TODO

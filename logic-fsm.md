@@ -196,10 +196,39 @@ Let's focus on the code inside the last `if` we wrote. If we fall inside that pa
 
 ![](/assets/diagrams-activity-1.png)
 
-We just need to transform into code what is described in the diagram.
+We just need to transform into code what is described in the diagram. The first thing we need to do is checking that the player has selected an house with an horse inside:
+
+```javascript
+// Empty house, invalid selection
+if (!house.isSet()) { cancel("Initial selection"); return; }
+```
+
+In fact, if the house is empty, we cannot allow the move. The player must move an horse! The call to `cancel` guarantees that the player will need to retry the nmove again.
+
+The next step in the diagram is checking the color of the horse in the house selected by the user:
+
+```javascript
+var houseColor = house.getHorseColor();
+// Player has selected an adversary's horse => invalid
+if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
+```
+
+We can get the color of the horse by calling `getHorseColor`. After that function `_evaluateAntagony` will tell us whether we picked on of the opponent's horses. In fact we cannot move any horse belonging to the opponent and we need to check that. Function `_evaluateAntagony` does not exist yet, we need to create it. We can define it right after `_onClickHandler`:
+
+```javascript
+function _evaluateAntagony(house) {
+    var houseColor = house.getHorseColor();
+    var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
+    var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
+
+    return wbcond || bwcond;
+}
+```
+
+TODO
 
 ## Implementing the _Make move_ flow
-Here we go
+The first thing we need to do is checking that the player
 
 ![](/assets/diagrams-activity-2.png)
 
