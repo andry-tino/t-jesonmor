@@ -190,3 +190,6 @@ if (!selectedHouse) {
 ```
 
 The code inside the `if` block will be executed when we are in state _Wait move_. Otherwise the code after the conditional block will be executed (state `Wait move complete`).
+
+## Handling the _Wait move_ state
+Let's focus on the code inside the last `if` we wrote. If we fall inside that path, then the player is selecting the source house for selecting which horse he wants to move. Recalling the algorithm diagram we drew in chapter [Making the board interactive](./logic-events.md#an-overview-of-the-moving-logic), we need to do implement the flow wihch follows the _Selection_ branch.
