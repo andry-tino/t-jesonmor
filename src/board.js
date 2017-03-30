@@ -150,7 +150,6 @@ jm.Board = function(_size) {
             attemptedHousePosition.i, attemptedHousePosition.j);
 
         _clearSelectedHouse();
-        house.clear();
 
         _nextPlayer();
 
