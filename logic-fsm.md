@@ -208,12 +208,10 @@ In fact, if the house is empty, we cannot allow the move. The player must move a
 The next step in the diagram is checking the color of the horse in the house selected by the user:
 
 ```javascript
-var houseColor = house.getHorseColor();
-// Player has selected an adversary's horse => invalid
 if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
 ```
 
-We can get the color of the horse by calling `getHorseColor`. After that function `_evaluateAntagony` will tell us whether we picked on of the opponent's horses. In fact we cannot move any horse belonging to the opponent and we need to check that. Function `_evaluateAntagony` does not exist yet, we need to create it. We can define it right after `_onClickHandler`:
+Function `_evaluateAntagony` will tell us whether we picked one of the opponent's horses. In fact we cannot move any horse belonging to the opponent and we need to check that. Function `_evaluateAntagony` does not exist yet, we need to create it. We can define it right after `_onClickHandler`:
 
 ```javascript
 function _evaluateAntagony(house) {
@@ -225,11 +223,75 @@ function _evaluateAntagony(house) {
 }
 ```
 
-TODO
+The function will get the color of the horse and evaluate one of the following possibilities:
+
+- The player is White and he is trying to move a Black horse
+- The player is Black and he is trying to move a White horse
+
+If either of those 2 possibilties occurrs, then we return `true`. Back to the code in the handler, we can see that, in case the player attempts a move on an horse which is not his, we cancel the operation and force the player to try moving again.
+
+After that we can just set variable `selectedHouse`:
+
+```javascript
+selectedHouse = house;
+return;
+```
+
+And return as we have finished transitioning from state `Wait move` to `Wait move complete`. The code for the handler should look like this:
+
+```javascript
+function _onClickHandler(e) {
+    function cancel(phase) {
+        e.stopPropagation();
+        if (selectedHouse) {
+            _clearSelectedHouse();
+        }
+
+        console.log("Interaction canceled at", phase);
+    }
+
+    var target = e.target;
+    if (!target) { cancel("House Acquire"); return; }
+
+    var id = target.id;
+    if (!id) {
+        // Player might have selected a horse
+        var parent = target.parentElement;
+        if (!parent) { cancel("House Acquire"); return; }
+
+        id = parent.id;
+    }
+
+    // Could not find the house
+    if (!id) { cancel("House Acquire"); return; }
+
+    // When constructing the board we assign positions as ids
+    var house = houses[id];
+    if (!house) {
+        throw "Click handler failed. Cannot find house at " + id;
+    }
+
+    if (!selectedHouse) {
+        // Empty house, invalid selection
+        if (!house.isSet()) { cancel("Initial selection"); return; }
+
+        var houseColor = house.getHorseColor();
+        if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
+
+        // Player has selected one of his horses
+        selectedHouse = house;
+        return;
+    }
+
+    // From here, the code for when we are in state "Wait move complete"...
+}
+```
+
+We can now focus on the other case.
 
 ## Implementing the _Make move_ flow
-The first thing we need to do is checking that the player
+The code after the conditional is hit only when the player is selecting the destination house as he is attempting to complete a move for an horse he selected before. The code we need to write must follow this part of the diagram we defined in chapter [Making the board interactive](./logic-events.md#an-overview-of-the-moving-logic):
 
 ![](/assets/diagrams-activity-2.png)
 
-TODO
+The first thing we need to do is checking that the player
