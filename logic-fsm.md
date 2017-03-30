@@ -294,4 +294,68 @@ The code after the conditional is hit only when the player is selecting the dest
 
 ![](/assets/diagrams-activity-2.png)
 
-The first thing we need to do is checking that the player
+The first thing we need to do is checking that the player has selected a destination house that contains one of his horses:
+
+```javascript
+if (house.isSet() && !_evaluateAntagony(house)) { cancel("Move"); return; }
+```
+
+In this case we need to cancel because the player can only move an horse into:
+
+- An empty house.
+- An house where an opponent's horse resides. In this case the move results in eating.
+
+The next step is getting the positions of the source and destination houses:
+
+```javascript
+var selectedHousePosition = selectedHouse.getPosition();
+var attemptedHousePosition = house.getPosition();
+```
+
+So we can check whether the move is valid or not:
+
+```javascript
+if (!
+    _checkMove(
+        selectedHousePosition.i, selectedHousePosition.j, 
+        attemptedHousePosition.i, attemptedHousePosition.j
+        )
+    ) { cancel("Move"); return; }
+```
+
+Remember that `_checkMove` will return `true` if the move is legal and `false` when it is not. If the player is trying to move an horse with an irregular move, then we cancel the operation and we force the player to start over.
+
+### Evaluating endgame
+At this point we want to know whether the move results into the game to be over or not. We consider the game to be over when one of the player has successfully reached the central house and left it. In order to be able to assess such a condition, let's move back at the beginning of the function, and right below `cancel`, let's create another internal function:
+
+```javascript
+function evaluateEndGame(srci, srcj) {
+    var c = Math.ceil(size / 2);
+    return srci === c && srcj === c;
+}
+```
+
+Function `evaluateEndGame` will return `true` if the move with source house `srci:srcj` is a winning move. In order to detect vistory, we just need to make sure that the player is moving one of his horses from the central house to somewhere else and that move must be legal. This function only checks the condition for which we start the movement from the central house, the other conditions will be evaluated elsewhere.
+
+Let's go back at the end of function `_onClickHandler` and let's type the following line:
+
+```javascript
+var endgame = evaluateEndGame(selectedHousePosition.i, selectedHousePosition.j);
+```
+
+Variable `selectedHousePosition` stores the source house whose coordinates are passed to `evaluateEndGame`. Variable `endgame` will be used later. Now at least we know whether this is the final move or not!
+
+### Making the move
+The next step in the diagram is implementing _Move or eat_. In fact we are ready now. If the move is legal and the player has selected an empty house or an house with one of the opponent's horses in it, then we can move the horse there:
+
+```javascript
+_move(
+    selectedHousePosition.i, selectedHousePosition.j, 
+    attemptedHousePosition.i, attemptedHousePosition.j
+    );
+```
+
+As you can see, we call `move` to perform the moving of the horse. Remember that this might result into an eating if the destination house was occupied by one of the opponent's horses.
+
+### Finalizing the operation
+What's left is now cleaning up. At this stage we still have selectedHouse highlighted.
