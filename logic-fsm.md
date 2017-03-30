@@ -358,4 +358,16 @@ _move(
 As you can see, we call `move` to perform the moving of the horse. Remember that this might result into an eating if the destination house was occupied by one of the opponent's horses.
 
 ### Finalizing the operation
-What's left is now cleaning up. At this stage we still have selectedHouse highlighted.
+What's left is now cleaning up. At this stage we still have `selectedHouse` highlighted. We need to remove the highlight from there:
+
+```javascript
+_clearSelectedHouse();
+```
+
+Now, we need to make sure
+
+Then remember that after this event handler, the event will propagate to the destination house, causing it to receive highlight. We don't want the destination house to be highlighted at the end of the operation, so we need to stop the propagation:
+
+```javascript
+e.stopPropagation();
+```
