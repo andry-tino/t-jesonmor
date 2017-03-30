@@ -123,8 +123,6 @@ jm.Board = function(_size) {
             if (!house.isSet()) { cancel("Initial selection"); return; }
 
             var houseColor = house.getHorseColor();
-            var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
-            var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
             // Player has selected an adversary's horse => invalid
             if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
 
