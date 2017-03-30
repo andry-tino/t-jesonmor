@@ -97,7 +97,7 @@ When `<div class="container">` stops the propagation of the event, we have the f
 Since `<div class="container">` stops the propagation, the event will not reach `<div class="house">`!
 
 #### Event propagation and cancel strategy
-Remember that we have set 2 different handlers on `click`: one on container and one on each house. When one player clicks on one house, the event will:
+Remember that we have set 2 different handlers for `click`: one on container and one on each house. When one player clicks on one house, the event will:
 
 1. Start from `<body>`.
 2. Propagate to `<div class="container">`, which will cause the event handler registered there to be executed.
@@ -106,3 +106,87 @@ Remember that we have set 2 different handlers on `click`: one on container and 
 Since `_onClickHandler` in the board does not call `e.stopPropagation()`, the event will reach the target (the house). The handler on the house will flip its `background-color` so that the house looks highlighted. Our cancel approach is very simple and consists in the following:
 
 > When the player clicks on an house, the handler in the container will try to run the game interaction to move pieces. Typically this will result in that house to be highlighted. However, if something goes wrong, the operation will be canceled and the event stopped via `e.stopPropagation()` so that the house does not receive highlight.
+
+It basically means the following:
+
+```javascript
+function _onClickHandler(e) {
+    function cancel(phase) {
+        e.stopPropagation();
+        if (selectedHouse) {
+            _clearSelectedHouse();
+        }
+
+        console.log("Interaction canceled at", phase);
+    }
+
+    // More code will go here...
+}
+```
+
+You can see that, in `cancel`, we stop the propagation so that the house does not receive highlight, and we also clear the currently selected house. For example, if the player selectes one horse because he wants to move it, then that house will be highlighted; but if later the player selected another house which makes the horse move in an invalid way, then we need to remove the highlight from the initial house and the player will have to repeat the move. In our design, everytime the user enters the _Wait move complete_ state because he wants to move an horse, we save the initial house in `selectedHouse`. The purpose of `_clearSelectedHouse` is removing the highlight from the selected house and then resetting the value of `selectedHouse` (which means that we go back to state `Wait move`).
+
+We can write down the code for `_clearSelectedHouse` right before `_onClickHandler`:
+
+```javascript
+function _clearSelectedHouse() {
+    selectedHouse.clear();
+    selectedHouse = null;
+}
+```
+
+Back to `cancel`, please note that we use parameter `phase` to pass a string. We will use it for logging, so that if an error occurs, we know at which stage we have canceled the operation.
+
+## Retrieving the clicked house
+When the user clicks on one house we can be in 2 possible states:
+
+- We can be in state `Wait move`, so it means that the player wants to start moving a piece by selecting the source house.
+- We can be in state `Wait move complete`, so it means that the player is selecting the destination house.
+
+In the first part of `_onClickHandler` we need to figure out which one of the 2 states we are in. The way to do that is checking `selectedHouse`. When the player selected the source house, we will always store it into that variable. So we can check if the variable has an house or not to understand which state we are into. However before doing that we will carry on some operations that are common to handling both states. These operations concern getting the house that the player has selected. So, back to `_onClickHandler`, let's add the following lines at the end of the function's body:
+
+```javascript
+var target = e.target;
+if (!target) { cancel("House Acquire"); return; }
+```
+
+The evenr arguments `e` has property `e.target` which contains the target element. We will get a reference to the house from there. Of course we need to check that a target is present, otherwise we cancel the operation. The next code we need is the following:
+
+```javascript
+var id = target.id;
+if (!id) {
+    // Player might have selected a horse
+    var parent = target.parentElement;
+    if (!parent) { cancel("House Acquire"); return; }
+
+    id = parent.id;
+}
+```
+
+Remember that every house has an `id` set with the coordinates of that house. We made sure that we have this behavior when we developed function `_build` in chapter [Continuing on the board creation](./board-cont.md#finishing-up-the-board-building-function). However what if the mouse cursor hits the horse inside one house? In that case `e.target` will point to the horse element, not the house! In that case we would have no `id` defined, so we can check the parent (horses are contained by houses). After making this additional check, we should have the id, we can move on:
+
+```javascript
+// Could not find the house
+if (!id) { cancel("House Acquire"); return; }
+```
+
+The code we just wrote is pretty straightforward: we still need to check that we have a valid id, otherwise we cancel. Now we are ready to retrieve the house basing on the id:
+
+```javascript
+var house = houses[id];
+if (!house) {
+    throw "Click handler failed. Cannot find house at " + id;
+}
+```
+
+If an house cannot be found, we cannot cancel because we must find an house. If we don't find it then we need to fail! The next code branches in order to consider the 2 cases we mentioned before.
+
+```javascript
+if (!selectedHouse) {
+    // Here is the code for when we are in state "Wait move"...
+}
+
+// From here, the code for when we are in state "Wait move complete"...
+```
+
+The code inside the `if` block will be executed when we are in state _Wait move_. Otherwise the code after the conditional block will be executed (state `Wait move complete`).
