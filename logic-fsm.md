@@ -496,4 +496,5 @@ function _onClickHandler(e) {
 }
 ```
 
-This was the most complex function in the game. Congratulations.
+## Third step completed
+This was the most complex function in the game. Congratulations, you have completed the 3rd step. Now the game is fully working. The code is available [here](https://github.com/andry-tino/t-jesonmor/tree/development/tutorial-src/step-3).
