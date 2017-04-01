@@ -12,7 +12,7 @@ var jm = jm || {};
 
 jm.House = function(_i, _j) {
     // Here we will write the code for the House object
-}
+};
 ```
 
 ## Constructing the object
@@ -51,7 +51,7 @@ jm.House = function(_i, _j) {
     function _validatePosition(value) {
         // Code we wrote before...
     }
-}
+};
 ```
 
 ## Creating the element
@@ -73,7 +73,7 @@ jm.House = function(_i, _j) {
     var HOUSE_CLASSNAME = "house";
 
     // Code we wrote before...
-}
+};
 ```
 
 What we did is the same as before: we created a `div` element, assigned a style and returned it. Again, do not worry about this class name, we will get back to that in a few moments. Let's now use this function:
@@ -93,7 +93,7 @@ jm.House = function(_i, _j) {
     var _element = _createElement();
 
     // Code we wrote before...
-}
+};
 ```
 
 ## Defining the API of the object
@@ -120,7 +120,7 @@ jm.House = function(_i, _j) {
     };
 
     // Code we wrote before...
-}
+};
 ```
 
 In Javascript, creating an object is like creating a dictionary. The empty dictionary `{}` is actually an empty object. To add things to an object we can either use the dot notation:

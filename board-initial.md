@@ -40,7 +40,7 @@ var jm = jm || {};
 
 jm.Board = function(_size) {
     // Here we will write the code for the Board object
-}
+};
 ```
 
 Objects are created as functions. `jm.Board` instructs Javascript to create a variable called `Board` inside the `jm` namespace. The variable is initialized to a function which accepts one parameter. Everything inside this function will be part of the `Board` _module_, and we will use this word to refer to this part of the code from now on.
@@ -61,7 +61,7 @@ jm.Board = function(_size) {
     var container = null;
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array
-}
+};
 ```
 
 We are creating some variables that we will use later when building the board on the screen. 
@@ -87,7 +87,7 @@ jm.Board = function(_size) {
     // Status variables
     var currentPlayer = CUR_PLAYER_W; // White starts
     var selectedHouse = null;
-}
+};
 ```
 
 We want to keep track about which one of the player gets to move. For this we are going to need a variable `currentPlayer` whose value will be `0` or `1` depending whether White or Black has to move. However we programmers do not like using plain values as they might change, so we use contants. That is why we created two other variables called `CUR_PLAYER_W` and `CUR_PLAYER_B`.
@@ -182,7 +182,7 @@ jm.Board = function(_size) {
     function _createContainer() {
         // We will write inside here now
     }
-}
+};
 ```
 
 #### Creating the board element
@@ -212,7 +212,7 @@ jm.Board = function(_size) {
     var CONTAINER_CLASSNAME = "container";
 
     // Module code we wrote before...
-}
+};
 ```
 
 The last line inside `_createContainer` will just return the element to the caller, it means that, when doing `container = _createContainer();` in function `_build`, the value will be assigned to `container`.

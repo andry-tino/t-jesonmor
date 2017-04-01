@@ -126,7 +126,7 @@ jm.Board = function(_size) {
     }
 
     // Functions we wrote before...
-}
+};
 ```
 
 Like this, external code, can create an object `Board` and call `initialize()` in order to render the board on the page. So far we have called this process: _function exposition_, however in IT the correct terminology would be: _API definition_. With this `return` statement we are creating the API for an object of type `Board`. API means Application Program Interface and it is the set of funcitonalities that a developer decides to expose from an object. An API defined the way an object communicates and interacts with the external world, it also determines how that object should/can be used.
