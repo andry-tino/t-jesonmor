@@ -211,19 +211,7 @@ The next step in the diagram is checking the color of the horse in the house sel
 if (_evaluateAntagony(house)) { cancel("Initial selection"); return; }
 ```
 
-Function `_evaluateAntagony` will tell us whether we picked one of the opponent's horses. In fact we cannot move any horse belonging to the opponent and we need to check that. Function `_evaluateAntagony` does not exist yet, we need to create it. We can define it right after `_onClickHandler`:
-
-```javascript
-function _evaluateAntagony(house) {
-    var houseColor = house.getHorseColor();
-    var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
-    var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
-
-    return wbcond || bwcond;
-}
-```
-
-The function will get the color of the horse and evaluate one of the following possibilities:
+Function `_evaluateAntagony` will tell us whether we picked one of the opponent's horses. In fact we cannot move any horse belonging to the opponent and we need to check that. We have written function `_evaluateAntagony` already, so we are just good to go, howeevr remember how it works: it will get the color of the horse and evaluate one of the following possibilities:
 
 - The player is White and he is trying to move a Black horse
 - The player is Black and he is trying to move a White horse
