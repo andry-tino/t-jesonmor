@@ -104,3 +104,15 @@ function _attachEventListeners() {
     _element.addEventListener("click", _onClickHandler);
 }
 ```
+
+We are registering another event handler, this time on the house element. It means that everytime the user clicks on an house, we execute function `_onClickHandler` which we still need to define. So let's do that right after `_attachEventListeners`:
+
+```javascript
+function _onClickHandler(e) {
+    if (_element.classList.contains(HOUSE_HIGHLIGHTED_CLASSNAME)) {
+        _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
+    } else {
+        _element.classList.add(HOUSE_HIGHLIGHTED_CLASSNAME);
+    }
+}
+```

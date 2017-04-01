@@ -45,7 +45,7 @@ We know what the first lines do: we check that we have a container. Basically we
 |---|---------------|---------------------------------------------------------------------------------------------------|
 | 1 | Event name    | What event we want to listen to when it will be triggered by the element.                         |
 | 2 | Event handler | The function to call when the event is triggered.                                                 |
-| 3 | Capture       | We need to explain this later as it is a bit complicated, for now let's just forget about this :) |
+| 3 | Capture       | We don't explain this, all you need to know is that this must be `true` :)                        |
 
 So, when we make this call:
 
