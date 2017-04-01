@@ -101,7 +101,7 @@ jm.House = function(_i, _j) {
         _element.removeEventListener("click", _onClickHandler);
     }
 
-    function _onClickHandler(e) {
+    function _onClickHandler() {
         if (_element.classList.contains(HOUSE_HIGHLIGHTED_CLASSNAME)) {
             _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
         } else {
