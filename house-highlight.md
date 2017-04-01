@@ -108,7 +108,7 @@ function _attachEventListeners() {
 We are registering another event handler, this time on the house element. It means that everytime the user clicks on an house, we execute function `_onClickHandler` which we still need to define. So let's do that right after `_attachEventListeners`:
 
 ```javascript
-function _onClickHandler(e) {
+function _onClickHandler() {
     if (_element.classList.contains(HOUSE_HIGHLIGHTED_CLASSNAME)) {
         _element.classList.remove(HOUSE_HIGHLIGHTED_CLASSNAME);
     } else {
@@ -116,3 +116,7 @@ function _onClickHandler(e) {
     }
 }
 ```
+
+In this function we first check whether the house element already has the `highlighted` class, then it means that the user is clicking on an highlighted house, thus we need to remove the highlight. If not, then we need to apply the highlight.
+
+Go ahead and refresh the browser to see this happening. Click houses and see them being highlighted, click on them again and watch them getting the original color.
