@@ -392,7 +392,26 @@ function _endgame() {
 }
 ```
 
-And it will be responsible for resetting the game.
+And it will be responsible for resetting the game by calling `_reset`. 
+
+### Resetting the game
+Function `_reset` is supposed to take the game back to its initial state, let's first define it before `_checkMove`:
+
+```javascript
+function _reset() {
+    // Code goes here...
+}
+```
+
+How to clear all the pieces, put all horses back to their initial positions and give control back to White? Well we will implement this logic in the proper way later, for now we go for a very very easy approach: we refresh the page! In Javascript it is pretty easy, only one line:
+
+```javascript
+window.location.reload();
+```
+
+The gobally available `window` object exposes one object called `location` whose module exposes function `reload`. When called, it is going to do the same thing we do when we refresh the page: it reloads the page, so it will destroy everything on the page and execute `jm.initialize` again!
+
+**Important note on reloading:** Just to be clear: this is not the good approach to resetting the game. Why? Because we don't like to force the user to reload the page! So later we will remove that line and implement a better logic.
 
 ### Done!
 
