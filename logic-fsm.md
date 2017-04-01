@@ -394,7 +394,7 @@ function _endgame() {
 
 And it will be responsible for resetting the game by calling `_reset`. 
 
-### Resetting the game
+#### Resetting the game
 Function `_reset` is supposed to take the game back to its initial state, let's first define it before `_checkMove`:
 
 ```javascript
