@@ -1,16 +1,7 @@
-/**
- * board.js
- * Andrea Tino - 2017
- */
-
 var jm = jm || {};
 
-/**
- * The board object and game driver.
- */
 jm.Board = function(_size) {
     var CONTAINER_CLASSNAME = "container";
-    var SCOREPANEL_CLASSNAME = "score-panel";
     var WHITE_CLASSNAME = "white";
     var BLACK_CLASSNAME = "black";
     var CUR_PLAYER_W = 0;
@@ -18,8 +9,6 @@ jm.Board = function(_size) {
 
     // Lazy initialized variables
     var container = null;
-    var panelw = null;
-    var panelb = null;
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array, maybe not needed
 
@@ -32,12 +21,7 @@ jm.Board = function(_size) {
 
     // Object public interface
     return {
-        initialize: _initialize,
-        dispose: _clean,
-        highlightHouse: _highlight,
-        clearHouse: _unhighlight,
-        move: _move,
-        dispose: _dispose
+        initialize: _initialize
     };
 
     function _highlight(i, j) {
@@ -45,13 +29,6 @@ jm.Board = function(_size) {
         if (!house) return;
 
         house.highlight();
-    }
-
-    function _unhighlight(i, j) {
-        var house = _getHouse(i, j);
-        if (!house) return;
-
-        house.clear();
     }
 
     function _getHouse(i, j) {
@@ -72,10 +49,6 @@ jm.Board = function(_size) {
         }
 
         container.addEventListener("click", _onClickHandler, true);
-    }
-
-    function _detachNativeEvents() {
-        container.removeEventListener("click", _onClickHandler, true);
     }
 
     function _clearSelectedHouse() {
@@ -172,11 +145,6 @@ jm.Board = function(_size) {
         return wbcond || bwcond;
     }
 
-    // Parameter: { hid: <number> }
-    function _fsm(args) {
-        // TODO
-    }
-
     function _nextPlayer() {
         if (currentPlayer === CUR_PLAYER_W) {
             currentPlayer = CUR_PLAYER_B;
@@ -211,27 +179,6 @@ jm.Board = function(_size) {
             _setHorse(wi, wj, horsew);
             _setHorse(bi, bj, horseb);
         }
-    }
-
-    function _depopulate() {
-        if (!container) {
-            throw "Invalid operation. Board must be first initialized!";
-        }
-
-        for (var k = 0, keys = Object.keys(houses); k < keys.length; k++) {
-            var house = houses[keys[k]];
-            if (!house) continue;
-
-            if (!house.isSet()) continue;
-
-            house.unset();
-        }
-
-        for (var k = 0; k < horses.length; k++) {
-            horses[k].dispose();
-        }
-
-        horses = [];
     }
 
     // This deals also with eating horses
@@ -282,9 +229,6 @@ jm.Board = function(_size) {
         // Handling destination house
         if (eat) {
             var eaten = dstHouse.unset();
-            
-            if (eaten.mode === jm.HORSE_W) panelw.appendChild(eaten.element);
-            else panelb.appendChild(eaten.element);
         }
         dstHouse.set(movingHorse);
 
@@ -292,24 +236,8 @@ jm.Board = function(_size) {
             eat ? "and ate!" : "");
     }
 
-    function _clearPanels() {
-        while (panelw.firstChild) {
-            panelw.removeChild(panelw.firstChild);
-        }
-
-        while (panelb.firstChild) {
-            panelb.removeChild(panelb.firstChild);
-        }
-    }
-
     function _reset() {
-        // Do not regenerate the board, just reset horses in their positions
-        _depopulate();
-        _populate();
-        _clearPanels();
-
-        currentPlayer = CUR_PLAYER_W;
-        selectedHouse = null;
+        window.location.reload();
     }
 
     function _checkMove(oi, oj, ni, nj) {
@@ -336,14 +264,6 @@ jm.Board = function(_size) {
         console.log("Horse set in", i, j);
     }
 
-    function _unsetHorse(i, j) {
-        var house = _getHouse(i, j);
-
-        if (house) {
-            house.unset();
-        }
-    }
-
     function _build() {
         var dimension = size * size;
         houses = {}; // Initializing dictionary
@@ -366,38 +286,12 @@ jm.Board = function(_size) {
             houses[i + ":" + j] = house;
         }
 
-        panelw = _createScorePanel(WHITE_CLASSNAME);
-        panelb = _createScorePanel(BLACK_CLASSNAME);
-
         document.body.appendChild(container);
-        document.body.appendChild(panelw);
-        document.body.appendChild(panelb);
-    }
-
-    function _isBuilt() {
-        return houses != null;
-    }
-
-    function _clean() {
-        if (!_isBuilt()) return;
-
-        if (!container) return;
-
-        container.remove();
-        houses = null;
     }
 
     function _createContainer() {
         var element = document.createElement("div");
         element.className = CONTAINER_CLASSNAME;
-
-        return element;
-    }
-
-    function _createScorePanel(className) {
-        var element = document.createElement("div");
-        element.classList.add(SCOREPANEL_CLASSNAME);
-        element.classList.add(className);
 
         return element;
     }
@@ -415,23 +309,5 @@ jm.Board = function(_size) {
         }
 
         return size;
-    }
-
-    function _dispose() {
-        _detachNativeEvents();
-
-        container = null;
-        panelw = null;
-        panelb = null;
-
-        for (var k = 0, keys = Object.keys(houses); k < keys.length; k++) {
-            houses[keys[k]].dispose();
-        }
-        houses = null;
-
-        for (var k = 0; k < horses.length; k++) {
-            horses[k].dispose();
-        }
-        horses = null;
     }
 };
