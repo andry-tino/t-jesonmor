@@ -18,11 +18,47 @@ function _unset() {
 }
 ```
 
-The code is not dificult for this function. First of all, if no horse is placed in the house, then we don't really need to do anuything:
+The code is not dificult for this function. First of all, if no horse is placed in the house, then we don't really need to do anything:
 
 ```javascript
 if (!_horse) {
-    return;
+    return null;
+}
+```
+
+Since this function will return the horse it removes, we need to return `null` in this case as there was nothing to return. Removing the horse basically means resetting variable `_horse`:
+
+```javascript
+var horse = _horse; // Temporary location
+_horse = null;
+```
+
+As you can see, before resetting the variable, we store the horse in a temporary location. However we are not done yet. The element still contains the horse element, we need to remove it from the element so that it is not displayed anymore in the house on the board:
+
+```javascript
+var child = _element.firstChild;
+if (child) {
+    child.remove();
+}
+```
+
+Calling `remove` on an element, will cause that element to be removed from its parent, thus from the page. After this, we can just write down `return horse;` to return the removed horse. The code should look like this:
+
+```javascript
+function _unset() {
+    if (!_horse) {
+        return;
+    }
+
+    var horse = _horse; // Temporary location
+    _horse = null;
+
+    var child = _element.firstChild;
+    if (child) {
+        child.remove();
+    }
+
+    return horse;
 }
 ```
 
@@ -35,6 +71,8 @@ function _isSet() {
 }
 ```
 
+Expression `!!_horse` will convert variable `_horse` into `true` if the variable has a value, otherwise it will be converted into `false`.
+
 ## Getting the position of the house
 To get the position of the house, we can write function `_getPosition` after `_unset`:
 
@@ -43,6 +81,8 @@ function _getPosition() {
     return { "i": i, "j": j };
 }
 ```
+
+Here as well not much of a rocket science: we return an object which has 2 properties: `i` for the row and `j` for the column.
 
 ## Retrieving the color of the horse
 We also have function `getHorseColor` to write. This can be defined just after `_isSet`:
@@ -56,3 +96,5 @@ function _getHorseColor() {
     return _horse.mode;
 }
 ```
+
+This function first checks that we have an horse, in case we have no horse, we return `null`. However if an horse is saved in `_horse`, then we return its color by using exposed property `mode`.
