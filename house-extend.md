@@ -98,3 +98,17 @@ function _getHorseColor() {
 ```
 
 This function first checks that we have an horse, in case we have no horse, we return `null`. However if an horse is saved in `_horse`, then we return its color by using exposed property `mode`.
+
+## Exposing them all
+Everything we have added we must now expose. So let's reach the `return` statement in the module constructor (in the top area of `house.js`), and let's add 4 more exposing lines. The `return` statement should look like this now:
+
+```javascript
+return {
+    element: _element,
+    set: _set,
+    unset: _unset,
+    isSet: _isSet,
+    getPosition: _getPosition,
+    getHorseColor: _getHorseColor // HORSE_W | HORSE_B
+};
+```
