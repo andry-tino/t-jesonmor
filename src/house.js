@@ -45,7 +45,7 @@ jm.House = function(_i, _j) {
 
     function _unset() {
         if (!_horse) {
-            return;
+            return null;
         }
 
         var horse = _horse; // Temporary location
