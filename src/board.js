@@ -37,7 +37,7 @@ jm.Board = function(_size) {
         reset: _reset,
         dispose: _dispose,
         automation: {
-            move: _makeMove
+            clickHouse: _clickHouse
         }
     };
 
@@ -90,8 +90,19 @@ jm.Board = function(_size) {
         selectedHouse = null;
     }
 
-    function _makeMove() {
+    function _clickHouse(i, j) {
+        var event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+
+        var house = _getHouse(i, j);
+        if (!house) {
+            throw "Cannot find house";
+        }
         
+        var cancelled = !house.element.dispatchEvent(event);
     }
 
     function _onClickHandler(e) {
