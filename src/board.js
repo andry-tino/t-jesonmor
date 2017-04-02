@@ -23,6 +23,12 @@ jm.Board = function(_size) {
     var houses = null; // A dictionary indexed by "i:j"
     var horses = null; // An array, maybe not needed
 
+    // Callbacks
+    var endgameCb = null;
+    var moveCompletedCb = null;
+    var errorCb = null;
+    var cancelCb = null;
+
     // Status variables
     var currentPlayer = CUR_PLAYER_W; // White starts
     var selectedHouse = null;
@@ -37,9 +43,77 @@ jm.Board = function(_size) {
         reset: _reset,
         dispose: _dispose,
         automation: {
-            clickHouse: _clickHouse
+            clickHouse: _clickHouse,
+            setEndgameCallback: _setEndgameCallback,
+            setMoveCompletedCallback: _setMoveCompletedCallback,
+            setErrorCallback: _setErrorCallback,
+            setCancelCallback: _setCancelCallback
         }
     };
+
+    function _setErrorCallback(cb) {
+        if (!cb) {
+            return;
+        }
+
+        errorCb = cb;
+    }
+
+    function _setCancelCallback(cb) {
+        if (!cb) {
+            return;
+        }
+
+        cancelCb = cb;
+    }
+
+    function _setEndgameCallback(cb) {
+        if (!cb) {
+            return;
+        }
+
+        endgameCb = cb;
+    }
+
+    function _setMoveCompletedCallback(cb) {
+        if (!cb) {
+            return;
+        }
+
+        moveCompletedCb = cb;
+    }
+
+    function _invokeEndgameCallback() {
+        if (!endgameCb) {
+            return;
+        }
+
+        endgameCb();
+    }
+
+    function _invokeMoveCompletedCallback() {
+        if (!moveCompletedCb) {
+            return;
+        }
+
+        moveCompletedCb();
+    }
+
+    function _invokeErrorCallback() {
+        if (!errorCb) {
+            return;
+        }
+
+        errorCb();
+    }
+
+    function _invokeCancelCallback() {
+        if (!cancelCb) {
+            return;
+        }
+
+        cancelCb();
+    }
 
     function _situation() {
         var s = {};
@@ -112,7 +186,15 @@ jm.Board = function(_size) {
                 _clearSelectedHouse();
             }
 
+            _invokeCancelCallback();
+
             console.log("Interaction canceled at", phase);
+        }
+
+        function error(message) {
+            throw message;
+
+            _invokeErrorCallback();
         }
 
         function evaluateEndGame(srci, srcj) {
@@ -138,7 +220,7 @@ jm.Board = function(_size) {
         // When constructing the board we assign positions as ids
         var house = houses[id];
         if (!house) {
-            throw "Click handler failed. Cannot find house at " + id;
+            error("Click handler failed. Cannot find house at " + id);
         }
 
         // Nothing was started, one player is selecting an house, 
@@ -179,7 +261,12 @@ jm.Board = function(_size) {
 
         _nextPlayer();
 
-        if (endgame) _endgame();
+        if (endgame) {
+            _endgame();
+            _invokeEndgameCallback();
+        } else {
+            _invokeMoveCompletedCallback();
+        }
     }
 
     function _endgame() {

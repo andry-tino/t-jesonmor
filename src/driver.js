@@ -17,6 +17,7 @@ var jm = jm || {};
  */
 jm.players.Player = function(params) {
     var INTERVAL_PAUSE = 1000;
+    var INTERMOVE_PAUSE = 500;
 
     var board = null;
     var playerw = null;
@@ -45,7 +46,28 @@ jm.players.Player = function(params) {
 
         var move = player.move(); // Expecting: { srci, srcj, dsti, dstj }
 
-        var h = window.setTimeout(_playGame, INTERVAL_PAUSE, null);
+        // TODO: Use board events
+
+        if (playerw && playerb) {
+            // Machine vs Machine
+            window.setTimeout(function() {
+                board.clickHouse(move.srci, move.srcj);
+                window.setTimeout(function() {
+                    board.clickHouse(move.dsti, move.dstj);
+                    window.setTimeout(function() {
+                        var h = window.setTimeout(_playGame, INTERVAL_PAUSE, null);
+                    }, INTERMOVE_PAUSE);
+                }, INTERMOVE_PAUSE);
+            }, 0);
+        }
+        else {
+            // Machine vs Human
+            if (playerw) {
+                // White is Human
+            } else {
+                // Black is Human
+            }
+        }
     }
 
     function _parseParameters(params) {
