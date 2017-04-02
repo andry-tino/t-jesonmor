@@ -24,9 +24,15 @@ jm.players.Player = function(params) {
     var playerb = null;
     var interactive = true; // Default
 
-    var currentPlayer = CUR_PLAYER_W; // White starts
+    var currentPlayer = CUR_PLAYER_W; // White starts NOT NEEDEDE, REMOVE!
 
     _parseParameters(params);
+
+    // Defining callbacks
+    board.automation.setEndgameCallback(_endgameCallback);
+    board.automation.setMoveCompletedCallback(_moveCompletedCallback);
+    board.automation.setErrorCallback(_errorCallback);
+    board.automation.setCancelCallback(_cancelCallback);
 
     return {
         start: _start
@@ -34,6 +40,22 @@ jm.players.Player = function(params) {
 
     function _start() {
         _playGame();
+    }
+
+    function _endgameCallback() {
+
+    }
+
+    function _moveCompletedCallback() {
+        // This should drive the game interchange
+    }
+
+    function _errorCallback() {
+        
+    }
+
+    function _cancelCallback() {
+        
     }
 
     function _playGame(params) {
