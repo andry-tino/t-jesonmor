@@ -35,7 +35,10 @@ jm.Board = function(_size) {
         initialize: _initialize,
         situation: _situation,
         reset: _reset,
-        dispose: _dispose
+        dispose: _dispose,
+        automation: {
+            move: _makeMove
+        }
     };
 
     function _situation() {
@@ -85,6 +88,10 @@ jm.Board = function(_size) {
     function _clearSelectedHouse() {
         selectedHouse.clear();
         selectedHouse = null;
+    }
+
+    function _makeMove() {
+        
     }
 
     function _onClickHandler(e) {
