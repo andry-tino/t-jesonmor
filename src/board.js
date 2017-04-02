@@ -8,7 +8,7 @@ var jm = jm || {};
 /**
  * The board object and game driver.
  */
-jm.Board = function(_size, _player1, _player2) {
+jm.Board = function(_size) {
     var CONTAINER_CLASSNAME = "container";
     var SCOREPANEL_CLASSNAME = "score-panel";
     var WHITE_CLASSNAME = "white";
@@ -29,18 +29,20 @@ jm.Board = function(_size, _player1, _player2) {
 
     // Construct object
     var size = _validateSize(_size);
-    var player1 = _validatePlayer(_player1);
-    var player2 = _validatePlayer(_player2);
 
     // Object public interface
     return {
         initialize: _initialize,
-        dispose: _clean,
-        highlightHouse: _highlight,
-        clearHouse: _unhighlight,
-        move: _move,
+        situation: _situation,
+        reset: _reset,
         dispose: _dispose
     };
+
+    function _situation() {
+        var s = {};
+
+        return s;
+    }
 
     function _highlight(i, j) {
         var house = _getHouse(i, j);
@@ -62,7 +64,7 @@ jm.Board = function(_size, _player1, _player2) {
         return houses[i + ":" + j];
     }
 
-    function _initialize() {
+    function _initialize(params) {
         _build();
         _populate();
         _attachNativeEvents();
@@ -380,15 +382,6 @@ jm.Board = function(_size, _player1, _player2) {
         return houses != null;
     }
 
-    function _clean() {
-        if (!_isBuilt()) return;
-
-        if (!container) return;
-
-        container.remove();
-        houses = null;
-    }
-
     function _createContainer() {
         var element = document.createElement("div");
         element.className = CONTAINER_CLASSNAME;
@@ -417,14 +410,6 @@ jm.Board = function(_size, _player1, _player2) {
         }
 
         return size;
-    }
-
-    function _validatePlayer(player) {
-        if (!player) {
-            player = null;
-        }
-
-        return player;
     }
 
     function _dispose() {
