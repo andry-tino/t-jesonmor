@@ -8,7 +8,7 @@ var jm = jm || {};
 /**
  * The board object and game driver.
  */
-jm.Board = function(_size) {
+jm.Board = function(_size, _player1, _player2) {
     var CONTAINER_CLASSNAME = "container";
     var SCOREPANEL_CLASSNAME = "score-panel";
     var WHITE_CLASSNAME = "white";
@@ -29,6 +29,8 @@ jm.Board = function(_size) {
 
     // Construct object
     var size = _validateSize(_size);
+    var player1 = _validatePlayer(_player1);
+    var player2 = _validatePlayer(_player2);
 
     // Object public interface
     return {
@@ -415,6 +417,14 @@ jm.Board = function(_size) {
         }
 
         return size;
+    }
+
+    function _validatePlayer(player) {
+        if (!player) {
+            player = null;
+        }
+
+        return player;
     }
 
     function _dispose() {
