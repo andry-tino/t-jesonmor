@@ -13,8 +13,6 @@ jm.Board = function(_size) {
     var SCOREPANEL_CLASSNAME = "score-panel";
     var WHITE_CLASSNAME = "white";
     var BLACK_CLASSNAME = "black";
-    var CUR_PLAYER_W = 0;
-    var CUR_PLAYER_B = 1;
 
     // Lazy initialized variables
     var container = null;
@@ -25,12 +23,12 @@ jm.Board = function(_size) {
 
     // Callbacks
     var endgameCb = null;
-    var moveCompletedCb = null;
+    var moveCompletedCb = null; // Args: { phase: jm.MOVE_PHASE_SELECTION | MOVE_PHASE_MAKE }
     var errorCb = null;
     var cancelCb = null;
 
     // Status variables
-    var currentPlayer = CUR_PLAYER_W; // White starts
+    var currentPlayer = jm.CUR_PLAYER_W; // White starts
     var selectedHouse = null;
 
     // Construct object
@@ -39,17 +37,26 @@ jm.Board = function(_size) {
     // Object public interface
     return {
         initialize: _initialize,
-        situation: _situation,
         reset: _reset,
         dispose: _dispose,
         automation: {
+            situation: _situation,
             clickHouse: _clickHouse,
             setEndgameCallback: _setEndgameCallback,
             setMoveCompletedCallback: _setMoveCompletedCallback,
             setErrorCallback: _setErrorCallback,
-            setCancelCallback: _setCancelCallback
+            setCancelCallback: _setCancelCallback,
+            clearEndgameCallback: _clearEndgameCallback,
+            clearMoveCompletedCallback: _clearMoveCompletedCallback,
+            clearErrorCallback: _clearErrorCallback,
+            clearCancelCallback: _clearCancelCallback,
+            getCurrentPlayer: _getCurrentPlayer
         }
     };
+
+    function _getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     function _setErrorCallback(cb) {
         if (!cb) {
@@ -57,6 +64,10 @@ jm.Board = function(_size) {
         }
 
         errorCb = cb;
+    }
+
+    function _clearErrorCallback() {
+        errorCb = null;
     }
 
     function _setCancelCallback(cb) {
@@ -67,12 +78,20 @@ jm.Board = function(_size) {
         cancelCb = cb;
     }
 
+    function _clearCancelCallback() {
+        cancelCb = null;
+    }
+
     function _setEndgameCallback(cb) {
         if (!cb) {
             return;
         }
 
         endgameCb = cb;
+    }
+
+    function _clearEndgameCallback() {
+        endgameCb = null;
     }
 
     function _setMoveCompletedCallback(cb) {
@@ -83,42 +102,69 @@ jm.Board = function(_size) {
         moveCompletedCb = cb;
     }
 
-    function _invokeEndgameCallback() {
+    function _clearMoveCompletedCallback() {
+        moveCompletedCb = null;
+    }
+
+    function _invokeEndgameCallback(e) {
         if (!endgameCb) {
             return;
         }
 
-        endgameCb();
+        endgameCb(e);
     }
 
-    function _invokeMoveCompletedCallback() {
+    function _invokeMoveCompletedCallback(e) {
         if (!moveCompletedCb) {
             return;
         }
 
-        moveCompletedCb();
+        moveCompletedCb(e);
     }
 
-    function _invokeErrorCallback() {
+    function _invokeErrorCallback(e) {
         if (!errorCb) {
             return;
         }
 
-        errorCb();
+        errorCb(e);
     }
 
-    function _invokeCancelCallback() {
+    function _invokeCancelCallback(e) {
         if (!cancelCb) {
             return;
         }
 
-        cancelCb();
+        cancelCb(e);
     }
 
+    /**
+     * This will return an object:
+     * {
+     *  white: [House]
+     *  black: [House]
+     * }
+     */
     function _situation() {
-        var s = {};
+        var situation = {
+            white: [],
+            black: []
+        };
 
-        return s;
+        for (var i = 0; i < size * 2; i++) {
+            var horse = horses[i];
+
+            var mode = horse.mode;
+            var position = horse.position();
+
+            if (mode === jm.HORSE_W) {
+                situation.white.push(position);
+            } else if (mode === jm.HORSE_B) {
+                situation.black.push(position);
+            }
+        }
+
+        return situation;
     }
 
     function _highlight(i, j) {
@@ -234,6 +280,8 @@ jm.Board = function(_size) {
 
             // Player has selected one of his horses
             selectedHouse = house;
+
+            _invokeMoveCompletedCallback({ phase: jm.MOVE_PHASE_SELECTION });
             return;
         }
 
@@ -265,7 +313,7 @@ jm.Board = function(_size) {
             _endgame();
             _invokeEndgameCallback();
         } else {
-            _invokeMoveCompletedCallback();
+            _invokeMoveCompletedCallback({ phase: jm.MOVE_PHASE_MAKE });
         }
     }
 
@@ -275,8 +323,8 @@ jm.Board = function(_size) {
 
     function _evaluateAntagony(house) {
         var houseColor = house.getHorseColor();
-        var wbcond = houseColor === jm.HORSE_W && currentPlayer === CUR_PLAYER_B;
-        var bwcond = houseColor === jm.HORSE_B && currentPlayer === CUR_PLAYER_W;
+        var wbcond = houseColor === jm.HORSE_W && currentPlayer === jm.CUR_PLAYER_B;
+        var bwcond = houseColor === jm.HORSE_B && currentPlayer === jm.CUR_PLAYER_W;
 
         return wbcond || bwcond;
     }
@@ -287,10 +335,10 @@ jm.Board = function(_size) {
     }
 
     function _nextPlayer() {
-        if (currentPlayer === CUR_PLAYER_W) {
-            currentPlayer = CUR_PLAYER_B;
+        if (currentPlayer === jm.CUR_PLAYER_W) {
+            currentPlayer = jm.CUR_PLAYER_B;
         } else {
-            currentPlayer = CUR_PLAYER_W;
+            currentPlayer = jm.CUR_PLAYER_W;
         }
     }
 
@@ -391,6 +439,7 @@ jm.Board = function(_size) {
         // Handling destination house
         if (eat) {
             var eaten = dstHouse.unset();
+            eaten.eaten();
             
             if (eaten.mode === jm.HORSE_W) panelw.appendChild(eaten.element);
             else panelb.appendChild(eaten.element);
@@ -417,7 +466,7 @@ jm.Board = function(_size) {
         _populate();
         _clearPanels();
 
-        currentPlayer = CUR_PLAYER_W;
+        currentPlayer = jm.CUR_PLAYER_W;
         selectedHouse = null;
     }
 

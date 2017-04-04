@@ -25,6 +25,8 @@ jm.Horse = function(__mode) {
         position: _position,
         setPosition: _setPosition,
         mode: _mode,
+        eaten: _eaten,
+        isEaten: _isEaten,
         dispose: _dispose
     };
 
@@ -51,6 +53,15 @@ jm.Horse = function(__mode) {
 
         i = _i;
         j = _j;
+    }
+
+    function _eaten() {
+        i = -1;
+        j = -1;
+    }
+
+    function _isEaten() {
+        return i === -1 || j === -1;
     }
 
     function _position() {

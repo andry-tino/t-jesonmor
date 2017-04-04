@@ -16,80 +16,98 @@ var jm = jm || {};
  * }
  */
 jm.players.Player = function(params) {
-    var INTERVAL_PAUSE = 1000;
-    var INTERMOVE_PAUSE = 500;
+    var MOVE_INTERVAL_PAUSE = 1000;
 
     var board = null;
     var playerw = null;
     var playerb = null;
     var interactive = true; // Default
 
-    var currentPlayer = CUR_PLAYER_W; // White starts NOT NEEDEDE, REMOVE!
+    var currentMove = null;
 
     _parseParameters(params);
-
-    // Defining callbacks
-    board.automation.setEndgameCallback(_endgameCallback);
-    board.automation.setMoveCompletedCallback(_moveCompletedCallback);
-    board.automation.setErrorCallback(_errorCallback);
-    board.automation.setCancelCallback(_cancelCallback);
 
     return {
         start: _start
     };
 
+    function _getCurrentPlayer() {
+        return board.getCurrentPlayer();
+    }
+
     function _start() {
-        _playGame();
+        board.automation.setEndgameCallback(_endgameCallback);
+        board.automation.setMoveCompletedCallback(_moveCompletedCallback);
+        board.automation.setErrorCallback(_errorCallback);
+        board.automation.setCancelCallback(_cancelCallback);
     }
 
-    function _endgameCallback() {
-
+    function _stop() {
+        board.automation.clearEndgameCallback();
+        board.automation.clearMoveCompletedCallback();
+        board.automation.clearErrorCallback();
+        board.automation.clearCancelCallback();
     }
 
-    function _moveCompletedCallback() {
+    function _endgameCallback(e) {
+        console.log("driver", "Endgame callback invoked!");
+    }
+
+    function _moveCompletedCallback(e) {
         // This should drive the game interchange
+        if (!e) {
+            return;
+        }
+
+        var phase = e.phase;
+
+        if (phase === jm.MOVE_PHASE_SELECTION) {
+            // Move must be completed
+            _sendClick(currentMove.dsti, currentMove.dstj);
+        } else if (phase === jm.MOVE_PHASE_MAKE) {
+            currentMove = null; // Reset the current move as we are starting over
+
+            // We need to start another move, and now the player has shifted
+            var player = board.automation.getCurrentPlayer();
+            if (player === jm.CUR_PLAYER_W && playerw) {
+                // White moves, White is Machine
+            } else if (player === jm.CUR_PLAYER_W && !playerw) {
+                // White moves, White is Human
+            } else if (player === jm.CUR_PLAYER_B && playerb) {
+                // Black moves, Black is Machine
+            } else if (player === jm.CUR_PLAYER_B && !playerb) {
+                // Black moves, Black is Human
+            } else {
+                throw "Invalid player configuration";
+            }
+        }
+
+        console.log("driver", "Move completed callback invoked!");
     }
 
-    function _errorCallback() {
-        
+    function _errorCallback(e) {
+        console.log("driver", "Error callback invoked!");
     }
 
-    function _cancelCallback() {
-        
+    function _cancelCallback(e) {
+        console.log("driver", "Cancel callback invoked!");
     }
 
     function _playGame(params) {
-        var player = null;
-        if (currentPlayer === CUR_PLAYER_W) {
-            player = playerw;
-        } else {
-            player = playerb;
+        // This initiates the machine, then the callbacks will take over
+        if (!playerw) {
+            // White is Machine, so it needs to _start
+            currentMove = playerw.move();
+            _sendClick(currentMove.srci, currentMove.srcj);
         }
 
-        var move = player.move(); // Expecting: { srci, srcj, dsti, dstj }
+        // Otherwise we wait for White to move and the callbacks will do the rest
+    }
 
-        // TODO: Use board events
+    function _sendClick(i, j) {
+        window.setTimeout(function() {board.automation.clickHouse(i, j)}, MOVE_INTERVAL_PAUSE);
 
-        if (playerw && playerb) {
-            // Machine vs Machine
-            window.setTimeout(function() {
-                board.clickHouse(move.srci, move.srcj);
-                window.setTimeout(function() {
-                    board.clickHouse(move.dsti, move.dstj);
-                    window.setTimeout(function() {
-                        var h = window.setTimeout(_playGame, INTERVAL_PAUSE, null);
-                    }, INTERMOVE_PAUSE);
-                }, INTERMOVE_PAUSE);
-            }, 0);
-        }
-        else {
-            // Machine vs Human
-            if (playerw) {
-                // White is Human
-            } else {
-                // Black is Human
-            }
-        }
+        // The callback needs to complete the move
     }
 
     function _parseParameters(params) {
